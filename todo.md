@@ -47,3 +47,5 @@
 - [ ] Portează paginile legale și mecanismul de livrare/bibliotecă Prieteni cu beneficii din sursă.
 - [x] Adaptează contractul de plată embedded Vrăji pentru oferta principală, bump-uri și post-cumpărare one-click.
 - [ ] Portează paginile, biblioteca, afilierea și administrarea Vrăji cu designul și copy-ul sursă.
+- [x] Portează pagina principală și cei trei pași post-cumpărare Vrăji cu checkout Stripe embedded din sursă.
+- [ ] Portează thank-you-ul, biblioteca, magic link-ul, afilierea și administrarea Vrăji cu contractele sursă.

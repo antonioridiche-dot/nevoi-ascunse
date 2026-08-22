@@ -1,0 +1,38 @@
+/* Direcție: Editorial ritualic — negru cărbune, coral ritualic, vin închis; tipografie ceremonială + interfață lizibilă. */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px); --radius-md: calc(var(--radius) - 2px); --radius-lg: var(--radius); --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background); --color-foreground: var(--foreground); --color-card: var(--card); --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary); --color-primary-foreground: var(--primary-foreground); --color-muted: var(--muted); --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent); --color-accent-foreground: var(--accent-foreground); --color-border: var(--border); --color-input: var(--input); --color-ring: var(--ring);
+  --font-display: 'Cormorant Garamond', serif; --font-sans: 'DM Sans', sans-serif;
+}
+:root { --radius: 0.35rem; --background: #0c0a0c; --foreground: #f8ece7; --card: #171117; --card-foreground:#f8ece7; --primary:#f28d88; --primary-foreground:#160b11; --muted:#21171f; --muted-foreground:#cbb6ba; --accent:#c12664; --accent-foreground:#fff4f4; --border:#3a2530; --input:#2b1d27; --ring:#f28d88; }
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin:0; background:var(--background); color:var(--foreground); font-family:'DM Sans',sans-serif; }
+button, input, select, textarea { font:inherit; }
+button { cursor:pointer; }
+::selection { background:#f28d88; color:#160b11; }
+@keyframes drift { 0%,100% { transform:translateY(0) } 50% { transform:translateY(-14px) } }
+@keyframes shimmer { 0% { background-position:0 0 } 100% { background-position:80px 0 } }
+@keyframes reveal { from { opacity:0; transform:translateY(12px) } to { opacity:1; transform:translateY(0) } }
+.animate-reveal { animation:reveal .45s cubic-bezier(.23,1,.32,1) both; }
+.orbit-dot { animation:drift 5s ease-in-out infinite; }
+.progress-stripe { background-image:linear-gradient(135deg, rgba(255,255,255,.18) 25%, transparent 25%, transparent 50%, rgba(255,255,255,.18) 50%, rgba(255,255,255,.18) 75%, transparent 75%); background-size:28px 28px; animation:shimmer 1.4s linear infinite; }
+.noise { background-image:radial-gradient(rgba(255,255,255,.06) 1px,transparent 1px); background-size:19px 19px; }
+.stripe-field { display:flex; align-items:center; gap:.75rem; min-height:3.45rem; border:1px solid #cbb9bc; background:#fff; padding:0 .9rem; transition:border-color .18s ease, box-shadow .18s ease; }
+.stripe-field:focus-within { border-color:#bd205b; box-shadow:0 0 0 3px rgba(189,32,91,.12); }
+.stripe-mount { flex:1 1 0%; min-width:0; width:100%; }
+.stripe-mount .StripeElement, .stripe-mount iframe { width:100% !important; }
+.discount-reveal { animation: discount-reveal .42s cubic-bezier(.23,1,.32,1) both; }
+.discount-orbit { animation: orbit-pulse 1.15s ease-in-out infinite; }
+@keyframes discount-reveal { from { opacity:0; transform:translateY(10px) scale(.98); } to { opacity:1; transform:translateY(0) scale(1); } }
+@keyframes orbit-pulse { 0%,100% { transform:rotate(0) scale(1); } 50% { transform:rotate(18deg) scale(1.1); } }
+@media (prefers-reduced-motion: reduce) { .discount-reveal, .discount-orbit { animation:none; } }
+@media (prefers-reduced-motion: reduce) { *,*::before,*::after { animation-duration:.001ms!important; scroll-behavior:auto!important; transition-duration:.001ms!important; } }

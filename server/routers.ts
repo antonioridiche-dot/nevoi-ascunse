@@ -71,6 +71,9 @@ export const appRouter = router({
     }),
   }),
   vraji: router({
+    tracking: router({
+      event: publicProcedure.input(z.object({ sessionId: z.string().min(8).max(80), eventName: z.string().min(2).max(80), stage: z.string().min(2).max(64) })).mutation(async () => ({ success: true as const })),
+    }),
     checkout: router({
       prepare: publicProcedure.input(z.object({ email: z.string().trim().email().max(320), offerVariant: z.enum(["promo67", "exit20"]), bumps: z.array(z.enum(["priority-journal", "closure-ritual"])).max(2), affiliateCode: z.string().trim().min(4).max(48).nullable().optional() })).mutation(({ input }) => prepareVrajiPayment(input)),
       status: publicProcedure.input(z.object({ paymentIntentId: z.string().min(10).max(255) })).query(({ input }) => getVrajiPaymentStatus(input.paymentIntentId)),

@@ -17,6 +17,8 @@ import { FamilyThankYouPage } from "./pages/FamilyOriginalPost";
 import FamilyOriginalDashboard from "./pages/FamilyOriginalDashboard";
 import { PbcHome, PbcOffer } from "./pages/PbcOriginalPages";
 import { PbcCheckout, PbcThankYou } from "./pages/PbcOriginalCheckout";
+import VrajiOriginalPost from "./pages/VrajiOriginalPost";
+import VrajiOriginalHome from "./pages/VrajiOriginalHome";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -43,6 +45,10 @@ function Router() {
       <Route path={"/oferte/prieteni-cu-beneficii/program-avansat"}>{() => <PbcOffer stage="upsellTwo" />}</Route>
       <Route path={"/oferte/prieteni-cu-beneficii/checkout"} component={PbcCheckout} />
       <Route path={"/oferte/prieteni-cu-beneficii/multumim"} component={PbcThankYou} />
+      <Route path={"/oferte/vraji/pas/1"} component={VrajiOriginalPost} />
+      <Route path={"/oferte/vraji"} component={VrajiOriginalHome} />
+      <Route path={"/oferte/vraji/stai"} component={VrajiOriginalPost} />
+      <Route path={"/oferte/vraji/pas/2"} component={VrajiOriginalPost} />
       <Route path={"/oferte/:slug"} component={OfferMigrating} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
