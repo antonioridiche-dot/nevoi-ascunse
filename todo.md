@@ -43,7 +43,9 @@
 - [x] Portează pagina principală Relații cu alegerea de audiență, copy-ul și stilul sursă.
 - [ ] Portează cele două trasee Relații, checkout-ul, șapte oferte post-cumpărare, thank-you-ul, biblioteca, afilierea și administrarea sursă.
 - [ ] Migrează fidel ofertele audio din Music Tracks, inclusiv livrarea și biblioteca lor client.
+- [ ] Portează Armonii & Bine cu pagina, checkout-ul embedded, accesul audio/PDF și administrarea din sursă.
 - [ ] Transferă în storage-ul unificat toate resursele vizuale sau audio care lipsesc din repository-uri, fără înlocuiri creative.
+- [ ] Păstrează pentru fiecare pagină numai resursele disponibile în repository-ul sursă și documentează referințele externe indisponibile fără a le înlocui creativ.
 - [x] Documentează hărțile de rute și contractele de fidelitate pentru lotul Relații, Prieteni cu beneficii, Vrăji, Weightloss și proiectele audio.
 - [x] Portează pagina principală și cele trei pagini post-ofertă Prieteni cu beneficii cu designul, copy-ul și tranzițiile sursă.
 - [ ] Portează checkout-ul, thank-you-ul și paginile legale Prieteni cu beneficii cu mecanismul Stripe Checkout din sursă.
