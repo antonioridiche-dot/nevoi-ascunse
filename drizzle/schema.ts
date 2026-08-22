@@ -1,4 +1,5 @@
 import {
+  boolean,
   index,
   int,
   mysqlEnum,
@@ -180,6 +181,7 @@ export const productAssets = mysqlTable("product_assets", {
   storageKey: varchar("storageKey", { length: 500 }).notNull(),
   mimeType: varchar("mimeType", { length: 160 }),
   sortOrder: int("sortOrder").notNull().default(0),
+  isActive: boolean("isActive").notNull().default(true),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
 

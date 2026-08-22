@@ -1,4 +1,5 @@
 import Stripe from "stripe";
+import { createHash } from "node:crypto";
 import { and, eq } from "drizzle-orm";
 import { brandContacts, brands, contacts, funnelEvents } from "../../drizzle/schema";
 import { ENV } from "../_core/env";
@@ -26,7 +27,33 @@ export function vrajiCheckoutAmount(variant: VrajiVariant, bumps: readonly Vraji
 
 async function getVrajiContact(email: string) { const db = await getDb(); if (!db) throw new Error("Baza de date nu este disponibilă."); const brand = (await db.select().from(brands).where(eq(brands.key, "vraji")).limit(1))[0]; if (!brand) throw new Error("Brandul Vrăji nu este configurat."); const normalized = email.trim().toLowerCase(); let contact = (await db.select().from(contacts).where(eq(contacts.email, normalized)).limit(1))[0]; if (!contact) { const inserted = await db.insert(contacts).values({ email: normalized }); contact = (await db.select().from(contacts).where(eq(contacts.id, Number(inserted[0].insertId))).limit(1))[0]; } const linked = (await db.select().from(brandContacts).where(and(eq(brandContacts.brandId, brand.id), eq(brandContacts.contactId, contact.id))).limit(1))[0]; if (!linked) await db.insert(brandContacts).values({ brandId: brand.id, contactId: contact.id, transactionalConsentAt: new Date(), marketingConsent: 0, metadataJson: JSON.stringify({ source: "vraji-spells-store" }) }); return { db, brand, contact }; }
 
-export async function prepareVrajiPayment(input: { email: string; offerVariant: VrajiVariant; bumps: VrajiBumpSku[]; affiliateCode?: string | null }) { if (input.bumps.some(sku => !validBumps.has(sku))) throw new Error("Un extra selectat nu este disponibil."); const { db, brand, contact } = await getVrajiContact(input.email); const amount = vrajiCheckoutAmount(input.offerVariant, input.bumps); const intent = await stripeClient().paymentIntents.create({ amount, currency: "ron", receipt_email: contact.email, automatic_payment_methods: { enabled: true }, setup_future_usage: "off_session", metadata: { brand_key: brand.key, contact_id: String(contact.id), offer_variant: input.offerVariant, bumps: input.bumps.join(","), affiliate_code: input.affiliateCode ?? "" } }); await db.insert(funnelEvents).values({ brandId: brand.id, contactId: contact.id, eventType: "payment_prepared", metadataJson: JSON.stringify({ paymentIntentId: intent.id, amount, variant: input.offerVariant, bumps: input.bumps }) }); if (!intent.client_secret) throw new Error("Nu am putut pregăti plata."); return { clientSecret: intent.client_secret, amount };
+async function findOrCreateVrajiStripeCustomer(email: string, contactId: number) {
+  const api = stripeClient();
+  const existing = await api.customers.list({ email, limit: 1 });
+  if (existing.data[0]) return existing.data[0].id;
+  const customer = await api.customers.create({ email, metadata: { contact_id: String(contactId) } });
+  return customer.id;
+}
+
+export async function prepareVrajiPayment(input: { email: string; offerVariant: VrajiVariant; bumps: VrajiBumpSku[]; affiliateCode?: string | null }) {
+  if (input.bumps.some(sku => !validBumps.has(sku))) throw new Error("Un extra selectat nu este disponibil.");
+  const { db, brand, contact } = await getVrajiContact(input.email);
+  const cleanBumps = [...input.bumps].sort() as VrajiBumpSku[];
+  const customerId = await findOrCreateVrajiStripeCustomer(contact.email, contact.id);
+  const amount = vrajiCheckoutAmount(input.offerVariant, cleanBumps);
+  const idempotencyKey = createHash("sha256").update(`${contact.id}|${input.offerVariant}|${cleanBumps.join(",")}`).digest("hex");
+  const intent = await stripeClient().paymentIntents.create({
+    amount,
+    currency: "ron",
+    customer: customerId,
+    receipt_email: contact.email,
+    payment_method_types: ["card"],
+    setup_future_usage: "off_session",
+    metadata: { brand_key: brand.key, contact_id: String(contact.id), offer_variant: input.offerVariant, skus: [VRAJI_PRODUCTS.loveCore.sku, ...cleanBumps].join(","), affiliate_code: input.affiliateCode ?? "" },
+  }, { idempotencyKey });
+  await db.insert(funnelEvents).values({ brandId: brand.id, contactId: contact.id, eventType: "payment_prepared", metadataJson: JSON.stringify({ paymentIntentId: intent.id, amount, variant: input.offerVariant, bumps: cleanBumps }) });
+  if (!intent.client_secret) throw new Error("Nu am putut pregăti plata.");
+  return { clientSecret: intent.client_secret, amount };
 }
 
 export async function getVrajiPaymentStatus(paymentIntentId: string) { const intent = await stripeClient().paymentIntents.retrieve(paymentIntentId); return { paid: intent.status === "succeeded", email: intent.receipt_email ?? intent.metadata.customer_email ?? null, amount: intent.amount, paymentIntentId: intent.id };

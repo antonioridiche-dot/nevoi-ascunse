@@ -1,0 +1,58 @@
+# Approved Offer Inventory and Source-Fidelity Matrix
+
+> **Source of truth:** the corresponding repository in `/home/ubuntu/nevoi-ascunse-source/`. Each unified implementation must copy the source route, UI, copy, prices, checkout type, transitions, and delivery behavior. The only permitted differences are the `/oferte/...` prefix and required shared platform adapters.
+
+| Offer / brand | Approved source repository | Unified route | Source checkout behavior | Current state | Required remaining work before verified |
+|---|---|---|---|---|---|
+| Tarot | `tarot` | `/oferte/tarot` | Embedded Stripe card payment | Active source port | Full sandbox click-through, sender delivery, source-to-target route diff, library assets |
+| Familie protejată | `survival` | `/oferte/familieprotejata` | Embedded Stripe card payment | Partially active | Source quiz, delivery/recovery, affiliate, administration, real sandbox flow |
+| Prieteni cu beneficii | `prieteni-cu-beneficii` | `/oferte/prieteni-cu-beneficii` | **External Stripe Checkout** | Partially active | Verify hosted-session creation and return, then source legal, fulfillment, library, and automation routes |
+| Vrăji | `vraji-spells-store` | `/oferte/vraji` | Embedded Stripe card payment | Partially active | Source thank-you, library, magic link, affiliate, administration, and sandbox flow |
+| Weightloss | `romanian-weightloss-funnel` + `weight-los-manifest` | `/oferte/weightloss` | Embedded Stripe Payment Element and one-click sequence | Active route batch, unverified | Sandbox main payment, one-click sequence, secure downloads, file upload/admin, source manifest comparison |
+| Relații | `dic-ionarul-rela-iilor` | `/oferte/relatii` | Embedded Stripe card payment | Active route batch, unverified | Source route diff, valid-order click-through, affiliate attribution, e-mail delivery, sandbox flow |
+| Armonii & Bine | `armonii-bine` | `/oferte/armonii-bine` | Source checkout in repository | Not ported | Copy Home, Confirmation, Admin, checkout and audio/PDF access contract |
+| Iubire | `iubire` | `/oferte/iubire` | Source checkout in repository | Not ported | Copy Home, Checkout, ThankYou, Library, transactional delivery |
+| Liniște Audio | `liniste-audio` | `/oferte/liniste-audio` | Source checkout in repository | Not ported | Copy Quiz, Checkout, Upsell, ThankYou, Recovery, Legal and audio access |
+| Calendarul norocului | `calendarul-norocului` | `/oferte/calendarul-norocului` | Repository-specific personalized flow | Not ported | Copy Home and source calendar/personalization and campaign behavior |
+| Peste despărțire | `pestedespartire` | `/oferte/peste-despartire` | Source checkout in repository | Not ported | Copy Sales, female sales, quiz, offers, checkout, thank-you, legal |
+| Numerologie | `numerology` | `/oferte/numerologie` | Source checkout in repository | Not ported | Copy Home, Checkout, Report, Affiliate, Legal |
+| Soulmate Sketch | `soulmate-sketch` | `/oferte/soulmate-sketch` | Repository-specific capture/checkout flow | Not ported | Copy complete source application and delivery route |
+| Linia palmelor | `linia-palmelor` | `/oferte/linia-palmelor` | Repository-specific interpretation flow | Not ported | Copy complete source application and affiliate behavior |
+| Cafe(ea) | `cafeea` | `/oferte/cafeea` | Repository-specific intake/result flow | Not ported | Copy complete source application, result, legal and affiliate behavior |
+| Visul meu | `visul-meu` | `/oferte/visul-meu` | Repository-specific offer/checkout flow | Not ported | Copy Home, Offer, ThankYou, Affiliate and Legal routes |
+| Direcția abundenței | `directia-abundentei` | `/oferte/directia-abundentei` | Source checkout and optional post-purchase step | Not ported | Copy FunnelHome, Checkout, PostPurchase and ThankYou routes |
+| Slăbiciunea zodiei | `secretul-zodiei` | `/oferte/slabiciunea-zodiei` | Source personalized storefront checkout | Not ported | Copy Storefront, affiliate program/dashboard/admin and zodiac step offers |
+
+## Approved Consolidations and Exclusions
+
+| Repository | Treatment |
+|---|---|
+| `romanian-weightloss-funnel` + `weight-los-manifest` | One consolidated Weightloss offer under `/oferte/weightloss`; the main funnel is authoritative and the manifest supplies approved supplementary source material. |
+| `dic-ionarul-rela-iilor` | The public, authoritative Relații source under `/oferte/relatii`. |
+| `dictionarulrelatiilor` | Technical archive only; never a public offer or migration target. |
+| `tevreauinapoi` | Explicitly excluded. |
+| `groworpay-website` and `groworpay-v2` | Explicitly excluded. |
+| `parinte-de-succes` | Explicitly excluded. |
+
+## Checkout Verification Matrix
+
+No entry below is considered **verified** until its exact source journey is executed end-to-end with Stripe sandbox credentials and the resulting order/access state is checked.
+
+| Offer | Required source checkout type | Required verification path | Current verification state |
+|---|---|---|---|
+| Tarot | Embedded | Sales/citire → Stripe payment → source post-purchase sequence → thank-you → dashboard | Embedded main payment, confirmed fulfillment, and dashboard handoff verified through Stripe sandbox APIs; transactional confirmation attempted but Resend returned 403 because `nevoi-ascunse.ro` is not verified, and source post-purchase/full access checks remain pending |
+| Familie protejată | Embedded | Sales/quiz → Stripe payment → OTO/DS1/DS2 → thank-you → dashboard/recovery | Main embedded payment, payment confirmation, OTO acceptance, and protected thank-you state verified through Stripe sandbox APIs; quiz, alternate decline branches, dashboard/recovery, and browser field validation remain pending |
+| Prieteni cu beneficii | External Stripe Checkout | Sales → Stripe Checkout session → Stripe-hosted payment → return/thank-you → entitlement delivery | Session creation, source metadata, duplicate-product handling, and preview-origin redirect verified in Stripe sandbox; completed-payment/return validation remains pending |
+| Vrăji | Embedded | Offer/bump selection → Stripe payment → source post-purchase pages → thank-you → library | Main card payment with bump, paid-status recognition, and one-click post-purchase payment verified through Stripe sandbox APIs after restoring the source customer binding; thank-you/library/magic-link routes remain to be ported and validated |
+| Weightloss | Embedded Payment Element | Sales → checkout → PaymentIntent → retete/miscare/longevitate one-click sequence → thank-you → signed download | Main PaymentIntent, one-click `retete`, confirmed entitlement claim, and secure-download result verified in Stripe sandbox; browser Payment Element and remaining source offers still require click-through validation |
+| Relații | Embedded | Product audience route → checkout → Stripe payment → seven source decision pages → thank-you → library | Embedded payment, confirmed order fulfillment, entitlement claim, and the first source decision handoff verified through Stripe sandbox APIs; all seven page routes, thank-you/library/recovery and transactional e-mail still require source-diff completion |
+| Remaining offers | Exactly as implemented in source | Source-specific payment, confirmation, and access path | Not yet ported; test after copy-first migration |
+
+## Copy-First Regression Rule
+
+Each route is accepted only after these conditions are met:
+
+1. The source file and unified file have the same customer-facing structure, copy, prices, CTA order, checkout type, and post-payment navigation.
+2. Any difference is documented as only one of: unified route prefix, typed server contract, unified database relation, or shared secure storage/email adapter.
+3. The server validates products and amounts, Stripe confirms payment, the source-equivalent post-payment path completes, and protected access is granted only after the confirmed order.
+4. Source assets are used only when present in the repository or approved storage. Missing assets remain documented and are never replaced with invented media.

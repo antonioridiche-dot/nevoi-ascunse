@@ -15,7 +15,7 @@
 | Iubire | `iubire` | `/oferte/iubire` | FE, checkout, thank-you, bibliotecă, e-mail și webhook Stripe | Inclusă ca posibil grup Music Tracks |
 | Liniște audio | `liniste-audio` | `/oferte/liniste-audio` | quiz, FE tematice, checkout, confirmare, ofertă, thank-you, recuperare și automatizări | Inclusă ca posibil grup Music Tracks |
 | Prieteni cu beneficii | neasociat încă | `/oferte/prieteni-cu-beneficii` | neinventariat | Necesită identificarea repository-ului |
-| Vrăjii | neasociat încă | `/oferte/vrajii` | neinventariat | Necesită identificarea repository-ului |
+| Vrăji | `vraji-spells-store` | `/oferte/vraji` | FE, pași post-cumpărare, thank-you, bibliotecă, afiliere și admin | Migrare și audit sursă în curs |
 
 ## Proiecte excluse explicit
 

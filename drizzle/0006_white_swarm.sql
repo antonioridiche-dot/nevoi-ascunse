@@ -1,0 +1,1 @@
+ALTER TABLE `product_assets` ADD `isActive` boolean DEFAULT true NOT NULL;

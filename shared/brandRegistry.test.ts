@@ -28,6 +28,7 @@ describe("brand registry", () => {
 
     expect(vraji?.routeBase).toBe("/oferte/vraji");
     expect(vraji?.displayName).toBe("Vrăji");
+    // Legacy public path must remain unresolved after the source-fidelity correction.
     expect(findBrandByRoute("/oferte/vrajii")).toBeUndefined();
   });
 });

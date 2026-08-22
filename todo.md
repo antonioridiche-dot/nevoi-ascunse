@@ -82,3 +82,15 @@
 - [ ] Migrează Slăbiciunea zodiei cu toate paginile, personalizarea pe zodii, checkout-ul, biblioteca, afilierea și administrarea din sursă.
 - [ ] Verifică după fiecare lot că nici tevreauinapoi, groworpay-website, groworpay-v2, parinte-de-succes sau dictionarulrelatiilor nu sunt selectate pentru migrare publică.
 - [ ] Rulează verificare vizuală, tRPC/DB, e-mail, webhook și Stripe sandbox pentru fiecare ofertă înainte de marcarea completă.
+- [x] Publică un inventar complet al tuturor repository-urilor aprobate, rutelor unificate, stării implementării, checkout-ului sursă și lucrului rămas.
+- [ ] Auditează toate checkout-urile active: Tarot, Familie protejată, Prieteni cu beneficii, Vrăji, Weightloss și Relații, inclusiv handoff-urile post-plată.
+- [ ] Testează în Stripe sandbox fiecare flux embedded și păstrează separat testul Stripe Checkout extern pentru Prieteni cu beneficii.
+- [ ] Repară orice checkout, webhook, fulfillment, e-mail sau acces client care eșuează în audit înainte de migrarea următorului lot.
+- [ ] Verifică operațional domeniul `nevoi-ascunse.ro` în Resend pentru a permite e-mailurile tranzacționale per brand; auditul Tarot a primit răspunsul 403 de domeniu neverificat.
+- [x] Restaurează checkout-ul Vrăji din sursă: client Stripe reutilizabil, card-only, metodă salvată și one-click post-cumpărare funcțional.
+- [ ] Inventariază și migrează explicit ofertele muzicale Armonii & Bine, Iubire și Liniște Audio, plus Calendarul norocului, înainte de închiderea proiectului.
+- [ ] Compară fiecare rută activă cu fișierul sursă GitHub corespunzător și documentează numai diferențele tehnice inevitabile: prefix, namespace tRPC, datele comune și storage.
+- [ ] Elimină orice reinterpretare de design, copy, preț, tip de checkout sau succesiune post-plată care nu există în repository-ul sursă.
+- [ ] Nu declara un flow funcțional înainte de un click-through complet: inițiere checkout, plată sandbox, pași post-cumpărare, thank-you, e-mail și acces.
+- [ ] Efectuează validarea fără browser prin comparație cu sursa, teste automate, rute/tRPC și Stripe sandbox API; marchează explicit orice verificare de interfață care rămâne pentru utilizator.
+- [x] Elimină documentația și hărțile de migrare rămase cu ruta/denumirea învechită Vrăjii, pentru a păstra brandul și checkout-ul Vrăji aliniate la sursă.

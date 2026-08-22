@@ -24,7 +24,7 @@ Pentru fiecare ofertă, repository-ul indicat este sursa de adevăr pentru toate
 | `/oferte/relatii` | `dic-ionarul-rela-iilor` | două audiențe, ofertele ramificate, thank-you, bibliotecă, afiliere, admin și legal |
 | `/oferte/slabiciunea-zodiei` | `secretul-zodiei` | storefront, pașii de ofertă, bibliotecă, acces, admin, afiliere, campanii și legal |
 | `/oferte/tarot` | `tarot` | cărți, context, detalii, checkout embedded, ieșire, pași one-click, thank-you și dashboard |
-| `/oferte/vrajii` | `vraji-spells-store` | FE, pașii post-cumpărare, thank-you, bibliotecă, afiliat și admin |
+| `/oferte/vraji` | `vraji-spells-store` | FE, pașii post-cumpărare, thank-you, bibliotecă, afiliat și admin |
 | `/oferte/prieteni-cu-beneficii` | `prieteni-cu-beneficii` | FE, ofertă specială/redusă/avansată, checkout, thank-you și legal |
 
 ## Cerințe de validare

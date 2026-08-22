@@ -21,6 +21,11 @@ import VrajiOriginalPost from "./pages/VrajiOriginalPost";
 import VrajiOriginalHome from "./pages/VrajiOriginalHome";
 import WeightlossOriginalSales from "./pages/WeightlossOriginalSales";
 import WeightlossOriginalCheckout from "./pages/WeightlossOriginalCheckout";
+import WeightlossOriginalUpsell from "./pages/WeightlossOriginalUpsell";
+import WeightlossOriginalThankYou from "./pages/WeightlossOriginalThankYou";
+import WeightlossOriginalLegal from "./pages/WeightlossOriginalLegal";
+import WeightlossOriginalAffiliate from "./pages/WeightlossOriginalAffiliate";
+import WeightlossOriginalAdmin from "./pages/WeightlossOriginalAdmin";
 import RelatiiOriginalHome from "./pages/RelatiiOriginalHome";
 import RelatiiOriginalProduct from "./pages/RelatiiOriginalProduct";
 import RelatiiOriginalOffer from "./pages/RelatiiOriginalOffer";
@@ -60,6 +65,15 @@ function Router() {
       <Route path={"/oferte/vraji"} component={VrajiOriginalHome} />
       <Route path={"/oferte/weightloss"} component={WeightlossOriginalSales} />
       <Route path={"/oferte/weightloss/comanda"} component={WeightlossOriginalCheckout} />
+      <Route path={"/oferte/weightloss/oferta/retete"}>{() => <WeightlossOriginalUpsell slug="retete" />}</Route>
+      <Route path={"/oferte/weightloss/oferta/miscare"}>{() => <WeightlossOriginalUpsell slug="miscare" />}</Route>
+      <Route path={"/oferte/weightloss/oferta/longevitate"}>{() => <WeightlossOriginalUpsell slug="longevitate" />}</Route>
+      <Route path={"/oferte/weightloss/multumim"} component={WeightlossOriginalThankYou} />
+      <Route path={"/oferte/weightloss/confidentialitate"}>{() => <WeightlossOriginalLegal page="confidentialitate" />}</Route>
+      <Route path={"/oferte/weightloss/termeni"}>{() => <WeightlossOriginalLegal page="termeni" />}</Route>
+      <Route path={"/oferte/weightloss/declaratie"}>{() => <WeightlossOriginalLegal page="declaratie" />}</Route>
+      <Route path={"/oferte/weightloss/afiliati"} component={WeightlossOriginalAffiliate} />
+      <Route path={"/oferte/weightloss/admin"} component={WeightlossOriginalAdmin} />
       <Route path={"/oferte/relatii"} component={RelatiiOriginalHome} />
       <Route path={"/oferte/relatii/pentru-el"}>{() => <RelatiiOriginalProduct audience="barbati" />}</Route>
       <Route path={"/oferte/relatii/pentru-ea"}>{() => <RelatiiOriginalProduct audience="femei" />}</Route>

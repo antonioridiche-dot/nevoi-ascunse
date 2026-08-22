@@ -10,7 +10,7 @@ import { confirmFamilyPayment, createFamilyPaymentIntent, decideFamilyOffer, gua
 import { familyDashboard, issueFamilyAccessForSession, requestFamilyRecovery } from "./access/familyAccess";
 import { createPbcCheckout, getPbcCheckoutStatus } from "./commerce/pbcService";
 import { createVrajiPostPurchase, getVrajiPaymentStatus, prepareVrajiPayment } from "./commerce/vrajiService";
-import { createWeightlossIntent, isWeightlossProduct, oneClickWeightlossUpsell } from "./commerce/weightlossService";
+import { createWeightlossIntent, getWeightlossSecureDownloads, isWeightlossProduct, listWeightlossDownloadAssets, listWeightlossOrdersForAdmin, oneClickWeightlossUpsell, setWeightlossDownloadActive, uploadWeightlossDownload } from "./commerce/weightlossService";
 import { confirmRelatiiPayment, decideRelatiiOffer, getRelatiiOrder, prepareRelatiiPayment, recordRelatiiAffiliateOfferDecision, submitRelatiiCoachingApplication } from "./commerce/relatiiService";
 import { redeemRelatiiAccessLink, requestRelatiiRecovery } from "./access/relatiiAccess";
 import { authenticateRelatiiAffiliate, createRelatiiAffiliate, getRelatiiAffiliateStats, trackRelatiiAffiliateClick } from "./commerce/relatiiAffiliateService";
@@ -71,7 +71,7 @@ export const appRouter = router({
   }),
   pbc: router({
     checkout: router({
-      create: publicProcedure.input(z.object({ productIds: z.array(z.enum(["frontEnd", "upsellOne", "downsell", "upsellTwo"])).min(1), customerName: z.string().trim().min(2).max(160), customerEmail: z.string().trim().email().max(320), acceptedTerms: z.literal(true) })).mutation(({ input, ctx }) => createPbcCheckout({ ...input, origin: ctx.req.headers.origin ?? "" })),
+      create: publicProcedure.input(z.object({ productIds: z.array(z.enum(["frontEnd", "upsellOne", "downsell", "upsellTwo"])).min(1), customerName: z.string().trim().min(2).max(160), customerEmail: z.string().trim().email().max(320), acceptedTerms: z.literal(true) })).mutation(({ input, ctx }) => createPbcCheckout({ ...input, origin: ctx.req.headers.origin, host: ctx.req.headers.host, protocol: ctx.req.protocol })),
       status: publicProcedure.input(z.object({ sessionId: z.string().min(8).max(255) })).query(({ input }) => getPbcCheckoutStatus(input.sessionId)),
     }),
   }),
@@ -86,6 +86,15 @@ export const appRouter = router({
     }),
   }),
   weightloss: router({
+    admin: router({
+      listOrders: adminProcedure.query(() => listWeightlossOrdersForAdmin()),
+      listDownloads: adminProcedure.query(() => listWeightlossDownloadAssets()),
+      uploadDownload: adminProcedure.input(z.object({ productSlug: z.string().refine(isWeightlossProduct, "Produs necunoscut"), displayName: z.string().trim().min(2).max(240), fileName: z.string().trim().min(3).max(180), base64: z.string().min(20) })).mutation(({ input }) => uploadWeightlossDownload(input)),
+      setDownloadActive: adminProcedure.input(z.object({ assetId: z.number().int().positive(), isActive: z.boolean() })).mutation(({ input }) => setWeightlossDownloadActive(input)),
+    }),
+    orders: router({
+      secureDownloads: publicProcedure.input(z.object({ orderToken: z.string().uuid(), buyerEmail: z.string().email() })).mutation(({ input }) => getWeightlossSecureDownloads(input)),
+    }),
     payment: router({
       createIntent: publicProcedure.input(z.object({ productSlug: z.string().refine(isWeightlossProduct, "Produs necunoscut"), buyerEmail: z.string().email(), buyerName: z.string().trim().min(2).max(160), orderToken: z.string().uuid().optional(), affiliateCode: z.string().trim().max(64).optional() })).mutation(({ input }) => createWeightlossIntent(input)),
       oneClickUpsell: publicProcedure.input(z.object({ productSlug: z.enum(["retete", "miscare", "longevitate"]), orderToken: z.string().uuid(), originalPaymentIntentId: z.string().min(5) })).mutation(({ input }) => oneClickWeightlossUpsell(input)),

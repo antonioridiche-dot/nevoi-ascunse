@@ -5,6 +5,8 @@ describe("Weightloss source catalogue", () => {
   it("păstrează produsele și prețurile din sursa principală", () => {
     expect(WEIGHTLOSS_PRODUCTS.bucatarie.price).toBe(19700);
     expect(WEIGHTLOSS_PRODUCTS.retete.price).toBe(7900);
+    expect(WEIGHTLOSS_PRODUCTS.miscare.price).toBe(11900);
+    expect(WEIGHTLOSS_PRODUCTS.longevitate.price).toBe(3900);
     expect(isWeightlossProduct("longevitate")).toBe(true);
     expect(isWeightlossProduct("invalid")).toBe(false);
   });
