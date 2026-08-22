@@ -1,9 +1,12 @@
 import { and, eq } from "drizzle-orm";
 import Stripe from "stripe";
 import {
+  affiliates,
+  affiliateCommissions,
   brandContacts,
   brands,
   checkoutSessions,
+  coachingApplications,
   contacts,
   entitlements,
   funnelEvents,
@@ -173,6 +176,8 @@ export async function confirmRelatiiPayment(input: { checkoutToken: string; paym
       checkoutSessionId: checkout.id,
       stripeCustomerId: typeof intent.customer === "string" ? intent.customer : intent.customer?.id ?? null,
       stripePaymentIntentId: intent.id,
+      amountCents: intent.amount,
+      currency: intent.currency,
       fulfillmentStatus: "fulfilled",
       fulfilledAt: new Date(),
     });
@@ -183,8 +188,80 @@ export async function confirmRelatiiPayment(input: { checkoutToken: string; paym
     const inserted = await db.insert(orderItems).values({ orderId: order.id, productId: product.id });
     item = (await db.select().from(orderItems).where(eq(orderItems.id, Number(inserted[0].insertId))).limit(1))[0];
   }
+  const affiliateCode = intent.metadata.affiliate_code;
+  if (affiliateCode) {
+    const affiliate = (await db.select().from(affiliates).where(and(eq(affiliates.brandId, brand.id), eq(affiliates.affiliateCode, affiliateCode))).limit(1))[0];
+    if (affiliate?.status === "active") {
+      const commission = (await db.select().from(affiliateCommissions).where(and(eq(affiliateCommissions.affiliateId, affiliate.id), eq(affiliateCommissions.orderItemId, item.id))).limit(1))[0];
+      if (!commission) await db.insert(affiliateCommissions).values({ affiliateId: affiliate.id, orderItemId: item.id, commissionRateBps: 5000, commissionAmountCents: Math.round(intent.amount * 0.5) });
+    }
+  }
   const entitlement = (await db.select().from(entitlements).where(and(eq(entitlements.contactId, checkout.contactId), eq(entitlements.productId, product.id))).limit(1))[0];
   if (!entitlement) await db.insert(entitlements).values({ contactId: checkout.contactId, brandId: brand.id, productId: product.id, orderItemId: item.id, status: "active" });
   await db.insert(funnelEvents).values({ brandId: brand.id, contactId: checkout.contactId, orderId: order.id, eventType: "purchase_completed", metadataJson: JSON.stringify({ checkoutToken: input.checkoutToken, productKey, paymentIntentId: intent.id }) });
   return { orderId: order.id };
+}
+
+export async function getRelatiiOrder(orderId: number) {
+  const { db, brand } = await getRelatiiResources();
+  const order = (await db.select().from(orders).where(and(eq(orders.id, orderId), eq(orders.brandId, brand.id))).limit(1))[0];
+  if (!order) return null;
+  return { id: order.id, status: order.fulfillmentStatus };
+}
+
+export async function decideRelatiiOffer(input: { orderId: number; offerId: string; decision: "accepted" | "declined" }) {
+  const { db, brand } = await getRelatiiResources();
+  const order = (await db.select().from(orders).where(and(eq(orders.id, input.orderId), eq(orders.brandId, brand.id))).limit(1))[0];
+  if (!order) throw new Error("Comanda inițială nu a fost găsită.");
+  await db.insert(funnelEvents).values({
+    brandId: brand.id,
+    contactId: order.contactId,
+    orderId: order.id,
+    eventType: input.decision === "accepted" ? "offer_accepted" : "offer_declined",
+    metadataJson: JSON.stringify({ offerId: input.offerId, decision: input.decision }),
+  });
+  return { tracked: true as const };
+}
+
+export async function recordRelatiiAffiliateOfferDecision(input: {
+  affiliateCode: string;
+  orderId: number;
+  offerId: string;
+  amountCents: number;
+  decision: "accepted" | "declined";
+}) {
+  const { db, brand } = await getRelatiiResources();
+  const affiliate = (await db.select().from(affiliates).where(and(eq(affiliates.brandId, brand.id), eq(affiliates.affiliateCode, input.affiliateCode))).limit(1))[0];
+  const order = (await db.select().from(orders).where(and(eq(orders.id, input.orderId), eq(orders.brandId, brand.id))).limit(1))[0];
+  if (!affiliate || affiliate.status !== "active" || !order) return { tracked: false as const, commissionCents: 0 };
+  const paymentIntent = await stripeClient().paymentIntents.retrieve(order.stripePaymentIntentId);
+  if (paymentIntent.metadata.affiliate_code !== input.affiliateCode) return { tracked: false as const, commissionCents: 0 };
+  const commissionCents = input.decision === "accepted" ? Math.round(input.amountCents * 0.5) : 0;
+  await db.insert(funnelEvents).values({
+    brandId: brand.id,
+    contactId: order.contactId,
+    orderId: order.id,
+    eventType: "affiliate_offer_decision",
+    metadataJson: JSON.stringify({ affiliateId: affiliate.id, affiliateCode: input.affiliateCode, offerId: input.offerId, amountCents: input.amountCents, decision: input.decision, commissionCents }),
+  });
+  return { tracked: true as const, commissionCents };
+}
+
+export async function submitRelatiiCoachingApplication(input: { name: string; email: string; context: string }) {
+  const { db, brand } = await getRelatiiResources();
+  const normalizedEmail = input.email.trim().toLowerCase();
+  let contact = (await db.select().from(contacts).where(eq(contacts.email, normalizedEmail)).limit(1))[0];
+  const [firstName, ...lastNameParts] = input.name.trim().split(/\s+/);
+  if (!contact) {
+    const inserted = await db.insert(contacts).values({ email: normalizedEmail, firstName: firstName || null, lastName: lastNameParts.join(" ") || null });
+    contact = (await db.select().from(contacts).where(eq(contacts.id, Number(inserted[0].insertId))).limit(1))[0];
+  }
+  const brandContact = (await db.select().from(brandContacts).where(and(eq(brandContacts.brandId, brand.id), eq(brandContacts.contactId, contact.id))).limit(1))[0];
+  if (!brandContact) {
+    await db.insert(brandContacts).values({ brandId: brand.id, contactId: contact.id, transactionalConsentAt: new Date(), metadataJson: JSON.stringify({ source: "relatii-coaching" }) });
+  }
+  const inserted = await db.insert(coachingApplications).values({ brandId: brand.id, contactId: contact.id, context: input.context.trim() });
+  const applicationId = Number(inserted[0].insertId);
+  await db.insert(funnelEvents).values({ brandId: brand.id, contactId: contact.id, eventType: "coaching_application_submitted", metadataJson: JSON.stringify({ applicationId }) });
+  return { id: applicationId, success: true as const };
 }

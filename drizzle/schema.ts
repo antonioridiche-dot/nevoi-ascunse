@@ -152,6 +152,8 @@ export const orders = mysqlTable("orders", {
   checkoutSessionId: int("checkoutSessionId").references(() => checkoutSessions.id, { onDelete: "set null" }),
   stripeCustomerId: varchar("stripeCustomerId", { length: 255 }),
   stripePaymentIntentId: varchar("stripePaymentIntentId", { length: 255 }).notNull().unique(),
+  amountCents: int("amountCents").notNull().default(0),
+  currency: varchar("currency", { length: 8 }).notNull().default("ron"),
   fulfillmentStatus: mysqlEnum("fulfillmentStatus", ["pending", "fulfilled", "revoked", "refunded"]).notNull().default("pending"),
   fulfilledAt: timestamp("fulfilledAt"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
@@ -272,6 +274,19 @@ export const emailProviderEvents = mysqlTable("email_provider_events", {
   index("email_provider_events_brand_type_index").on(table.brandId, table.eventType),
 ]);
 
+export const coachingApplications = mysqlTable("coaching_applications", {
+  id: int("id").autoincrement().primaryKey(),
+  brandId: int("brandId").notNull().references(() => brands.id, { onDelete: "cascade" }),
+  contactId: int("contactId").notNull().references(() => contacts.id, { onDelete: "cascade" }),
+  context: text("context").notNull(),
+  status: mysqlEnum("status", ["pending", "reviewing", "accepted", "declined"]).notNull().default("pending"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => [
+  index("coaching_applications_brand_status_index").on(table.brandId, table.status),
+  index("coaching_applications_contact_index").on(table.contactId),
+]);
+
 export const affiliates = mysqlTable("affiliates", {
   id: int("id").autoincrement().primaryKey(),
   brandId: int("brandId").notNull().references(() => brands.id, { onDelete: "cascade" }),
@@ -279,6 +294,7 @@ export const affiliates = mysqlTable("affiliates", {
   email: varchar("email", { length: 320 }).notNull(),
   displayName: varchar("displayName", { length: 160 }).notNull(),
   affiliateCode: varchar("affiliateCode", { length: 64 }).notNull(),
+  passwordHash: varchar("passwordHash", { length: 255 }).notNull(),
   status: mysqlEnum("status", ["pending", "active", "paused"]).notNull().default("pending"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),

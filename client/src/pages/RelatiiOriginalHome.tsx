@@ -1,12 +1,25 @@
 import { BOOKS } from "@/flows/relatiiFunnelSource";
 import { ArrowRight, BookOpenText, MoveDown, Sparkles } from "lucide-react";
 import { Link } from "wouter";
+import { useEffect } from "react";
+import { trpc } from "@/lib/trpc";
 import { SiteFooter } from "./RelatiiSiteFooter";
 import "./relatii-original.css";
 
+function ReferralTracker() {
+  const track = trpc.relatii.affiliate.track.useMutation();
+  useEffect(() => {
+    const ref = new URLSearchParams(window.location.search).get("ref");
+    if (!ref) return;
+    localStorage.setItem("affiliate-code", ref);
+    track.mutate({ code: ref, path: window.location.pathname });
+  }, []);
+  return null;
+}
+
 export default function Home() {
   return (
-    <main className="home-page">
+    <><ReferralTracker /><main className="home-page">
       <header className="site-header">
         <a href="#alege" className="brand-lockup"><span className="brand-mark" aria-hidden="true" /><span>Dicționarul<br />Relațiilor</span></a>
         <a className="header-cta" href="#alege">Alege traseul <MoveDown size={15} /></a>
@@ -16,6 +29,6 @@ export default function Home() {
       <section className="manifesto-section"><div className="manifesto-symbol"><BookOpenText size={28} /></div><div><p className="eyebrow">O bibliotecă practică</p><h2>Relațiile nu au nevoie de formule magice. Au nevoie de cuvinte mai bune, întrebări mai bune și limite pe care le poți spune fără să te ascunzi.</h2></div></section>
       <section className="home-note"><p>Materialele sunt educaționale și încurajează comunicarea responsabilă, acordul și respectul reciproc. Nu înlocuiesc sprijinul profesionist atunci când ai nevoie de el.</p></section>
       <SiteFooter />
-    </main>
+    </main></>
   );
 }

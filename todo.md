@@ -42,6 +42,10 @@
 - [ ] Migrează fidel Relații, Prieteni cu beneficii, Vrăji și Weightloss după contractele lor sursă.
 - [x] Portează pagina principală Relații cu alegerea de audiență, copy-ul și stilul sursă.
 - [ ] Portează cele două trasee Relații, checkout-ul, șapte oferte post-cumpărare, thank-you-ul, biblioteca, afilierea și administrarea sursă.
+- [ ] Activează complet cele șapte pagini Relații post-cumpărare cu verificarea comenzii, deciziile și trackingul afiliatului din sursă.
+- [ ] Testează Relații cu o comandă validă: verificarea accesului, acceptarea/refuzul fiecărei oferte și navigarea prefixată între pași.
+- [ ] Portează pagina de mulțumire Relații și formularul de coaching 1:1 cu persistarea cererii din sursă.
+- [ ] Portează înscrierea, autentificarea, dashboardul și trackingul programului de afiliere Relații din sursă.
 - [x] Prefixează toate tranzițiile Relații din sursă cu `/oferte/relatii`, fără modificarea ordinii sau a copy-ului funnelului.
 - [ ] Migrează fidel ofertele audio din Music Tracks, inclusiv livrarea și biblioteca lor client.
 - [ ] Portează Armonii & Bine cu pagina, checkout-ul embedded, accesul audio/PDF și administrarea din sursă.
@@ -58,3 +62,23 @@
 - [ ] Portează thank-you-ul, biblioteca, magic link-ul, afilierea și administrarea Vrăji cu contractele sursă.
 - [x] Corectează ruta publică din catalog pentru Vrăji astfel încât să deschidă pagina sursă activă, nu ecranul de consolidare.
 - [x] Aliniază denumirea catalogului Vrăji cu identitatea din pagina sursă portată.
+- [ ] Finalizează Tarot până la paritate sursă, inclusiv activele livrabile, e-mailul per brand și testul Stripe sandbox complet.
+- [ ] Finalizează Familie protejată până la paritate sursă, inclusiv quiz, livrare, recovery, afiliere și administrare.
+- [ ] Finalizează Prieteni cu beneficii până la paritate sursă, inclusiv legal, fulfillment, bibliotecă și automatizări.
+- [ ] Finalizează Vrăji până la paritate sursă, inclusiv thank-you, bibliotecă, magic link, afiliere și administrare.
+- [ ] Finalizează Weightloss consolidat până la paritate sursă, inclusiv upsell-uri, thank-you, bibliotecă, afiliere, administrare și componentele manifestului aprobat.
+- [ ] Finalizează Relații până la paritate sursă, inclusiv afiliere, administrare, legal, livrare și testare Stripe reală în sandbox.
+- [ ] Migrează Armonii & Bine cu toate paginile, checkout-ul embedded, livrarea audio/PDF și administrarea din sursă.
+- [ ] Migrează Iubire cu toate paginile, checkout-ul, biblioteca, e-mailurile și administrarea din sursă.
+- [ ] Migrează Liniște Audio cu toate paginile, quiz-ul, checkout-ul, biblioteca, recovery și administrarea din sursă.
+- [ ] Migrează Calendarul norocului cu toate paginile, personalizarea, checkout-ul, campaniile și administrarea din sursă.
+- [ ] Migrează Peste despărțire cu toate paginile, quiz-ul, checkout-ul, pașii post-cumpărare și accesul din sursă.
+- [ ] Migrează Numerologie cu toate paginile, raportul, checkout-ul, afilierea și administrarea din sursă.
+- [ ] Migrează Soulmate Sketch cu toate paginile, quiz-ul, captarea e-mailului, checkout-ul și livrarea din sursă.
+- [ ] Migrează Linia palmelor cu toate paginile, interpretarea, checkout-ul, afilierea și administrarea din sursă.
+- [ ] Migrează Cafe(ea) cu toate paginile, intake-ul, rezultatul, checkout-ul, legalul și afilierea din sursă.
+- [ ] Migrează Visul meu cu toate paginile, experiența conversațională, ofertele, checkout-ul și thank-you-ul din sursă.
+- [ ] Migrează Direcția abundenței cu toate paginile, checkout-ul, pasul opțional, thank-you-ul și administrarea din sursă.
+- [ ] Migrează Slăbiciunea zodiei cu toate paginile, personalizarea pe zodii, checkout-ul, biblioteca, afilierea și administrarea din sursă.
+- [ ] Verifică după fiecare lot că nici tevreauinapoi, groworpay-website, groworpay-v2, parinte-de-succes sau dictionarulrelatiilor nu sunt selectate pentru migrare publică.
+- [ ] Rulează verificare vizuală, tRPC/DB, e-mail, webhook și Stripe sandbox pentru fiecare ofertă înainte de marcarea completă.

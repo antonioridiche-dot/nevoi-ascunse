@@ -4,14 +4,17 @@ import { createTarotOrder, decideTarotOffer, finalizeTarotEmbeddedPayment, getTa
 import { getTarotDashboard, getTarotLibrary, redeemTarotAccess } from "./access/tarotAccess";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
-import { publicProcedure, router } from "./_core/trpc";
+import { adminProcedure, publicProcedure, router } from "./_core/trpc";
 import { z } from "zod";
 import { confirmFamilyPayment, createFamilyPaymentIntent, decideFamilyOffer, guardFamilyStep } from "./commerce/familyService";
 import { familyDashboard, issueFamilyAccessForSession, requestFamilyRecovery } from "./access/familyAccess";
 import { createPbcCheckout, getPbcCheckoutStatus } from "./commerce/pbcService";
 import { createVrajiPostPurchase, getVrajiPaymentStatus, prepareVrajiPayment } from "./commerce/vrajiService";
 import { createWeightlossIntent, isWeightlossProduct, oneClickWeightlossUpsell } from "./commerce/weightlossService";
-import { confirmRelatiiPayment, prepareRelatiiPayment } from "./commerce/relatiiService";
+import { confirmRelatiiPayment, decideRelatiiOffer, getRelatiiOrder, prepareRelatiiPayment, recordRelatiiAffiliateOfferDecision, submitRelatiiCoachingApplication } from "./commerce/relatiiService";
+import { redeemRelatiiAccessLink, requestRelatiiRecovery } from "./access/relatiiAccess";
+import { authenticateRelatiiAffiliate, createRelatiiAffiliate, getRelatiiAffiliateStats, trackRelatiiAffiliateClick } from "./commerce/relatiiAffiliateService";
+import { getRelatiiAdminSnapshot } from "./commerce/relatiiAdminService";
 
 export const appRouter = router({
     // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
@@ -89,6 +92,29 @@ export const appRouter = router({
     }),
   }),
   relatii: router({
+    admin: router({
+      snapshot: adminProcedure.query(() => getRelatiiAdminSnapshot()),
+    }),
+    affiliate: router({
+      signup: publicProcedure.input(z.object({ name: z.string().trim().min(2).max(160), email: z.string().trim().email().max(320), password: z.string().min(8).max(120) })).mutation(({ input }) => createRelatiiAffiliate(input)),
+      login: publicProcedure.input(z.object({ code: z.string().trim().min(4).max(64), password: z.string().min(8).max(120) })).query(({ input }) => authenticateRelatiiAffiliate(input)),
+      dashboard: publicProcedure.input(z.object({ code: z.string().trim().min(4).max(64) })).query(({ input }) => getRelatiiAffiliateStats(input.code)),
+      track: publicProcedure.input(z.object({ code: z.string().trim().min(4).max(64), path: z.string().trim().min(1).max(500) })).mutation(({ input }) => trackRelatiiAffiliateClick(input)),
+    }),
+    library: router({
+      redeem: publicProcedure.input(z.object({ token: z.string().trim().min(30).max(200) })).mutation(({ input }) => redeemRelatiiAccessLink(input.token)),
+      requestRecovery: publicProcedure.input(z.object({ email: z.string().trim().email().max(320) })).mutation(({ input, ctx }) => requestRelatiiRecovery({ email: input.email, origin: ctx.req.headers.origin ?? `${ctx.req.protocol}://${ctx.req.get("host")}` })),
+    }),
+    coaching: router({
+      submit: publicProcedure.input(z.object({ name: z.string().trim().min(2).max(120), email: z.string().trim().email().max(320), context: z.string().trim().min(20).max(3000) })).mutation(({ input }) => submitRelatiiCoachingApplication(input)),
+    }),
+    order: router({
+      get: publicProcedure.input(z.object({ orderId: z.number().int().positive() })).query(({ input }) => getRelatiiOrder(input.orderId)),
+    }),
+    offers: router({
+      decide: publicProcedure.input(z.object({ orderId: z.number().int().positive(), offerId: z.string().trim().min(2).max(80), decision: z.enum(["accepted", "declined"]) })).mutation(({ input }) => decideRelatiiOffer(input)),
+      affiliateDecision: publicProcedure.input(z.object({ affiliateCode: z.string().trim().min(4).max(64), orderId: z.number().int().positive(), offerId: z.string().trim().min(2).max(80), amountCents: z.number().int().positive(), decision: z.enum(["accepted", "declined"]) })).mutation(({ input }) => recordRelatiiAffiliateOfferDecision(input)),
+    }),
     checkout: router({
       prepare: publicProcedure.input(z.object({
         productKey: z.enum(["dictionarul-femeilor", "dictionarul-barbatilor"]),

@@ -23,6 +23,13 @@ import WeightlossOriginalSales from "./pages/WeightlossOriginalSales";
 import WeightlossOriginalCheckout from "./pages/WeightlossOriginalCheckout";
 import RelatiiOriginalHome from "./pages/RelatiiOriginalHome";
 import RelatiiOriginalProduct from "./pages/RelatiiOriginalProduct";
+import RelatiiOriginalOffer from "./pages/RelatiiOriginalOffer";
+import RelatiiOriginalThankYou from "./pages/RelatiiOriginalThankYou";
+import RelatiiOriginalLibrary from "./pages/RelatiiOriginalLibrary";
+import RelatiiOriginalAffiliate from "./pages/RelatiiOriginalAffiliate";
+import RelatiiOriginalAdmin from "./pages/RelatiiOriginalAdmin";
+import RelatiiOriginalLegal from "./pages/RelatiiOriginalLegal";
+import RelatiiOriginalFunnelMap from "./pages/RelatiiOriginalFunnelMap";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -56,6 +63,22 @@ function Router() {
       <Route path={"/oferte/relatii"} component={RelatiiOriginalHome} />
       <Route path={"/oferte/relatii/pentru-el"}>{() => <RelatiiOriginalProduct audience="barbati" />}</Route>
       <Route path={"/oferte/relatii/pentru-ea"}>{() => <RelatiiOriginalProduct audience="femei" />}</Route>
+      <Route path={"/oferte/relatii/oferta/conversatii-jucause"}>{() => <RelatiiOriginalOffer offerId="conversatii-jucause" />}</Route>
+      <Route path={"/oferte/relatii/oferta/downsell-conversatii"}>{() => <RelatiiOriginalOffer offerId="downsell-conversatii" />}</Route>
+      <Route path={"/oferte/relatii/oferta/downsell-claritate"}>{() => <RelatiiOriginalOffer offerId="downsell-claritate" />}</Route>
+      <Route path={"/oferte/relatii/oferta/downsell-mesaj"}>{() => <RelatiiOriginalOffer offerId="downsell-mesaj" />}</Route>
+      <Route path={"/oferte/relatii/oferta/friendzone"}>{() => <RelatiiOriginalOffer offerId="friendzone" />}</Route>
+      <Route path={"/oferte/relatii/oferta/downsell-friendzone"}>{() => <RelatiiOriginalOffer offerId="downsell-friendzone" />}</Route>
+      <Route path={"/oferte/relatii/oferta/conexiune-incredere"}>{() => <RelatiiOriginalOffer offerId="conexiune-incredere" />}</Route>
+      <Route path={"/oferte/relatii/multumesc"} component={RelatiiOriginalThankYou} />
+      <Route path={"/oferte/relatii/biblioteca"} component={RelatiiOriginalLibrary} />
+      <Route path={"/oferte/relatii/afiliere"} component={RelatiiOriginalAffiliate} />
+      <Route path={"/oferte/relatii/admin"} component={RelatiiOriginalAdmin} />
+      <Route path={"/oferte/relatii/legal/confidentialitate"}>{() => <RelatiiOriginalLegal page="confidentialitate" />}</Route>
+      <Route path={"/oferte/relatii/legal/termeni"}>{() => <RelatiiOriginalLegal page="termeni" />}</Route>
+      <Route path={"/oferte/relatii/legal/rambursari"}>{() => <RelatiiOriginalLegal page="rambursari" />}</Route>
+      <Route path={"/oferte/relatii/legal/contact"}>{() => <RelatiiOriginalLegal page="contact" />}</Route>
+      <Route path={"/oferte/relatii/funnel-dictionarul-barbatilor"} component={RelatiiOriginalFunnelMap} />
       <Route path={"/oferte/vraji/stai"} component={VrajiOriginalPost} />
       <Route path={"/oferte/vraji/pas/2"} component={VrajiOriginalPost} />
       <Route path={"/oferte/:slug"} component={OfferMigrating} />

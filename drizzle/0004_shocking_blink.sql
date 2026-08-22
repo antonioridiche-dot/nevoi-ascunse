@@ -1,0 +1,1 @@
+ALTER TABLE `affiliates` ADD `passwordHash` varchar(255) NOT NULL;
