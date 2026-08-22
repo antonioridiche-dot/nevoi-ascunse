@@ -26,3 +26,5 @@ Checkout-ul Prieteni cu beneficii a fost verificat în preview cu selecția comp
 Vrăji a fost verificat la pagina principală și la primul pas post-cumpărare. Portul păstrează tema cărbune-coral, tipografia Cormorant, structura hero, selecția intenției, checkout-ul Stripe embedded și cardul post-cumpărare din sursă. Routerul este prefixat la `/oferte/vraji`; designul și copy-ul nu au fost mutate în tema catalogului central.
 
 Weightloss a fost verificat la ruta principală consolidată. Portul păstrează formatul editorial îngust, antetul Bucătăria Vie, copy-ul educațional, secțiunile tip articol, oferta cu prețurile sursei, coperta produsului și footerul original. S-au schimbat numai prefixele de rută ale CTA-urilor și paginilor juridice.
+
+Checkout-ul Weightloss păstrează coloanele, cadrul Bucătăria Vie, sumarul de comandă, formularul de plată embedded și footerul sursei. Relații păstrează grila editorială, alegerea de audiență, paleta petrol-teracotă și tipografia sursă. Copertele Relații sunt referințe de storage din proiectul original și trebuie transferate în storage-ul unificat pentru paritate vizuală completă.

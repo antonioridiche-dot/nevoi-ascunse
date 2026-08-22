@@ -40,6 +40,8 @@
 - [ ] Rulează și documentează testul end-to-end Tarot: selecție, comandă, plată embedded, fiecare pas post-cumpărare, thank-you și acces privat.
 - [ ] Extrage în lot contractele sursă pentru Relații, Prieteni cu beneficii, Vrăji, Weightloss și proiectele audio.
 - [ ] Migrează fidel Relații, Prieteni cu beneficii, Vrăji și Weightloss după contractele lor sursă.
+- [x] Portează pagina principală Relații cu alegerea de audiență, copy-ul și stilul sursă.
+- [ ] Portează cele două trasee Relații, checkout-ul, șapte oferte post-cumpărare, thank-you-ul, biblioteca, afilierea și administrarea sursă.
 - [ ] Migrează fidel ofertele audio din Music Tracks, inclusiv livrarea și biblioteca lor client.
 - [ ] Transferă în storage-ul unificat toate resursele vizuale sau audio care lipsesc din repository-uri, fără înlocuiri creative.
 - [x] Documentează hărțile de rute și contractele de fidelitate pentru lotul Relații, Prieteni cu beneficii, Vrăji, Weightloss și proiectele audio.

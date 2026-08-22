@@ -10,6 +10,7 @@ import { confirmFamilyPayment, createFamilyPaymentIntent, decideFamilyOffer, gua
 import { familyDashboard, issueFamilyAccessForSession, requestFamilyRecovery } from "./access/familyAccess";
 import { createPbcCheckout, getPbcCheckoutStatus } from "./commerce/pbcService";
 import { createVrajiPostPurchase, getVrajiPaymentStatus, prepareVrajiPayment } from "./commerce/vrajiService";
+import { createWeightlossIntent, isWeightlossProduct, oneClickWeightlossUpsell } from "./commerce/weightlossService";
 
 export const appRouter = router({
     // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
@@ -78,6 +79,12 @@ export const appRouter = router({
       prepare: publicProcedure.input(z.object({ email: z.string().trim().email().max(320), offerVariant: z.enum(["promo67", "exit20"]), bumps: z.array(z.enum(["priority-journal", "closure-ritual"])).max(2), affiliateCode: z.string().trim().min(4).max(48).nullable().optional() })).mutation(({ input }) => prepareVrajiPayment(input)),
       status: publicProcedure.input(z.object({ paymentIntentId: z.string().min(10).max(255) })).query(({ input }) => getVrajiPaymentStatus(input.paymentIntentId)),
       postPurchase: publicProcedure.input(z.object({ email: z.string().trim().email().max(320), sourcePaymentIntentId: z.string().min(10).max(255), sku: z.enum(["attraction-expansion", "connection-compass", "intention-audio"]) })).mutation(({ input }) => createVrajiPostPurchase(input)),
+    }),
+  }),
+  weightloss: router({
+    payment: router({
+      createIntent: publicProcedure.input(z.object({ productSlug: z.string().refine(isWeightlossProduct, "Produs necunoscut"), buyerEmail: z.string().email(), buyerName: z.string().trim().min(2).max(160), orderToken: z.string().uuid().optional(), affiliateCode: z.string().trim().max(64).optional() })).mutation(({ input }) => createWeightlossIntent(input)),
+      oneClickUpsell: publicProcedure.input(z.object({ productSlug: z.enum(["retete", "miscare", "longevitate"]), orderToken: z.string().uuid(), originalPaymentIntentId: z.string().min(5) })).mutation(({ input }) => oneClickWeightlossUpsell(input)),
     }),
   }),
 

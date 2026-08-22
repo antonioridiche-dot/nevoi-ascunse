@@ -1,0 +1,17 @@
+import { randomUUID } from "node:crypto";
+import Stripe from "stripe";
+import { ENV } from "../_core/env";
+
+export const WEIGHTLOSS_PRODUCTS = {
+  bucatarie: { slug: "bucatarie", title: "Bucătăria Care Arde Grăsimea", price: 19700, kind: "main" },
+  retete: { slug: "retete", title: "82 de Rețete cu Superalimente", price: 7900, kind: "upsell" },
+  miscare: { slug: "miscare", title: "Metabolic Aftershock", price: 11900, kind: "upsell" },
+  longevitate: { slug: "longevitate", title: "101 Alimente pentru Longevitate", price: 3900, kind: "upsell" },
+} as const;
+export type WeightlossProductSlug = keyof typeof WEIGHTLOSS_PRODUCTS;
+const stripe = () => { if (!ENV.stripeSecretKey) throw new Error("Sandboxul Stripe nu este configurat."); return new Stripe(ENV.stripeSecretKey); };
+export const isWeightlossProduct = (value: string): value is WeightlossProductSlug => value in WEIGHTLOSS_PRODUCTS;
+
+export async function createWeightlossIntent(input: { productSlug: string; buyerName: string; buyerEmail: string; orderToken?: string; affiliateCode?: string }) { if (!isWeightlossProduct(input.productSlug)) throw new Error("Produs indisponibil."); const product = WEIGHTLOSS_PRODUCTS[input.productSlug]; const orderToken = input.orderToken ?? randomUUID(); const client = stripe(); const customer = await client.customers.create({ email: input.buyerEmail.toLowerCase(), name: input.buyerName, metadata: { order_token: orderToken } }); const intent = await client.paymentIntents.create({ amount: product.price, currency: "ron", description: product.title, receipt_email: input.buyerEmail.toLowerCase(), customer: customer.id, setup_future_usage: "off_session", automatic_payment_methods: { enabled: true }, metadata: { order_token: orderToken, product_slug: product.slug, buyer_email: input.buyerEmail.toLowerCase(), buyer_name: input.buyerName, affiliate_code: input.affiliateCode ?? "" } }); if (!intent.client_secret) throw new Error("Nu am putut pregăti plata."); return { clientSecret: intent.client_secret, orderToken }; }
+
+export async function oneClickWeightlossUpsell(input: { productSlug: Exclude<WeightlossProductSlug, "bucatarie">; orderToken: string; originalPaymentIntentId: string }) { const product = WEIGHTLOSS_PRODUCTS[input.productSlug]; const client = stripe(); const original = await client.paymentIntents.retrieve(input.originalPaymentIntentId); if (original.status !== "succeeded" || original.metadata.order_token !== input.orderToken || original.metadata.product_slug !== "bucatarie" || !original.payment_method) throw new Error("Comanda inițială nu a fost confirmată pentru această ofertă."); const customer = typeof original.customer === "string" ? original.customer : original.customer?.id; if (!customer) throw new Error("Metoda de plată inițială nu poate fi reutilizată."); const intent = await client.paymentIntents.create({ amount: product.price, currency: "ron", description: product.title, customer, payment_method: typeof original.payment_method === "string" ? original.payment_method : original.payment_method.id, payment_method_types: ["card"], off_session: true, confirm: true, receipt_email: original.receipt_email ?? original.metadata.buyer_email, metadata: { order_token: input.orderToken, product_slug: product.slug, original_payment_intent: original.id } }, { idempotencyKey: `one-click:${input.orderToken}:${product.slug}:${original.id}` }); return { status: intent.status, paymentIntentId: intent.id, clientSecret: intent.client_secret }; }

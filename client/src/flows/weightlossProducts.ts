@@ -7,3 +7,5 @@ export const weightlossProducts: Record<WeightlossProductSlug, WeightlossProduct
   longevitate: { slug: "longevitate", title: "101 Alimente pentru Longevitate", shortTitle: "Ghidul de longevitate", price: 39, oldPrice: 139, description: "Un ghid digital complementar cu idei alimentare și informații pentru organizarea meselor.", accent: "#6d4338", route: "/oferte/weightloss/oferta/longevitate" },
 };
 export const formatWeightlossPrice = (price: number) => `${price} lei`;
+export const orderedWeightlossUpsells: Exclude<WeightlossProductSlug, "bucatarie">[] = ["retete", "miscare", "longevitate"];
+export const isWeightlossProductSlug = (value: string | null): value is WeightlossProductSlug => value !== null && value in weightlossProducts;
