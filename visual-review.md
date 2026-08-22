@@ -14,3 +14,5 @@ Verificarea desktop a confirmat că direcția „Arhiva dorințelor” este vizi
 Pagina Tarot a confirmat o identitate separată de catalog: fundal midnight, tipografie editorială, auriu reținut și marcaj Mara Tarot. Selecția de cărți este lizibilă și păstrează un traseu clar, iar oferta opțională are ierarhie comercială distinctă fără a pierde discreția brandului. Pagina include avertismentul de reflecție personală și nu prezintă afirmații de rezultat garantat.
 
 Thank-you-ul păstrează aceeași ierarhie și confirmă comanda fără a expune date personale. Biblioteca fără sesiune afișează un bloc de acces controlat și nu divulgă produsele sau conținutul cumpărat; această stare este coerentă cu modelul de link privat trimis pe e-mail.
+
+Portul fidel Tarot a fost verificat vizual la ruta principală, checkout fără comandă și dashboard fără sesiune. Pagina principală afișează pachetul de cărți, sigla Mara Tarot, paleta violet-aurie și compoziția sursei; checkout-ul și dashboardul păstrează stările protejate fără a divulga datele unei comenzi. Pentru verificarea plății embedded este necesară o comandă de test inițiată din flow, nu accesarea directă a rutei de checkout.

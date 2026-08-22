@@ -31,6 +31,8 @@ type TarotCheckoutInput = {
   origin: string;
 };
 
+type TarotOrderInput = Omit<TarotCheckoutInput, "origin">;
+
 type TarotOfferCheckoutInput = {
   checkoutToken: string;
   productKey: Exclude<keyof typeof TAROT_PRODUCTS, "tarot_guide">;
@@ -67,6 +69,13 @@ function getTarotProductDefinition(value: string) {
   if (!definition) throw new Error("Oferta Tarot selectată nu este disponibilă.");
   return definition;
 }
+
+export const TAROT_EMBEDDED_PRICES = {
+  ron: { welcome33: 6700, exit20: 4700 },
+  eur: { welcome33: 1340, exit20: 940 },
+  gbp: { welcome33: 1200, exit20: 1000 },
+  usd: { welcome33: 1474, exit20: 1032 },
+} as const;
 
 async function getTarotBrand() {
   const db = await getDb();
@@ -194,6 +203,67 @@ export async function startTarotCheckout(input: TarotCheckoutInput) {
   return { checkoutUrl: session.url };
 }
 
+export async function createTarotOrder(input: TarotOrderInput) {
+  const fullInput = { ...input, origin: "https://nevoi-ascunse.ro" };
+  validateInput(fullInput);
+  const { db, brand, products: tarotProducts } = await ensureTarotProducts();
+  const { contact } = await ensureContact(fullInput, brand.id);
+  const publicToken = token();
+  await db.insert(intakeSubmissions).values({ brandId: brand.id, productId: tarotProducts.tarot_guide.id, contactId: contact.id, submissionKey: "tarot-reading-v1", payloadJson: JSON.stringify({ birthDate: input.birthDate, topic: input.topic, selectedCards: input.selectedCards }) });
+  await db.insert(checkoutSessions).values({ brandId: brand.id, productId: tarotProducts.tarot_guide.id, contactId: contact.id, checkoutToken: publicToken, checkoutState: "started" });
+  await db.insert(funnelEvents).values({ brandId: brand.id, contactId: contact.id, eventType: "request_created", metadataJson: JSON.stringify({ publicToken, topic: input.topic, selectedCards: input.selectedCards }) });
+  return { publicToken };
+}
+
+export async function getTarotOrder(publicToken: string) {
+  const { db, brand } = await getTarotBrand();
+  const checkout = (await db.select().from(checkoutSessions).where(and(eq(checkoutSessions.checkoutToken, publicToken), eq(checkoutSessions.brandId, brand.id))).limit(1))[0];
+  if (!checkout?.contactId) throw new Error("Cererea nu a fost găsită.");
+  const contact = (await db.select().from(contacts).where(eq(contacts.id, checkout.contactId)).limit(1))[0];
+  const intake = (await db.select().from(intakeSubmissions).where(and(eq(intakeSubmissions.contactId, contact.id), eq(intakeSubmissions.brandId, brand.id))).limit(1))[0];
+  const payload = intake ? JSON.parse(intake.payloadJson) as { birthDate?: string; topic?: string; selectedCards?: string[] } : {};
+  return { publicToken, customerName: [contact.firstName, contact.lastName].filter(Boolean).join(" ") || "Client", customerEmail: contact.email, birthDate: payload.birthDate ?? "", topic: payload.topic ?? "", selectedCards: payload.selectedCards ?? [], status: checkout.checkoutState };
+}
+
+export async function prepareTarotEmbeddedPayment(publicToken: string, currency: keyof typeof TAROT_EMBEDDED_PRICES, offerCode: "welcome33" | "exit20") {
+  const { db, brand } = await getTarotBrand();
+  const checkout = (await db.select().from(checkoutSessions).where(and(eq(checkoutSessions.checkoutToken, publicToken), eq(checkoutSessions.brandId, brand.id))).limit(1))[0];
+  if (!checkout?.contactId) throw new Error("Cererea nu a fost găsită.");
+  if (checkout.checkoutState === "completed") throw new Error("Această comandă este deja plătită.");
+  const contact = (await db.select().from(contacts).where(eq(contacts.id, checkout.contactId)).limit(1))[0];
+  const stripe = stripeClient();
+  const customer = await stripe.customers.create({ email: contact.email, name: [contact.firstName, contact.lastName].filter(Boolean).join(" ") || undefined, metadata: { brand_key: brand.key, checkout_token: publicToken } });
+  const amount = TAROT_EMBEDDED_PRICES[currency][offerCode];
+  const intent = await stripe.paymentIntents.create({ amount, currency, customer: customer.id, receipt_email: contact.email, setup_future_usage: "off_session", description: "Ghid tarot personalizat", metadata: { brand_key: brand.key, checkout_token: publicToken, product_key: "tarot_guide", offer_code: offerCode, checkout_currency: currency, contact_id: String(contact.id) } }, { idempotencyKey: `tarot-embedded-${checkout.id}-${currency}-${offerCode}` });
+  if (!intent.client_secret) throw new Error("Plata nu a putut fi pregătită.");
+  await db.update(checkoutSessions).set({ checkoutState: "payment_pending", stripePaymentIntentId: intent.id }).where(eq(checkoutSessions.id, checkout.id));
+  await db.insert(funnelEvents).values({ brandId: brand.id, contactId: contact.id, eventType: "embedded_checkout_prepared", metadataJson: JSON.stringify({ publicToken, paymentIntentId: intent.id, currency, offerCode }) });
+  return { clientSecret: intent.client_secret, price: { amount, currency } };
+}
+
+export async function finalizeTarotEmbeddedPayment(publicToken: string, paymentIntentId: string) {
+  const intent = await stripeClient().paymentIntents.retrieve(paymentIntentId);
+  if (intent.status !== "succeeded" || intent.metadata.checkout_token !== publicToken || intent.metadata.product_key !== "tarot_guide") throw new Error("Plata nu a fost confirmată.");
+  await completeTarotCheckout({ id: `embedded-${intent.id}`, metadata: { brand_key: "tarot", checkout_token: publicToken, product_key: "tarot_guide" }, payment_intent: intent.id, customer: intent.customer } as unknown as Stripe.Checkout.Session, `embedded-${intent.id}`);
+  return { dashboardPath: "/oferte/tarot/dashboard" };
+}
+
+export async function recordTarotExitOffer(publicToken: string) {
+  const { db, brand } = await getTarotBrand();
+  const checkout = (await db.select().from(checkoutSessions).where(and(eq(checkoutSessions.checkoutToken, publicToken), eq(checkoutSessions.brandId, brand.id))).limit(1))[0];
+  if (!checkout?.contactId || checkout.checkoutState === "completed") return { eligible: false, expiresAt: null };
+  const expiresAt = new Date(Date.now() + 10 * 60 * 1000).toISOString();
+  await db.insert(funnelEvents).values({ brandId: brand.id, contactId: checkout.contactId, eventType: "exit_offer_viewed", metadataJson: JSON.stringify({ publicToken, expiresAt }) });
+  return { eligible: true, expiresAt };
+}
+
+export async function trackTarotEvent(publicToken: string, eventType: string) {
+  const { db, brand } = await getTarotBrand();
+  const checkout = (await db.select().from(checkoutSessions).where(and(eq(checkoutSessions.checkoutToken, publicToken), eq(checkoutSessions.brandId, brand.id))).limit(1))[0];
+  if (checkout?.contactId) await db.insert(funnelEvents).values({ brandId: brand.id, contactId: checkout.contactId, eventType, metadataJson: JSON.stringify({ publicToken }) });
+  return { tracked: true as const };
+}
+
 export async function startTarotOfferCheckout(input: TarotOfferCheckoutInput) {
   if (!input.checkoutToken || !input.origin.startsWith("http")) throw new Error("Nu am putut identifica sesiunea de cumpărare.");
   const { db, brand, products: tarotProducts } = await ensureTarotProducts();
@@ -226,6 +296,31 @@ export async function startTarotOfferCheckout(input: TarotOfferCheckoutInput) {
   await db.update(checkoutSessions).set({ stripeCheckoutSessionId: session.id, checkoutState: "payment_pending" }).where(eq(checkoutSessions.id, Number(created[0].insertId)));
   await db.insert(funnelEvents).values({ brandId: brand.id, contactId: contact.id, eventType: "offer_checkout_started", metadataJson: JSON.stringify({ productKey: input.productKey, offerToken, parentCheckoutToken: input.checkoutToken }) });
   return { checkoutUrl: session.url };
+}
+
+export async function decideTarotOffer(publicToken: string, productKey: Exclude<keyof typeof TAROT_PRODUCTS, "tarot_guide">, accepted: boolean) {
+  const { db, brand, products: tarotProducts } = await ensureTarotProducts();
+  const sourceCheckout = (await db.select().from(checkoutSessions).where(and(eq(checkoutSessions.checkoutToken, publicToken), eq(checkoutSessions.brandId, brand.id))).limit(1))[0];
+  if (!sourceCheckout?.contactId || sourceCheckout.checkoutState !== "completed") throw new Error("Pasurile suplimentare devin disponibile după confirmarea plății inițiale.");
+  if (!accepted) {
+    await db.insert(funnelEvents).values({ brandId: brand.id, contactId: sourceCheckout.contactId, eventType: "offer_declined", metadataJson: JSON.stringify({ publicToken, productKey }) });
+    return { status: "declined" as const };
+  }
+  if (!sourceCheckout.stripePaymentIntentId) throw new Error("Datele de plată inițiale nu sunt disponibile încă.");
+  const sourceIntent = await stripeClient().paymentIntents.retrieve(sourceCheckout.stripePaymentIntentId);
+  const paymentMethod = typeof sourceIntent.payment_method === "string" ? sourceIntent.payment_method : sourceIntent.payment_method?.id;
+  const customer = typeof sourceIntent.customer === "string" ? sourceIntent.customer : sourceIntent.customer?.id;
+  if (!paymentMethod || !customer) throw new Error("Cardul inițial nu poate fi reutilizat pentru acest pas.");
+  const definition = TAROT_PRODUCTS[productKey];
+  const childToken = token();
+  const child = await db.insert(checkoutSessions).values({ brandId: brand.id, productId: tarotProducts[productKey].id, contactId: sourceCheckout.contactId, checkoutToken: childToken, checkoutState: "started" });
+  const intent = await stripeClient().paymentIntents.create({ amount: definition.amountCents, currency: definition.currency, customer, payment_method: paymentMethod, confirm: true, off_session: true, description: definition.displayName, metadata: { brand_key: brand.key, checkout_token: childToken, parent_checkout_token: publicToken, product_key: productKey, contact_id: String(sourceCheckout.contactId) } }, { idempotencyKey: `tarot-one-click-${publicToken}-${productKey}` });
+  if (intent.status !== "succeeded") {
+    await db.update(checkoutSessions).set({ checkoutState: "payment_pending", stripePaymentIntentId: intent.id }).where(eq(checkoutSessions.id, Number(child[0].insertId)));
+    return { status: "checkout_required" as const };
+  }
+  await completeTarotCheckout({ id: `one-click-${intent.id}`, metadata: { brand_key: brand.key, checkout_token: childToken, product_key: productKey }, payment_intent: intent.id, customer: intent.customer } as unknown as Stripe.Checkout.Session, `one-click-${intent.id}`);
+  return { status: "paid" as const };
 }
 
 export async function completeTarotCheckout(session: Stripe.Checkout.Session, providerEventId: string) {

@@ -6,20 +6,25 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
 import OfferMigrating from "./pages/OfferMigrating";
-import { TarotAccess, TarotDashboard, TarotLanding, TarotOffer, TarotThankYou } from "./pages/TarotJourney";
+import { TarotAccess } from "./pages/TarotJourney";
+import TarotOriginalHome from "./pages/TarotOriginalHome";
+import TarotOriginalCheckout from "./pages/TarotOriginalCheckout";
+import { TarotOriginalPostPurchase, TarotOriginalThankYou } from "./pages/TarotOriginalPost";
+import TarotOriginalDashboard from "./pages/TarotOriginalDashboard";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
   return (
     <Switch>
       <Route path={"/"} component={Home} />
-      <Route path={"/oferte/tarot"} component={TarotLanding} />
-      <Route path={"/oferte/tarot/asteapta"}>{() => <TarotOffer offerKey="numerology" />}</Route>
-      <Route path={"/oferte/tarot/aproapegata"}>{() => <TarotOffer offerKey="portrait" />}</Route>
-      <Route path={"/oferte/tarot/stai"}>{() => <TarotOffer offerKey="palm" />}</Route>
-      <Route path={"/oferte/tarot/multumesc"} component={TarotThankYou} />
+      <Route path={"/oferte/tarot"} component={TarotOriginalHome} />
+      <Route path={"/oferte/tarot/citire"} component={TarotOriginalCheckout} />
+      <Route path={"/oferte/tarot/asteapta"}>{() => <TarotOriginalPostPurchase productCode="numerology" />}</Route>
+      <Route path={"/oferte/tarot/aproapegata"}>{() => <TarotOriginalPostPurchase productCode="portrait" />}</Route>
+      <Route path={"/oferte/tarot/stai"}>{() => <TarotOriginalPostPurchase productCode="palm" />}</Route>
+      <Route path={"/oferte/tarot/multumesc"} component={TarotOriginalThankYou} />
       <Route path={"/oferte/tarot/acces"} component={TarotAccess} />
-      <Route path={"/oferte/tarot/dashboard"} component={TarotDashboard} />
+      <Route path={"/oferte/tarot/dashboard"} component={TarotOriginalDashboard} />
       <Route path={"/oferte/:slug"} component={OfferMigrating} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}

@@ -1,7 +1,7 @@
 import { createHash, randomBytes } from "node:crypto";
 import { and, eq, gt, inArray } from "drizzle-orm";
 import type { Request, Response } from "express";
-import { accessSessions, brands, contacts, entitlements, products } from "../../drizzle/schema";
+import { accessSessions, brands, checkoutSessions, contacts, entitlements, products } from "../../drizzle/schema";
 import { getDb } from "../db";
 
 const COOKIE_NAME = "mara_tarot_access";
@@ -54,6 +54,24 @@ export async function getTarotLibrary(req: Request) {
   if (!session) return { access: false as const, products: [] };
   const grants = await db.select({ productId: entitlements.productId, displayName: products.displayName, description: products.description, accessMode: products.accessMode }).from(entitlements).innerJoin(products, eq(entitlements.productId, products.id)).where(and(eq(entitlements.brandId, brand.id), eq(entitlements.contactId, session.contactId), eq(entitlements.status, "active")));
   return { access: true as const, products: grants };
+}
+
+export async function getTarotDashboard(req: Request) {
+  const token = extractCookieValue(req.headers.cookie, COOKIE_NAME);
+  if (!token) return undefined;
+  const { db, brand } = await tarotBrand();
+  const session = (await db.select().from(accessSessions).where(and(eq(accessSessions.brandId, brand.id), eq(accessSessions.tokenHash, hash(token)), gt(accessSessions.expiresAt, new Date()))).limit(1))[0];
+  if (!session) return undefined;
+  const contact = (await db.select().from(contacts).where(eq(contacts.id, session.contactId)).limit(1))[0];
+  const grants = await db.select({ productKey: products.productKey }).from(entitlements).innerJoin(products, eq(entitlements.productId, products.id)).where(and(eq(entitlements.brandId, brand.id), eq(entitlements.contactId, session.contactId), eq(entitlements.status, "active")));
+  const checkout = (await db.select().from(checkoutSessions).where(and(eq(checkoutSessions.brandId, brand.id), eq(checkoutSessions.contactId, session.contactId))).limit(1))[0];
+  return {
+    publicToken: checkout?.checkoutToken ?? "0".repeat(32),
+    customerName: [contact?.firstName, contact?.lastName].filter(Boolean).join(" ") || "Client",
+    customerEmail: contact?.email ?? "",
+    status: "paid" as const,
+    items: grants.filter((grant) => ["numerology", "portrait", "palm"].includes(grant.productKey)).map((grant) => ({ productCode: grant.productKey, status: "paid" as const })),
+  };
 }
 
 export function clearTarotAccess(res: Response) {

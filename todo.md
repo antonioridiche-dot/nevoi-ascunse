@@ -29,3 +29,10 @@
 - [ ] Creează o allowlist unică a repository-urilor aprobate și rezolvă versiunile duplicate înainte de migrarea următoarelor fluxuri.
 - [ ] Aplică allowlist-ul în instrumentul de inventariere/migrare, astfel încât repository-urile neaprobate să fie blocate tehnic.
 - [ ] Decide și documentează dacă weight-los-manifest și romanian-weightloss-funnel sunt două branduri distincte sau o singură ofertă consolidată.
+- [ ] Migrează fluxul Familie protejată: pagină FE, checkout, downsell-uri, thank-you și bibliotecă privată.
+- [ ] Înlocuiește reinterpretarea Tarot cu paginile, copy-ul, CSS-ul și checkout-ul embedded identice cu repository-ul sursă.
+- [ ] Păstrează fidel pentru fiecare ofertă designul, copy-ul, pașii, checkout-ul și funcționalitățile din GitHub; schimbă numai prefixul de rută și integrarea comună necesară.
+- [ ] Configurează o singură ofertă Weightloss consolidată din weight-los-manifest și romanian-weightloss-funnel.
+- [ ] Compară fiecare pagină migrată vizual și funcțional cu sursa sa înainte de a o marca finalizată.
+- [ ] Elimină deviațiile rămase din portul Tarot, inclusiv textele/prețurile checkout-ului și contractul dashboardului privat.
+- [ ] Rulează și documentează testul end-to-end Tarot: selecție, comandă, plată embedded, fiecare pas post-cumpărare, thank-you și acces privat.
