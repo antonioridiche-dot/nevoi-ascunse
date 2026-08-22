@@ -33,6 +33,8 @@
 - [ ] Înlocuiește reinterpretarea Tarot cu paginile, copy-ul, CSS-ul și checkout-ul embedded identice cu repository-ul sursă.
 - [ ] Păstrează fidel pentru fiecare ofertă designul, copy-ul, pașii, checkout-ul și funcționalitățile din GitHub; schimbă numai prefixul de rută și integrarea comună necesară.
 - [ ] Configurează o singură ofertă Weightloss consolidată din weight-los-manifest și romanian-weightloss-funnel.
+- [x] Portează pagina principală Weightloss din romanian-weightloss-funnel cu designul, copy-ul și prețurile sursă.
+- [ ] Integrează în aceeași ofertă Weightloss checkout-ul, upsell-urile, thank-you-ul, biblioteca, afilierea și componentele aprobate din ambele repository-uri sursă.
 - [ ] Compară fiecare pagină migrată vizual și funcțional cu sursa sa înainte de a o marca finalizată.
 - [ ] Elimină deviațiile rămase din portul Tarot, inclusiv textele/prețurile checkout-ului și contractul dashboardului privat.
 - [ ] Rulează și documentează testul end-to-end Tarot: selecție, comandă, plată embedded, fiecare pas post-cumpărare, thank-you și acces privat.

@@ -19,6 +19,7 @@ import { PbcHome, PbcOffer } from "./pages/PbcOriginalPages";
 import { PbcCheckout, PbcThankYou } from "./pages/PbcOriginalCheckout";
 import VrajiOriginalPost from "./pages/VrajiOriginalPost";
 import VrajiOriginalHome from "./pages/VrajiOriginalHome";
+import WeightlossOriginalSales from "./pages/WeightlossOriginalSales";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -47,6 +48,7 @@ function Router() {
       <Route path={"/oferte/prieteni-cu-beneficii/multumim"} component={PbcThankYou} />
       <Route path={"/oferte/vraji/pas/1"} component={VrajiOriginalPost} />
       <Route path={"/oferte/vraji"} component={VrajiOriginalHome} />
+      <Route path={"/oferte/weightloss"} component={WeightlossOriginalSales} />
       <Route path={"/oferte/vraji/stai"} component={VrajiOriginalPost} />
       <Route path={"/oferte/vraji/pas/2"} component={VrajiOriginalPost} />
       <Route path={"/oferte/:slug"} component={OfferMigrating} />

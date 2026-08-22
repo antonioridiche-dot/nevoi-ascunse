@@ -24,3 +24,5 @@ Prieteni cu beneficii a fost verificat la ruta principală. Pagina redă compozi
 Checkout-ul Prieteni cu beneficii a fost verificat în preview cu selecția completă a funnelului. Păstrează layoutul în două coloane, formularul de contact, handoff-ul explicat către Stripe, sumarul burgundy, totalul și footerul din sursă. Fluxul folosește intenționat Stripe Checkout într-o pagină externă, deoarece acesta este contractul comportamental al repository-ului original.
 
 Vrăji a fost verificat la pagina principală și la primul pas post-cumpărare. Portul păstrează tema cărbune-coral, tipografia Cormorant, structura hero, selecția intenției, checkout-ul Stripe embedded și cardul post-cumpărare din sursă. Routerul este prefixat la `/oferte/vraji`; designul și copy-ul nu au fost mutate în tema catalogului central.
+
+Weightloss a fost verificat la ruta principală consolidată. Portul păstrează formatul editorial îngust, antetul Bucătăria Vie, copy-ul educațional, secțiunile tip articol, oferta cu prețurile sursei, coperta produsului și footerul original. S-au schimbat numai prefixele de rută ale CTA-urilor și paginilor juridice.
