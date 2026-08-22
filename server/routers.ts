@@ -6,6 +6,8 @@ import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, router } from "./_core/trpc";
 import { z } from "zod";
+import { confirmFamilyPayment, createFamilyPaymentIntent, decideFamilyOffer, guardFamilyStep } from "./commerce/familyService";
+import { familyDashboard, issueFamilyAccessForSession, requestFamilyRecovery } from "./access/familyAccess";
 
 export const appRouter = router({
     // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
@@ -50,6 +52,15 @@ export const appRouter = router({
         productKey: z.enum(["numerology", "portrait", "palm"]),
       }))
       .mutation(async ({ input, ctx }) => startTarotOfferCheckout({ ...input, origin: ctx.req.headers.origin ?? "" })),
+  }),
+  familie: router({
+    createPaymentIntent: publicProcedure.input(z.object({ customerName: z.string().trim().min(2).max(160), customerEmail: z.string().trim().email().max(320), checkoutKey: z.string().min(16).max(120), currency: z.enum(["ron", "eur", "usd", "gbp"]), variant: z.enum(["promo67", "exit20"]).optional(), productHandle: z.enum(["last-mile-72-hour-readiness-plan", "field-continuity-protocol", "field-continuity-protocol-essentials", "72-hour-decision-card-pack"]) })).mutation(({ input }) => createFamilyPaymentIntent(input)),
+    confirmPayment: publicProcedure.input(z.object({ sessionToken: z.string().regex(/^[a-f0-9]{48}$/), paymentIntentId: z.string().startsWith("pi_") })).mutation(({ input }) => confirmFamilyPayment(input.sessionToken, input.paymentIntentId)),
+    guard: publicProcedure.input(z.object({ sessionToken: z.string().regex(/^[a-f0-9]{48}$/), step: z.enum(["oto1", "ds1", "ds2", "thank_you"]) })).query(({ input }) => guardFamilyStep(input.sessionToken, input.step)),
+    decide: publicProcedure.input(z.object({ sessionToken: z.string().regex(/^[a-f0-9]{48}$/), currentStep: z.enum(["oto1", "ds1", "ds2"]), accepted: z.boolean(), consent: z.boolean().default(false) })).mutation(({ input }) => decideFamilyOffer(input.sessionToken, input.currentStep, input.accepted, input.consent)),
+    issueAccess: publicProcedure.input(z.object({ sessionToken: z.string().regex(/^[a-f0-9]{48}$/), email: z.string().email(), deviceHash: z.string().min(16).max(256) })).mutation(({ input }) => issueFamilyAccessForSession(input.sessionToken, input.email, input.deviceHash)),
+    dashboard: publicProcedure.input(z.object({ accessToken: z.string().regex(/^[a-f0-9]{64}$/), deviceHash: z.string().min(16).max(256) })).query(({ input }) => familyDashboard(input.accessToken, input.deviceHash)),
+    requestRecovery: publicProcedure.input(z.object({ email: z.string().email() })).mutation(({ input }) => requestFamilyRecovery(input.email)),
   }),
 
   // TODO: add feature routers here, e.g.

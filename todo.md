@@ -28,7 +28,7 @@
 - [x] Conectează serverul la cheia Resend deja configurată pentru expedierea per brand.
 - [ ] Creează o allowlist unică a repository-urilor aprobate și rezolvă versiunile duplicate înainte de migrarea următoarelor fluxuri.
 - [ ] Aplică allowlist-ul în instrumentul de inventariere/migrare, astfel încât repository-urile neaprobate să fie blocate tehnic.
-- [ ] Decide și documentează dacă weight-los-manifest și romanian-weightloss-funnel sunt două branduri distincte sau o singură ofertă consolidată.
+- [x] Decide și documentează dacă weight-los-manifest și romanian-weightloss-funnel sunt două branduri distincte sau o singură ofertă consolidată.
 - [ ] Migrează fluxul Familie protejată: pagină FE, checkout, downsell-uri, thank-you și bibliotecă privată.
 - [ ] Înlocuiește reinterpretarea Tarot cu paginile, copy-ul, CSS-ul și checkout-ul embedded identice cu repository-ul sursă.
 - [ ] Păstrează fidel pentru fiecare ofertă designul, copy-ul, pașii, checkout-ul și funcționalitățile din GitHub; schimbă numai prefixul de rută și integrarea comună necesară.
@@ -36,3 +36,10 @@
 - [ ] Compară fiecare pagină migrată vizual și funcțional cu sursa sa înainte de a o marca finalizată.
 - [ ] Elimină deviațiile rămase din portul Tarot, inclusiv textele/prețurile checkout-ului și contractul dashboardului privat.
 - [ ] Rulează și documentează testul end-to-end Tarot: selecție, comandă, plată embedded, fiecare pas post-cumpărare, thank-you și acces privat.
+- [ ] Extrage în lot contractele sursă pentru Relații, Prieteni cu beneficii, Vrăji, Weightloss și proiectele audio.
+- [ ] Migrează fidel Relații, Prieteni cu beneficii, Vrăji și Weightloss după contractele lor sursă.
+- [ ] Migrează fidel ofertele audio din Music Tracks, inclusiv livrarea și biblioteca lor client.
+- [ ] Transferă în storage-ul unificat toate resursele vizuale sau audio care lipsesc din repository-uri, fără înlocuiri creative.
+- [x] Documentează hărțile de rute și contractele de fidelitate pentru lotul Relații, Prieteni cu beneficii, Vrăji, Weightloss și proiectele audio.
+- [x] Portează pagina principală și cele trei pagini post-ofertă Prieteni cu beneficii cu designul, copy-ul și tranzițiile sursă.
+- [ ] Portează checkout-ul, thank-you-ul și paginile legale Prieteni cu beneficii cu mecanismul Stripe Checkout din sursă.

@@ -11,6 +11,11 @@ import TarotOriginalHome from "./pages/TarotOriginalHome";
 import TarotOriginalCheckout from "./pages/TarotOriginalCheckout";
 import { TarotOriginalPostPurchase, TarotOriginalThankYou } from "./pages/TarotOriginalPost";
 import TarotOriginalDashboard from "./pages/TarotOriginalDashboard";
+import FamilyOriginalHome from "./pages/FamilyOriginalHome";
+import { FamilyOfferPage } from "./pages/FamilyOriginalPost";
+import { FamilyThankYouPage } from "./pages/FamilyOriginalPost";
+import FamilyOriginalDashboard from "./pages/FamilyOriginalDashboard";
+import { PbcHome, PbcOffer } from "./pages/PbcOriginalPages";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -25,6 +30,16 @@ function Router() {
       <Route path={"/oferte/tarot/multumesc"} component={TarotOriginalThankYou} />
       <Route path={"/oferte/tarot/acces"} component={TarotAccess} />
       <Route path={"/oferte/tarot/dashboard"} component={TarotOriginalDashboard} />
+      <Route path={"/oferte/familieprotejata"} component={FamilyOriginalHome} />
+      <Route path={"/oferte/familieprotejata/oto1"}>{() => <FamilyOfferPage step="oto1" />}</Route>
+      <Route path={"/oferte/familieprotejata/ds1"}>{() => <FamilyOfferPage step="ds1" />}</Route>
+      <Route path={"/oferte/familieprotejata/ds2"}>{() => <FamilyOfferPage step="ds2" />}</Route>
+      <Route path={"/oferte/familieprotejata/thank-you"} component={FamilyThankYouPage} />
+      <Route path={"/oferte/familieprotejata/dashboard"} component={FamilyOriginalDashboard} />
+      <Route path={"/oferte/prieteni-cu-beneficii"} component={PbcHome} />
+      <Route path={"/oferte/prieteni-cu-beneficii/oferta-speciala"}>{() => <PbcOffer stage="upsellOne" />}</Route>
+      <Route path={"/oferte/prieteni-cu-beneficii/oferta-redusa"}>{() => <PbcOffer stage="downsell" />}</Route>
+      <Route path={"/oferte/prieteni-cu-beneficii/program-avansat"}>{() => <PbcOffer stage="upsellTwo" />}</Route>
       <Route path={"/oferte/:slug"} component={OfferMigrating} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}

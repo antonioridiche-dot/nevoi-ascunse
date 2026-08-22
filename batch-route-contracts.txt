@@ -1,0 +1,88 @@
+## dic-ionarul-rela-iilor
+import { Route, Switch } from "wouter";
+function Router() {
+    <Switch>
+      <Route path={"/"} component={Home} />
+      <Route path={"/pentru-el"}>{() => <ProductPage audience="barbati" />}</Route>
+      <Route path={"/pentru-ea"}>{() => <ProductPage audience="femei" />}</Route>
+      <Route path={"/oferta/conversatii-jucause"}>{() => <OfferPage offerId="conversatii-jucause" />}</Route>
+      <Route path={"/oferta/downsell-conversatii"}>{() => <OfferPage offerId="downsell-conversatii" />}</Route>
+      <Route path={"/oferta/downsell-claritate"}>{() => <OfferPage offerId="downsell-claritate" />}</Route>
+      <Route path={"/oferta/downsell-mesaj"}>{() => <OfferPage offerId="downsell-mesaj" />}</Route>
+      <Route path={"/oferta/friendzone"}>{() => <OfferPage offerId="friendzone" />}</Route>
+      <Route path={"/oferta/downsell-friendzone"}>{() => <OfferPage offerId="downsell-friendzone" />}</Route>
+      <Route path={"/oferta/conexiune-incredere"}>{() => <OfferPage offerId="conexiune-incredere" />}</Route>
+      <Route path={"/multumesc"} component={ThankYou} />
+      <Route path={"/funnel-dictionarul-barbatilor"} component={FunnelMap} />
+      <Route path={"/afiliere"} component={AffiliatePage} />
+      <Route path={"/biblioteca"} component={CustomerLibraryPage} />
+      <Route path={"/admin"} component={AdminDashboardPage} />
+      <Route path={"/legal/confidentialitate"}>{() => <LegalPage page="confidentialitate" />}</Route>
+      <Route path={"/legal/termeni"}>{() => <LegalPage page="termeni" />}</Route>
+      <Route path={"/legal/rambursari"}>{() => <LegalPage page="rambursari" />}</Route>
+      <Route path={"/legal/contact"}>{() => <LegalPage page="contact" />}</Route>
+      <Route path={"/404"} component={NotFound} />
+      <Route component={NotFound} />
+          <Router />
+
+## prieteni-cu-beneficii
+import { Route, Switch } from "wouter";
+function Router() {
+    <Switch>
+      <Route path="/" component={HomePage} />
+      <Route path="/oferta-speciala" component={UpsellOnePage} />
+      <Route path="/oferta-redusa" component={DownsellPage} />
+      <Route path="/program-avansat" component={UpsellTwoPage} />
+      <Route path="/checkout" component={CheckoutPage} />
+      <Route path="/multumim" component={ThankYouPage} />
+      <Route path="/termeni">{() => <LegalPage type="termeni" />}</Route>
+      <Route path="/confidentialitate">{() => <LegalPage type="confidentialitate" />}</Route>
+      <Route path="/retur">{() => <LegalPage type="retur" />}</Route>
+      <Route component={NotFound} />
+  return <ErrorBoundary><ThemeProvider defaultTheme="light"><TooltipProvider><Toaster /><Router /></TooltipProvider></ThemeProvider></ErrorBoundary>;
+
+## vraji-spells-store
+import { Route, Switch } from "wouter";
+export default function App(){return <ErrorBoundary><ThemeProvider defaultTheme="dark"><TooltipProvider><Toaster/><Switch><Route path="/" component={Home}/><Route path="/pas/1" component={PostPurchase}/><Route path="/stai" component={PostPurchase}/><Route path="/pas/2" component={PostPurchase}/><Route path="/multumim" component={ThankYou}/><Route path="/biblioteca" component={Library}/><Route path="/afiliat" component={Affiliate}/><Route path="/admin" component={Admin}/><Route component={Home}/></Switch></TooltipProvider></ThemeProvider></ErrorBoundary>}
+
+## romanian-weightloss-funnel
+import { Route, Switch } from "wouter";
+function Router() {
+    <Switch>
+      <Route path="/" component={SalesPage} />
+      <Route path="/comanda" component={CheckoutPage} />
+      <Route path="/oferta/retete">{() => <UpsellPage slug="retete" />}</Route>
+      <Route path="/oferta/miscare">{() => <UpsellPage slug="miscare" />}</Route>
+      <Route path="/oferta/longevitate">{() => <UpsellPage slug="longevitate" />}</Route>
+      <Route path="/multumim" component={ThankYouPage} />
+      <Route path="/confidentialitate">{() => <LegalPage page="confidentialitate" />}</Route>
+      <Route path="/termeni">{() => <LegalPage page="termeni" />}</Route>
+      <Route path="/declaratie">{() => <LegalPage page="declaratie" />}</Route>
+      <Route path="/afiliati" component={AffiliatePage} />
+      <Route path="/admin" component={AdminPanel} />
+      <Route path="/404" component={NotFound} />
+      <Route component={NotFound} />
+          <Router />
+
+## armonii-bine
+import { Route, Switch } from "wouter";
+function Router() { return <Switch><Route path="/" component={Home} /><Route path="/multumim" component={Confirmation} /><Route path="/admin" component={Admin} /><Route path="/404" component={NotFound} /><Route component={NotFound} /></Switch>; }
+export default function App() { return <ErrorBoundary><ThemeProvider defaultTheme="light"><TooltipProvider><Toaster /><Router /></TooltipProvider></ThemeProvider></ErrorBoundary>; }
+
+## iubire
+import { Route, Switch } from "wouter";
+function Router() {
+    <Switch>
+      <Route path={"/"} component={Home} />
+      <Route path={"/checkout"} component={Checkout} />
+      <Route path={"/multumesc"} component={ThankYou} />
+      <Route path={"/biblioteca"} component={Library} />
+      <Route path={"/404"} component={NotFound} />
+      <Route component={NotFound} />
+          <Router />
+
+## liniste-audio
+import { Route, Switch } from "wouter";
+function Router() { return <Switch><Route path="/" component={Home} /><Route path="/quiz" component={Quiz} /><Route path="/bani">{() => <ThemedPage theme="bani" />}</Route><Route path="/sanatate">{() => <ThemedPage theme="sanatate" />}</Route><Route path="/anxietate">{() => <ThemedPage theme="anxietate" />}</Route><Route path="/eliberare">{() => <ThemedPage theme="eliberare" />}</Route><Route path="/iubire">{() => <ThemedPage theme="iubire" />}</Route><Route path="/checkout" component={Checkout} /><Route path="/confirmare" component={Confirmation} /><Route path="/oferta" component={Upsell} /><Route path="/multumesc" component={ThankYou} /><Route path="/recuperare" component={Recovery} /><Route path="/termeni">{() => <Legal type="terms" />}</Route><Route path="/confidentialitate">{() => <Legal type="privacy" />}</Route><Route path="/404" component={NotFound} /><Route component={NotFound} /></Switch>; }
+export default function App() { return <ErrorBoundary><ThemeProvider defaultTheme="dark"><TooltipProvider><Toaster /><Router /></TooltipProvider></ThemeProvider></ErrorBoundary>; }
+
