@@ -16,6 +16,7 @@ import { FamilyOfferPage } from "./pages/FamilyOriginalPost";
 import { FamilyThankYouPage } from "./pages/FamilyOriginalPost";
 import FamilyOriginalDashboard from "./pages/FamilyOriginalDashboard";
 import { PbcHome, PbcOffer } from "./pages/PbcOriginalPages";
+import { PbcCheckout, PbcThankYou } from "./pages/PbcOriginalCheckout";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -40,6 +41,8 @@ function Router() {
       <Route path={"/oferte/prieteni-cu-beneficii/oferta-speciala"}>{() => <PbcOffer stage="upsellOne" />}</Route>
       <Route path={"/oferte/prieteni-cu-beneficii/oferta-redusa"}>{() => <PbcOffer stage="downsell" />}</Route>
       <Route path={"/oferte/prieteni-cu-beneficii/program-avansat"}>{() => <PbcOffer stage="upsellTwo" />}</Route>
+      <Route path={"/oferte/prieteni-cu-beneficii/checkout"} component={PbcCheckout} />
+      <Route path={"/oferte/prieteni-cu-beneficii/multumim"} component={PbcThankYou} />
       <Route path={"/oferte/:slug"} component={OfferMigrating} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}

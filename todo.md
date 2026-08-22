@@ -43,3 +43,7 @@
 - [x] Documentează hărțile de rute și contractele de fidelitate pentru lotul Relații, Prieteni cu beneficii, Vrăji, Weightloss și proiectele audio.
 - [x] Portează pagina principală și cele trei pagini post-ofertă Prieteni cu beneficii cu designul, copy-ul și tranzițiile sursă.
 - [ ] Portează checkout-ul, thank-you-ul și paginile legale Prieteni cu beneficii cu mecanismul Stripe Checkout din sursă.
+- [x] Portează și verifică checkout-ul Stripe Checkout și pagina de confirmare Prieteni cu beneficii.
+- [ ] Portează paginile legale și mecanismul de livrare/bibliotecă Prieteni cu beneficii din sursă.
+- [x] Adaptează contractul de plată embedded Vrăji pentru oferta principală, bump-uri și post-cumpărare one-click.
+- [ ] Portează paginile, biblioteca, afilierea și administrarea Vrăji cu designul și copy-ul sursă.

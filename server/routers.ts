@@ -8,6 +8,8 @@ import { publicProcedure, router } from "./_core/trpc";
 import { z } from "zod";
 import { confirmFamilyPayment, createFamilyPaymentIntent, decideFamilyOffer, guardFamilyStep } from "./commerce/familyService";
 import { familyDashboard, issueFamilyAccessForSession, requestFamilyRecovery } from "./access/familyAccess";
+import { createPbcCheckout, getPbcCheckoutStatus } from "./commerce/pbcService";
+import { createVrajiPostPurchase, getVrajiPaymentStatus, prepareVrajiPayment } from "./commerce/vrajiService";
 
 export const appRouter = router({
     // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
@@ -61,6 +63,19 @@ export const appRouter = router({
     issueAccess: publicProcedure.input(z.object({ sessionToken: z.string().regex(/^[a-f0-9]{48}$/), email: z.string().email(), deviceHash: z.string().min(16).max(256) })).mutation(({ input }) => issueFamilyAccessForSession(input.sessionToken, input.email, input.deviceHash)),
     dashboard: publicProcedure.input(z.object({ accessToken: z.string().regex(/^[a-f0-9]{64}$/), deviceHash: z.string().min(16).max(256) })).query(({ input }) => familyDashboard(input.accessToken, input.deviceHash)),
     requestRecovery: publicProcedure.input(z.object({ email: z.string().email() })).mutation(({ input }) => requestFamilyRecovery(input.email)),
+  }),
+  pbc: router({
+    checkout: router({
+      create: publicProcedure.input(z.object({ productIds: z.array(z.enum(["frontEnd", "upsellOne", "downsell", "upsellTwo"])).min(1), customerName: z.string().trim().min(2).max(160), customerEmail: z.string().trim().email().max(320), acceptedTerms: z.literal(true) })).mutation(({ input, ctx }) => createPbcCheckout({ ...input, origin: ctx.req.headers.origin ?? "" })),
+      status: publicProcedure.input(z.object({ sessionId: z.string().min(8).max(255) })).query(({ input }) => getPbcCheckoutStatus(input.sessionId)),
+    }),
+  }),
+  vraji: router({
+    checkout: router({
+      prepare: publicProcedure.input(z.object({ email: z.string().trim().email().max(320), offerVariant: z.enum(["promo67", "exit20"]), bumps: z.array(z.enum(["priority-journal", "closure-ritual"])).max(2), affiliateCode: z.string().trim().min(4).max(48).nullable().optional() })).mutation(({ input }) => prepareVrajiPayment(input)),
+      status: publicProcedure.input(z.object({ paymentIntentId: z.string().min(10).max(255) })).query(({ input }) => getVrajiPaymentStatus(input.paymentIntentId)),
+      postPurchase: publicProcedure.input(z.object({ email: z.string().trim().email().max(320), sourcePaymentIntentId: z.string().min(10).max(255), sku: z.enum(["attraction-expansion", "connection-compass", "intention-audio"]) })).mutation(({ input }) => createVrajiPostPurchase(input)),
+    }),
   }),
 
   // TODO: add feature routers here, e.g.
