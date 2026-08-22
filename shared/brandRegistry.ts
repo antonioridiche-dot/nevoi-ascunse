@@ -178,9 +178,9 @@ export const brandCatalog: BrandCatalogItem[] = [
     tone: "sage",
   },
   {
-    key: "vrajii",
-    routeBase: "/oferte/vrajii",
-    displayName: "Vrăjii",
+    key: "vraji",
+    routeBase: "/oferte/vraji",
+    displayName: "Vrăji",
     category: "Ritualuri",
     sourceRepo: "vraji-spells-store",
     summary: "Experiență demonstrativă cu quiz, ofertă, acces digital și afiliere.",

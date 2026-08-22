@@ -11,6 +11,7 @@ import { familyDashboard, issueFamilyAccessForSession, requestFamilyRecovery } f
 import { createPbcCheckout, getPbcCheckoutStatus } from "./commerce/pbcService";
 import { createVrajiPostPurchase, getVrajiPaymentStatus, prepareVrajiPayment } from "./commerce/vrajiService";
 import { createWeightlossIntent, isWeightlossProduct, oneClickWeightlossUpsell } from "./commerce/weightlossService";
+import { confirmRelatiiPayment, prepareRelatiiPayment } from "./commerce/relatiiService";
 
 export const appRouter = router({
     // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
@@ -85,6 +86,21 @@ export const appRouter = router({
     payment: router({
       createIntent: publicProcedure.input(z.object({ productSlug: z.string().refine(isWeightlossProduct, "Produs necunoscut"), buyerEmail: z.string().email(), buyerName: z.string().trim().min(2).max(160), orderToken: z.string().uuid().optional(), affiliateCode: z.string().trim().max(64).optional() })).mutation(({ input }) => createWeightlossIntent(input)),
       oneClickUpsell: publicProcedure.input(z.object({ productSlug: z.enum(["retete", "miscare", "longevitate"]), orderToken: z.string().uuid(), originalPaymentIntentId: z.string().min(5) })).mutation(({ input }) => oneClickWeightlossUpsell(input)),
+    }),
+  }),
+  relatii: router({
+    checkout: router({
+      prepare: publicProcedure.input(z.object({
+        productKey: z.enum(["dictionarul-femeilor", "dictionarul-barbatilor"]),
+        audience: z.enum(["barbati", "femei"]),
+        email: z.string().trim().email().max(320),
+        offerCode: z.enum(["promo67", "exit20"]),
+        affiliateCode: z.string().trim().min(4).max(64).optional(),
+      })).mutation(({ input }) => prepareRelatiiPayment(input)),
+      confirm: publicProcedure.input(z.object({
+        checkoutToken: z.string().min(32).max(96),
+        paymentIntentId: z.string().startsWith("pi_"),
+      })).mutation(({ input }) => confirmRelatiiPayment(input)),
     }),
   }),
 

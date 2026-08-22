@@ -42,6 +42,7 @@
 - [ ] Migrează fidel Relații, Prieteni cu beneficii, Vrăji și Weightloss după contractele lor sursă.
 - [x] Portează pagina principală Relații cu alegerea de audiență, copy-ul și stilul sursă.
 - [ ] Portează cele două trasee Relații, checkout-ul, șapte oferte post-cumpărare, thank-you-ul, biblioteca, afilierea și administrarea sursă.
+- [x] Prefixează toate tranzițiile Relații din sursă cu `/oferte/relatii`, fără modificarea ordinii sau a copy-ului funnelului.
 - [ ] Migrează fidel ofertele audio din Music Tracks, inclusiv livrarea și biblioteca lor client.
 - [ ] Portează Armonii & Bine cu pagina, checkout-ul embedded, accesul audio/PDF și administrarea din sursă.
 - [ ] Transferă în storage-ul unificat toate resursele vizuale sau audio care lipsesc din repository-uri, fără înlocuiri creative.
@@ -55,3 +56,5 @@
 - [ ] Portează paginile, biblioteca, afilierea și administrarea Vrăji cu designul și copy-ul sursă.
 - [x] Portează pagina principală și cei trei pași post-cumpărare Vrăji cu checkout Stripe embedded din sursă.
 - [ ] Portează thank-you-ul, biblioteca, magic link-ul, afilierea și administrarea Vrăji cu contractele sursă.
+- [x] Corectează ruta publică din catalog pentru Vrăji astfel încât să deschidă pagina sursă activă, nu ecranul de consolidare.
+- [x] Aliniază denumirea catalogului Vrăji cu identitatea din pagina sursă portată.

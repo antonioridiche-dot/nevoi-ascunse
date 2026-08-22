@@ -22,6 +22,7 @@ import VrajiOriginalHome from "./pages/VrajiOriginalHome";
 import WeightlossOriginalSales from "./pages/WeightlossOriginalSales";
 import WeightlossOriginalCheckout from "./pages/WeightlossOriginalCheckout";
 import RelatiiOriginalHome from "./pages/RelatiiOriginalHome";
+import RelatiiOriginalProduct from "./pages/RelatiiOriginalProduct";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -53,6 +54,8 @@ function Router() {
       <Route path={"/oferte/weightloss"} component={WeightlossOriginalSales} />
       <Route path={"/oferte/weightloss/comanda"} component={WeightlossOriginalCheckout} />
       <Route path={"/oferte/relatii"} component={RelatiiOriginalHome} />
+      <Route path={"/oferte/relatii/pentru-el"}>{() => <RelatiiOriginalProduct audience="barbati" />}</Route>
+      <Route path={"/oferte/relatii/pentru-ea"}>{() => <RelatiiOriginalProduct audience="femei" />}</Route>
       <Route path={"/oferte/vraji/stai"} component={VrajiOriginalPost} />
       <Route path={"/oferte/vraji/pas/2"} component={VrajiOriginalPost} />
       <Route path={"/oferte/:slug"} component={OfferMigrating} />

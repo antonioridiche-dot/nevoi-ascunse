@@ -1,7 +1,5 @@
-// @ts-nocheck
-import { SiteFooter } from "@/components/SiteFooter";
-import { CHECKOUT_PRICES, normalizeCheckoutEmail, OfferVariant, formatCheckoutPrice } from "@/lib/checkout";
-import { BOOKS, MAIN_PRODUCT_POST_PAYMENT_ROUTE, type Audience } from "@/lib/funnel";
+import { SiteFooter } from "./RelatiiSiteFooter";
+import { BOOKS, MAIN_PRODUCT_POST_PAYMENT_ROUTE, type Audience } from "@/flows/relatiiFunnelSource";
 import { trpc } from "@/lib/trpc";
 import { CardCvcElement, CardExpiryElement, CardNumberElement, Elements, useElements, useStripe } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
@@ -9,8 +7,13 @@ import { Check, ChevronDown, CircleHelp, LockKeyhole, MoveDown, ShieldCheck, Tag
 import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "wouter";
 import { toast } from "sonner";
+import "./relatii-original.css";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
+const CHECKOUT_PRICES = { RON: { reference: 200, promo: 67, exit: 47 } } as const;
+type OfferVariant = "promo67" | "exit20";
+const formatCheckoutPrice = (_currency: "RON", amount: number) =>
+  new Intl.NumberFormat("ro-RO", { style: "currency", currency: "RON", maximumFractionDigits: 0 }).format(amount);
 const stripeElementOptions = {
   style: {
     base: { color: "#181512", fontFamily: "inherit", fontSize: "16px", "::placeholder": { color: "#7f746a" } },
@@ -52,7 +55,7 @@ export default function ProductPage({ audience }: { audience: Audience }) {
 
   return (
     <main className={`book-page ${book.accent}`}>
-      <header className="site-header"><Link href="/" className="brand-lockup"><span className="brand-mark" aria-hidden="true" /><span>Dicționarul<br />Relațiilor</span></Link><button onClick={goToCheckout} className="header-cta">Adaugă în coș <MoveDown size={15} /></button></header>
+      <header className="site-header"><Link href="/oferte/relatii" className="brand-lockup"><span className="brand-mark" aria-hidden="true" /><span>Dicționarul<br />Relațiilor</span></Link><button onClick={goToCheckout} className="header-cta">Adaugă în coș <MoveDown size={15} /></button></header>
       <section className="product-hero"><aside className="reading-rail"><span>Volum digital</span><span>Promoție</span><span>Română</span></aside><div className="product-hero-copy"><p className="eyebrow">{book.eyebrow}</p><h1>{book.strapline}<br /><em>Începe să observi mai clar.</em></h1><p className="lead-copy">{book.subtitle}</p><div className="hero-actions"><button className="primary-button" onClick={goToCheckout}>Adaugă {book.title} în coș <span>{formatCheckoutPrice("RON", price)}</span></button><a href="#continut" className="text-link">Vezi ce conține <ChevronDown size={16} /></a></div><p className="quiet-note"><ShieldCheck size={16} /> Ghid educațional, cu accent pe comunicare, consimțământ și respect reciproc.</p></div><div className="book-stage"><div className="book-glow" /><img src={book.image} alt={`Coperta ${book.title}`} /></div></section>
       <section className="signal-section"><div className="signal-bracket">„</div><p>{book.signal}</p><div className="signal-bracket end">”</div></section>
       <section className="what-section" id="continut"><div className="section-kicker"><span>01</span><p>Un vocabular mai bun pentru relațiile care contează.</p></div><div className="what-grid"><h2>Nu este o carte despre „trucuri”.<br /><em>Este o hartă pentru conversații mai curate.</em></h2><div className="outcome-list">{book.outcomes.map(item => <p key={item}><Check size={18} />{item}</p>)}</div></div></section>
@@ -70,51 +73,31 @@ function StripeCheckoutForm({ audience, book, initialEmail, offer, price, refere
   const stripe = useStripe();
   const elements = useElements();
   const [email, setEmail] = useState(initialEmail);
-  const [checkoutSessionId, setCheckoutSessionId] = useState<number | null>(null);
-  const paymentConfirmed = useRef(false);
-  const captureCheckout = trpc.marketing.captureCheckout.useMutation();
-  const updateCheckout = trpc.marketing.updateCheckout.useMutation();
-  const preparePayment = trpc.payments.prepare.useMutation();
-  const isPaying = captureCheckout.isPending || preparePayment.isPending;
-
-  useEffect(() => {
-    const markAbandoned = () => {
-      if (!paymentConfirmed.current && checkoutSessionId) updateCheckout.mutate({ id: checkoutSessionId, status: "abandoned" });
-    };
-    window.addEventListener("pagehide", markAbandoned);
-    return () => window.removeEventListener("pagehide", markAbandoned);
-  }, [checkoutSessionId, updateCheckout]);
+  const preparePayment = trpc.relatii.checkout.prepare.useMutation();
+  const confirmPayment = trpc.relatii.checkout.confirm.useMutation();
+  const isPaying = preparePayment.isPending || confirmPayment.isPending;
 
   const pay = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const normalized = normalizeCheckoutEmail(email);
+    const normalized = email.trim().toLowerCase();
     if (!normalized) return toast.error("Introdu o adresă de e-mail validă înainte de plată.");
     if (!stripe || !elements) return toast.error("Câmpurile securizate pentru card se încarcă. Încearcă din nou în câteva secunde.");
     const card = elements.getElement(CardNumberElement);
     if (!card) return toast.error("Numărul cardului nu este încă disponibil. Reîncarcă pagina și încearcă din nou.");
     try {
-      let sessionId = checkoutSessionId;
-      if (!sessionId) {
-        const affiliateCode = window.localStorage.getItem("affiliate-code") || undefined;
-        const captured = await captureCheckout.mutateAsync({ email: normalized, productKey: book.handle, audience, offerCode: offer, currency: "RON", affiliateCode });
-        sessionId = captured.id;
-        setCheckoutSessionId(sessionId);
-        window.localStorage.setItem("checkout-email", normalized);
-        window.localStorage.setItem("checkout-session-id", String(sessionId));
-        await updateCheckout.mutateAsync({ id: sessionId, status: "cart_added" });
-      }
-      const prepared = await preparePayment.mutateAsync({ checkoutSessionId: sessionId, productKey: book.handle as "dictionarul-femeilor" | "dictionarul-barbatilor", audience, email: normalized, offerCode: offer, affiliateCode: window.localStorage.getItem("affiliate-code") || undefined });
+      const prepared = await preparePayment.mutateAsync({ productKey: book.handle as "dictionarul-femeilor" | "dictionarul-barbatilor", audience, email: normalized, offerCode: offer, affiliateCode: window.localStorage.getItem("affiliate-code") || undefined });
+      window.localStorage.setItem("checkout-email", normalized);
       const confirmation = await stripe.confirmCardPayment(prepared.clientSecret, { payment_method: { card, billing_details: { email: normalized } } });
       if (confirmation.error) return toast.error(confirmation.error.message ?? "Plata nu a putut fi confirmată. Verifică datele cardului și încearcă din nou.");
       if (confirmation.paymentIntent?.status === "succeeded") {
-        paymentConfirmed.current = true;
+        const completed = await confirmPayment.mutateAsync({ checkoutToken: prepared.checkoutToken, paymentIntentId: confirmation.paymentIntent.id });
         toast.success("Plata a fost confirmată. Pregătim accesul tău securizat.");
-        window.location.assign(`${MAIN_PRODUCT_POST_PAYMENT_ROUTE}?orderId=${prepared.orderId}`);
+        window.location.assign(`${MAIN_PRODUCT_POST_PAYMENT_ROUTE}?orderId=${completed.orderId}`);
       }
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Nu am putut pregăti plata. Încearcă din nou.");
     }
   };
 
-  return <form className="checkout-form" onSubmit={pay}><div className="form-title"><span>Plată securizată</span><p>{book.title}</p></div><div className="order-summary"><div className="promo-line"><Tag size={15} /><span>Cod promoțional aplicat: <strong>RELAȚII67</strong></span></div><span className="strikethrough">{formatCheckoutPrice("RON", referencePrice)}</span><strong>{formatCheckoutPrice("RON", price)}</strong><p>Economisești {formatCheckoutPrice("RON", discount)}. Prețul este calculat și validat server-side înainte de plată.</p></div><label className="checkout-field">Adresa de e-mail<input required type="email" autoComplete="email" inputMode="email" value={email} onChange={event => { setEmail(event.target.value); setCheckoutSessionId(null); }} placeholder="nume@exemplu.ro" /></label><label className="checkout-field">Numărul cardului<span className="stripe-card-field"><CardNumberElement options={stripeElementOptions} /></span></label><div className="card-details-row"><label className="checkout-field">Expirare<span className="stripe-card-field"><CardExpiryElement options={stripeElementOptions} /></span></label><label className="checkout-field">CVC<span className="stripe-card-field"><CardCvcElement options={stripeElementOptions} /></span></label></div><button className="primary-button w-full" type="submit" disabled={isPaying}>{isPaying ? "Procesăm plata…" : `Plătește ${formatCheckoutPrice("RON", price)}`}</button><p className="form-footnote">După plata confirmată, primești pe acest e-mail accesul securizat la bibliotecă. Nu colectăm nume sau dată de naștere pentru acest checkout.</p></form>;
+  return <form className="checkout-form" onSubmit={pay}><div className="form-title"><span>Plată securizată</span><p>{book.title}</p></div><div className="order-summary"><div className="promo-line"><Tag size={15} /><span>Cod promoțional aplicat: <strong>RELAȚII67</strong></span></div><span className="strikethrough">{formatCheckoutPrice("RON", referencePrice)}</span><strong>{formatCheckoutPrice("RON", price)}</strong><p>Economisești {formatCheckoutPrice("RON", discount)}. Prețul este calculat și validat server-side înainte de plată.</p></div><label className="checkout-field">Adresa de e-mail<input required type="email" autoComplete="email" inputMode="email" value={email} onChange={event => setEmail(event.target.value)} placeholder="nume@exemplu.ro" /></label><label className="checkout-field">Numărul cardului<span className="stripe-card-field"><CardNumberElement options={stripeElementOptions} /></span></label><div className="card-details-row"><label className="checkout-field">Expirare<span className="stripe-card-field"><CardExpiryElement options={stripeElementOptions} /></span></label><label className="checkout-field">CVC<span className="stripe-card-field"><CardCvcElement options={stripeElementOptions} /></span></label></div><button className="primary-button w-full" type="submit" disabled={isPaying}>{isPaying ? "Procesăm plata…" : `Plătește ${formatCheckoutPrice("RON", price)}`}</button><p className="form-footnote">După plata confirmată, primești pe acest e-mail accesul securizat la bibliotecă. Nu colectăm nume sau dată de naștere pentru acest checkout.</p></form>;
 }

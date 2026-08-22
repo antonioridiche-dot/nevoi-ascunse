@@ -22,4 +22,12 @@ describe("brand registry", () => {
   it("finds the confirmed Familie protejată route", () => {
     expect(findBrandByRoute("/oferte/familieprotejata")?.sourceRepo).toBe("survival");
   });
+
+  it("routes Vrăji to the active source-fidelity page", () => {
+    const vraji = brandCatalog.find((brand) => brand.key === "vraji");
+
+    expect(vraji?.routeBase).toBe("/oferte/vraji");
+    expect(vraji?.displayName).toBe("Vrăji");
+    expect(findBrandByRoute("/oferte/vrajii")).toBeUndefined();
+  });
 });
