@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1787418339126,
+      "tag": "0000_sweet_nick_fury",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1787419634274,
+      "tag": "0001_fresh_triathlon",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1787419724226,
+      "tag": "0002_ancient_proteus",
+      "breakpoints": true
+    }
+  ]
+}

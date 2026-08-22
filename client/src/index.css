@@ -43,39 +43,39 @@
 }
 
 :root {
-  --primary: var(--color-blue-700);
-  --primary-foreground: var(--color-blue-50);
-  --sidebar-primary: var(--color-blue-600);
-  --sidebar-primary-foreground: var(--color-blue-50);
-  --chart-1: var(--color-blue-300);
-  --chart-2: var(--color-blue-500);
-  --chart-3: var(--color-blue-600);
-  --chart-4: var(--color-blue-700);
-  --chart-5: var(--color-blue-800);
-  --radius: 0.65rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.235 0.015 65);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.235 0.015 65);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.235 0.015 65);
-  --secondary: oklch(0.98 0.001 286.375);
-  --secondary-foreground: oklch(0.4 0.015 65);
-  --muted: oklch(0.967 0.001 286.375);
-  --muted-foreground: oklch(0.552 0.016 285.938);
-  --accent: oklch(0.967 0.001 286.375);
-  --accent-foreground: oklch(0.141 0.005 285.823);
+  --primary: oklch(0.5 0.14 31);
+  --primary-foreground: oklch(0.98 0.01 70);
+  --sidebar-primary: oklch(0.5 0.14 31);
+  --sidebar-primary-foreground: oklch(0.98 0.01 70);
+  --chart-1: oklch(0.66 0.14 31);
+  --chart-2: oklch(0.57 0.08 150);
+  --chart-3: oklch(0.51 0.08 255);
+  --chart-4: oklch(0.72 0.12 72);
+  --chart-5: oklch(0.32 0.02 70);
+  --radius: 0.85rem;
+  --background: oklch(0.95 0.017 75);
+  --foreground: oklch(0.24 0.012 74);
+  --card: oklch(0.975 0.01 75);
+  --card-foreground: oklch(0.24 0.012 74);
+  --popover: oklch(0.975 0.01 75);
+  --popover-foreground: oklch(0.24 0.012 74);
+  --secondary: oklch(0.9 0.02 75);
+  --secondary-foreground: oklch(0.36 0.015 74);
+  --muted: oklch(0.91 0.016 75);
+  --muted-foreground: oklch(0.52 0.019 74);
+  --accent: oklch(0.9 0.02 75);
+  --accent-foreground: oklch(0.24 0.012 74);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(0.92 0.004 286.32);
-  --input: oklch(0.92 0.004 286.32);
-  --ring: oklch(0.623 0.214 259.815);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.235 0.015 65);
-  --sidebar-accent: oklch(0.967 0.001 286.375);
-  --sidebar-accent-foreground: oklch(0.141 0.005 285.823);
-  --sidebar-border: oklch(0.92 0.004 286.32);
-  --sidebar-ring: oklch(0.623 0.214 259.815);
+  --border: oklch(0.83 0.022 75);
+  --input: oklch(0.83 0.022 75);
+  --ring: oklch(0.5 0.14 31);
+  --sidebar: oklch(0.95 0.017 75);
+  --sidebar-foreground: oklch(0.24 0.012 74);
+  --sidebar-accent: oklch(0.9 0.02 75);
+  --sidebar-accent-foreground: oklch(0.24 0.012 74);
+  --sidebar-border: oklch(0.83 0.022 75);
+  --sidebar-ring: oklch(0.5 0.14 31);
 }
 
 .dark {
@@ -119,6 +119,8 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: "Manrope", sans-serif;
+    background-image: radial-gradient(circle at 0% 0%, rgb(255 255 255 / 46%), transparent 27rem), radial-gradient(circle at 100% 40%, rgb(185 145 90 / 9%), transparent 28rem);
   }
   button:not(:disabled),
   [role="button"]:not([aria-disabled="true"]),
@@ -160,6 +162,39 @@
     min-width: 0;
   }
 
+  .font-display {
+    font-family: "DM Serif Display", Georgia, serif;
+  }
+
+  .catalog-eyebrow {
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    color: #766d62;
+  }
+
+  .catalog-mark {
+    position: relative;
+    width: 3.25rem;
+    height: 3.25rem;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .catalog-mark span {
+    position: absolute;
+    display: block;
+    height: 1.45rem;
+    width: 1.45rem;
+    border: 2px solid currentColor;
+    border-radius: 100% 15% 100% 15%;
+    transform: rotate(45deg);
+  }
+
+  .catalog-mark span:nth-child(1) { transform: translate(-0.55rem, -0.55rem) rotate(45deg); }
+  .catalog-mark span:nth-child(2) { transform: translate(0.55rem, 0.55rem) rotate(45deg); }
+  .catalog-mark span:nth-child(3) { height: .45rem; width: .45rem; border-radius: 999px; transform: rotate(0deg); background: currentColor; }
+
   @media (min-width: 640px) {
     .container {
       padding-left: 1.5rem; /* 24px - tablet padding */
@@ -173,5 +208,34 @@
       padding-right: 2rem;
       max-width: 1280px; /* Standard content width */
     }
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .catalog-card { animation: catalog-card-enter .5s cubic-bezier(0.23, 1, 0.32, 1) both; }
+  .catalog-card:nth-child(2n) { animation-delay: .05s; }
+  .catalog-card:nth-child(3n) { animation-delay: .1s; }
+}
+
+@keyframes catalog-card-enter {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (min-width: 640px) {
+  .catalog-card:nth-child(7n + 1) {
+    grid-column: span 2;
+  }
+
+  .catalog-card:nth-child(7n + 1) .catalog-art {
+    aspect-ratio: 2.1 / 1;
+  }
+
+  .catalog-card:nth-child(7n + 4) {
+    margin-top: 3.5rem;
+  }
+
+  .catalog-card:nth-child(7n + 6) .catalog-art {
+    aspect-ratio: .88 / 1;
   }
 }

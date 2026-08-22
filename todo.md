@@ -1,0 +1,31 @@
+# Listă de lucru
+
+- [x] Identifică repository-urile GitHub pentru ofertele enumerate și proiectele din Music Tracks.
+- [x] Inventariază titlurile, paginile FE disponibile, tehnologiile și eventualele URL-uri live.
+- [ ] Confirmă traseul final unic al fiecărei oferte din catalog, după rezolvarea repository-urilor duplicate.
+- [x] Implementează catalogul principal cu oferte reale, categorii și navigare funcțională.
+- [ ] Verifică afișarea responsivă și livrabilele înainte de publicare.
+- [x] Inventariază pentru fiecare repository eligibil paginile FE, upsell, downsell, thank-you, dashboard și automatizările de e-mail.
+- [ ] Exclude explicit proiectele tevreauinapoi, GrowOrPay și parinte-de-succes din migrare prin allowlist verificabil.
+- [x] Mapează rutele consolidate, inclusiv /oferte/familieprotejata pentru fluxul Survival și /oferte/relatii pentru Dicționarul relațiilor.
+- [ ] Unifică modelele de produse, comenzi, acces client și declanșatoarele de e-mail fără pierderea fluxurilor existente.
+- [ ] Testează separat fiecare traseu de cumpărare și post-cumpărare înainte de lansare.
+- [x] Extinde proiectul cu backend, bază de date, autentificare și infrastructură de plată pentru migrare.
+- [x] Verifică disponibilitatea webhook-urilor pentru confirmări de plată și evenimente de e-mail.
+- [x] Inventariază pestedespartire, numerology, weight-los-manifest, soulmate-sketch, linia-palmelor, cafeea și visul-meu.
+- [x] Inventariază survival, directia-abundentei, armonii-bine, iubire, liniste-audio și calendarul-norocului.
+- [x] Inventariază dic-ionarul-rela-iilor, dictionarulrelatiilor, secretul-zodiei, tarot, romanian-weightloss-funnel, vraji-spells-store și prieteni-cu-beneficii.
+- [ ] Exclude din migrare orice repository care nu apare în lista explicită confirmată de utilizator.
+- [x] Modelează branduri autonome pe aceeași platformă, cu identitate și notificări separate pentru fiecare ofertă.
+- [ ] Păstrează pentru fiecare brand trackingul, etichetele de marketing, evenimentele de comandă și automatizările specifice.
+- [ ] Configurează expeditori individuali pe domeniul nevoi-ascunse.ro pentru comunicarea tranzacțională și de anunțuri a fiecărui brand.
+- [x] Inițializează o bază de date nouă, fără import de date istorice, cu drepturile și tipurile de date necesare pentru fluxurile migrate.
+- [x] Creează și validează schema comună pentru branduri, produse, funneluri, tracking, acces, e-mail și afiliere.
+- [x] Migrează paginile publice Tarot: quiz, checkout Stripe, oferte post-cumpărare și thank-you.
+- [x] Finalizează accesul protejat al bibliotecii Tarot prin link privat și sesiune de dispozitiv.
+- [ ] Adaugă conținutul livrabil al bibliotecii Tarot după selectarea materialelor de produs.
+- [ ] Configurează identitatea expeditorului Mara Tarot și validează livrarea e-mailului tranzacțional prin Resend.
+- [x] Conectează serverul la cheia Resend deja configurată pentru expedierea per brand.
+- [ ] Creează o allowlist unică a repository-urilor aprobate și rezolvă versiunile duplicate înainte de migrarea următoarelor fluxuri.
+- [ ] Aplică allowlist-ul în instrumentul de inventariere/migrare, astfel încât repository-urile neaprobate să fie blocate tehnic.
+- [ ] Decide și documentează dacă weight-los-manifest și romanian-weightloss-funnel sunt două branduri distincte sau o singură ofertă consolidată.
