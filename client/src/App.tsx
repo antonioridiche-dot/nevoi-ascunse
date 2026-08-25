@@ -38,6 +38,7 @@ import RelatiiOriginalAffiliate from "./pages/RelatiiOriginalAffiliate";
 import RelatiiOriginalAdmin from "./pages/RelatiiOriginalAdmin";
 import RelatiiOriginalLegal from "./pages/RelatiiOriginalLegal";
 import RelatiiOriginalFunnelMap from "./pages/RelatiiOriginalFunnelMap";
+import CalendarLuckyPreview from "./pages/CalendarLuckyPreview";
 
 export const CATALOG_ROUTE = "/oferte";
 export function directPathFromLegacyOffer(location: string) { return location.replace(/^\/oferte/, "") || CATALOG_ROUTE; }
@@ -110,6 +111,7 @@ export function AppRouter() {
       <Route path={"/relatii/legal/rambursari"}>{() => <RelatiiOriginalLegal page="rambursari" />}</Route>
       <Route path={"/relatii/legal/contact"}>{() => <RelatiiOriginalLegal page="contact" />}</Route>
       <Route path={"/relatii/funnel-dictionarul-barbatilor"} component={RelatiiOriginalFunnelMap} />
+      <Route path={"/calendarul-norocului"} component={CalendarLuckyPreview} />
       <Route path={"/oferte/*"} component={LegacyOfferRedirect} />
       <Route path={"/oferte/:brand"} component={LegacyOfferRedirect} />
       <Route path={"/:slug"} component={OfferMigrating} />

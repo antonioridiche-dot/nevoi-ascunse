@@ -13,7 +13,7 @@
 | Armonii & Bine | `armonii-bine` | `/armonii-bine` | Source checkout in repository | Not ported | Copy Home, Confirmation, Admin, checkout and audio/PDF access contract |
 | Iubire | `iubire` | `/iubire` | Source checkout in repository | Not ported | Copy Home, Checkout, ThankYou, Library, transactional delivery |
 | Liniște Audio | `liniste-audio` | `/liniste-audio` | Source checkout in repository | Not ported | Copy Quiz, Checkout, Upsell, ThankYou, Recovery, Legal and audio access |
-| Calendarul norocului | `calendarul-norocului` | `/calendarul-norocului` | Repository-specific personalized flow | Not ported | Copy Home and source calendar/personalization and campaign behavior |
+| Calendarul norocului | `calendarul-norocului` | `/calendarul-norocului` | Repository-specific personalized flow | Preview active, partial | Ruta directă include hero-ul și formularul de personalizare cu calculul sursă al zodiei/numărului personal; calendarul complet, trackingul, checkout-ul multi-monedă, one-click, thank-you și campaniile rămân de portat |
 | Peste despărțire | `pestedespartire` | `/peste-despartire` | Source checkout in repository | Not ported | Copy Sales, female sales, quiz, offers, checkout, thank-you, legal |
 | Numerologie | `numerology` | `/numerologie` | Source checkout in repository | Not ported | Copy Home, Checkout, Report, Affiliate, Legal |
 | Soulmate Sketch | `soulmate-sketch` | `/soulmate-sketch` | Repository-specific capture/checkout flow | Not ported | Copy complete source application and delivery route |
