@@ -17,6 +17,7 @@ import { confirmRelatiiPayment, decideRelatiiOffer, getRelatiiOrder, prepareRela
 import { redeemRelatiiAccessLink, requestRelatiiRecovery } from "./access/relatiiAccess";
 import { authenticateRelatiiAffiliate, createRelatiiAffiliate, getRelatiiAffiliateStats, trackRelatiiAffiliateClick } from "./commerce/relatiiAffiliateService";
 import { getRelatiiAdminSnapshot } from "./commerce/relatiiAdminService";
+import { confirmArmoniiIntent, createArmoniiIntent, getArmoniiDownloads } from "./commerce/armoniiService";
 
 export const appRouter = router({
     // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
@@ -90,6 +91,13 @@ export const appRouter = router({
     library: router({
       requestAccess: publicProcedure.input(z.object({ email: z.string().trim().email().max(320) })).mutation(({ input, ctx }) => requestVrajiLibraryAccess({ email: input.email, origin: ctx.req.headers.origin ?? `${ctx.req.protocol}://${ctx.req.get("host")}` })),
       get: publicProcedure.input(z.object({ accessToken: z.string().trim().min(30).max(200).nullable().optional() })).query(({ input }) => getVrajiLibrary(input.accessToken)),
+    }),
+  }),
+  armonii: router({
+    checkout: router({
+      createIntent: publicProcedure.input(z.object({ email: z.string().trim().email().max(320), name: z.string().trim().max(160).optional() })).mutation(({ input }) => createArmoniiIntent(input)),
+      confirm: publicProcedure.input(z.object({ checkoutToken: z.string().min(20).max(96), paymentIntentId: z.string().startsWith("pi_") })).mutation(({ input }) => confirmArmoniiIntent(input)),
+      downloads: publicProcedure.input(z.object({ access: z.string().min(30).max(200) })).query(({ input }) => getArmoniiDownloads(input.access)),
     }),
   }),
   calendar: router({
