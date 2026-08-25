@@ -50,4 +50,8 @@ describe("direct catalog routing contract", () => {
     expect(html).toContain("CALENDARUL");
     expect(html).toContain("Introdu data ta");
   });
+
+  it("renders Iubire thank-you at its direct route", () => {
+    expect(renderRoute("/iubire/multumesc")).toContain("Bine ai venit în spațiul tău pentru iubire");
+  });
 });
