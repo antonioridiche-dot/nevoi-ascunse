@@ -1,7 +1,8 @@
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
-import { Route, Switch } from "wouter";
+import React from "react";
+import { Redirect, Route, Switch, useLocation } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
@@ -36,66 +37,78 @@ import RelatiiOriginalAdmin from "./pages/RelatiiOriginalAdmin";
 import RelatiiOriginalLegal from "./pages/RelatiiOriginalLegal";
 import RelatiiOriginalFunnelMap from "./pages/RelatiiOriginalFunnelMap";
 
-function Router() {
+export const CATALOG_ROUTE = "/oferte";
+export function directPathFromLegacyOffer(location: string) { return location.replace(/^\/oferte/, "") || CATALOG_ROUTE; }
+export function usesDirectOfferFallback(location: string) { return /^\/[a-z0-9-]+$/.test(location) && location !== CATALOG_ROUTE; }
+
+function LegacyOfferRedirect() {
+  const [location] = useLocation();
+  return <Redirect to={directPathFromLegacyOffer(location)} replace />;
+}
+
+export function AppRouter() {
   // make sure to consider if you need authentication for certain routes
   return (
     <Switch>
       <Route path={"/"} component={Home} />
-      <Route path={"/oferte/tarot"} component={TarotOriginalHome} />
-      <Route path={"/oferte/tarot/citire"} component={TarotOriginalCheckout} />
-      <Route path={"/oferte/tarot/asteapta"}>{() => <TarotOriginalPostPurchase productCode="numerology" />}</Route>
-      <Route path={"/oferte/tarot/aproapegata"}>{() => <TarotOriginalPostPurchase productCode="portrait" />}</Route>
-      <Route path={"/oferte/tarot/stai"}>{() => <TarotOriginalPostPurchase productCode="palm" />}</Route>
-      <Route path={"/oferte/tarot/multumesc"} component={TarotOriginalThankYou} />
-      <Route path={"/oferte/tarot/acces"} component={TarotAccess} />
-      <Route path={"/oferte/tarot/dashboard"} component={TarotOriginalDashboard} />
-      <Route path={"/oferte/familieprotejata"} component={FamilyOriginalHome} />
-      <Route path={"/oferte/familieprotejata/oto1"}>{() => <FamilyOfferPage step="oto1" />}</Route>
-      <Route path={"/oferte/familieprotejata/ds1"}>{() => <FamilyOfferPage step="ds1" />}</Route>
-      <Route path={"/oferte/familieprotejata/ds2"}>{() => <FamilyOfferPage step="ds2" />}</Route>
-      <Route path={"/oferte/familieprotejata/thank-you"} component={FamilyThankYouPage} />
-      <Route path={"/oferte/familieprotejata/dashboard"} component={FamilyOriginalDashboard} />
-      <Route path={"/oferte/prieteni-cu-beneficii"} component={PbcHome} />
-      <Route path={"/oferte/prieteni-cu-beneficii/oferta-speciala"}>{() => <PbcOffer stage="upsellOne" />}</Route>
-      <Route path={"/oferte/prieteni-cu-beneficii/oferta-redusa"}>{() => <PbcOffer stage="downsell" />}</Route>
-      <Route path={"/oferte/prieteni-cu-beneficii/program-avansat"}>{() => <PbcOffer stage="upsellTwo" />}</Route>
-      <Route path={"/oferte/prieteni-cu-beneficii/checkout"} component={PbcCheckout} />
-      <Route path={"/oferte/prieteni-cu-beneficii/multumim"} component={PbcThankYou} />
-      <Route path={"/oferte/vraji/pas/1"} component={VrajiOriginalPost} />
-      <Route path={"/oferte/vraji"} component={VrajiOriginalHome} />
-      <Route path={"/oferte/weightloss"} component={WeightlossOriginalSales} />
-      <Route path={"/oferte/weightloss/comanda"} component={WeightlossOriginalCheckout} />
-      <Route path={"/oferte/weightloss/oferta/retete"}>{() => <WeightlossOriginalUpsell slug="retete" />}</Route>
-      <Route path={"/oferte/weightloss/oferta/miscare"}>{() => <WeightlossOriginalUpsell slug="miscare" />}</Route>
-      <Route path={"/oferte/weightloss/oferta/longevitate"}>{() => <WeightlossOriginalUpsell slug="longevitate" />}</Route>
-      <Route path={"/oferte/weightloss/multumim"} component={WeightlossOriginalThankYou} />
-      <Route path={"/oferte/weightloss/confidentialitate"}>{() => <WeightlossOriginalLegal page="confidentialitate" />}</Route>
-      <Route path={"/oferte/weightloss/termeni"}>{() => <WeightlossOriginalLegal page="termeni" />}</Route>
-      <Route path={"/oferte/weightloss/declaratie"}>{() => <WeightlossOriginalLegal page="declaratie" />}</Route>
-      <Route path={"/oferte/weightloss/afiliati"} component={WeightlossOriginalAffiliate} />
-      <Route path={"/oferte/weightloss/admin"} component={WeightlossOriginalAdmin} />
-      <Route path={"/oferte/relatii"} component={RelatiiOriginalHome} />
-      <Route path={"/oferte/relatii/pentru-el"}>{() => <RelatiiOriginalProduct audience="barbati" />}</Route>
-      <Route path={"/oferte/relatii/pentru-ea"}>{() => <RelatiiOriginalProduct audience="femei" />}</Route>
-      <Route path={"/oferte/relatii/oferta/conversatii-jucause"}>{() => <RelatiiOriginalOffer offerId="conversatii-jucause" />}</Route>
-      <Route path={"/oferte/relatii/oferta/downsell-conversatii"}>{() => <RelatiiOriginalOffer offerId="downsell-conversatii" />}</Route>
-      <Route path={"/oferte/relatii/oferta/downsell-claritate"}>{() => <RelatiiOriginalOffer offerId="downsell-claritate" />}</Route>
-      <Route path={"/oferte/relatii/oferta/downsell-mesaj"}>{() => <RelatiiOriginalOffer offerId="downsell-mesaj" />}</Route>
-      <Route path={"/oferte/relatii/oferta/friendzone"}>{() => <RelatiiOriginalOffer offerId="friendzone" />}</Route>
-      <Route path={"/oferte/relatii/oferta/downsell-friendzone"}>{() => <RelatiiOriginalOffer offerId="downsell-friendzone" />}</Route>
-      <Route path={"/oferte/relatii/oferta/conexiune-incredere"}>{() => <RelatiiOriginalOffer offerId="conexiune-incredere" />}</Route>
-      <Route path={"/oferte/relatii/multumesc"} component={RelatiiOriginalThankYou} />
-      <Route path={"/oferte/relatii/biblioteca"} component={RelatiiOriginalLibrary} />
-      <Route path={"/oferte/relatii/afiliere"} component={RelatiiOriginalAffiliate} />
-      <Route path={"/oferte/relatii/admin"} component={RelatiiOriginalAdmin} />
-      <Route path={"/oferte/relatii/legal/confidentialitate"}>{() => <RelatiiOriginalLegal page="confidentialitate" />}</Route>
-      <Route path={"/oferte/relatii/legal/termeni"}>{() => <RelatiiOriginalLegal page="termeni" />}</Route>
-      <Route path={"/oferte/relatii/legal/rambursari"}>{() => <RelatiiOriginalLegal page="rambursari" />}</Route>
-      <Route path={"/oferte/relatii/legal/contact"}>{() => <RelatiiOriginalLegal page="contact" />}</Route>
-      <Route path={"/oferte/relatii/funnel-dictionarul-barbatilor"} component={RelatiiOriginalFunnelMap} />
-      <Route path={"/oferte/vraji/stai"} component={VrajiOriginalPost} />
-      <Route path={"/oferte/vraji/pas/2"} component={VrajiOriginalPost} />
-      <Route path={"/oferte/:slug"} component={OfferMigrating} />
+      <Route path={CATALOG_ROUTE} component={Home} />
+      <Route path={"/tarot"} component={TarotOriginalHome} />
+      <Route path={"/tarot/citire"} component={TarotOriginalCheckout} />
+      <Route path={"/tarot/asteapta"}>{() => <TarotOriginalPostPurchase productCode="numerology" />}</Route>
+      <Route path={"/tarot/aproapegata"}>{() => <TarotOriginalPostPurchase productCode="portrait" />}</Route>
+      <Route path={"/tarot/stai"}>{() => <TarotOriginalPostPurchase productCode="palm" />}</Route>
+      <Route path={"/tarot/multumesc"} component={TarotOriginalThankYou} />
+      <Route path={"/tarot/acces"} component={TarotAccess} />
+      <Route path={"/tarot/dashboard"} component={TarotOriginalDashboard} />
+      <Route path={"/familieprotejata"} component={FamilyOriginalHome} />
+      <Route path={"/familieprotejata/oto1"}>{() => <FamilyOfferPage step="oto1" />}</Route>
+      <Route path={"/familieprotejata/ds1"}>{() => <FamilyOfferPage step="ds1" />}</Route>
+      <Route path={"/familieprotejata/ds2"}>{() => <FamilyOfferPage step="ds2" />}</Route>
+      <Route path={"/familieprotejata/thank-you"} component={FamilyThankYouPage} />
+      <Route path={"/familieprotejata/dashboard"} component={FamilyOriginalDashboard} />
+      <Route path={"/prieteni-cu-beneficii"} component={PbcHome} />
+      <Route path={"/prieteni-cu-beneficii/oferta-speciala"}>{() => <PbcOffer stage="upsellOne" />}</Route>
+      <Route path={"/prieteni-cu-beneficii/oferta-redusa"}>{() => <PbcOffer stage="downsell" />}</Route>
+      <Route path={"/prieteni-cu-beneficii/program-avansat"}>{() => <PbcOffer stage="upsellTwo" />}</Route>
+      <Route path={"/prieteni-cu-beneficii/checkout"} component={PbcCheckout} />
+      <Route path={"/prieteni-cu-beneficii/multumim"} component={PbcThankYou} />
+      <Route path={"/vraji/pas/1"} component={VrajiOriginalPost} />
+      <Route path={"/vraji/stai"} component={VrajiOriginalPost} />
+      <Route path={"/vraji/pas/2"} component={VrajiOriginalPost} />
+      <Route path={"/vraji"} component={VrajiOriginalHome} />
+      <Route path={"/weightloss"} component={WeightlossOriginalSales} />
+      <Route path={"/weightloss/comanda"} component={WeightlossOriginalCheckout} />
+      <Route path={"/weightloss/oferta/retete"}>{() => <WeightlossOriginalUpsell slug="retete" />}</Route>
+      <Route path={"/weightloss/oferta/miscare"}>{() => <WeightlossOriginalUpsell slug="miscare" />}</Route>
+      <Route path={"/weightloss/oferta/longevitate"}>{() => <WeightlossOriginalUpsell slug="longevitate" />}</Route>
+      <Route path={"/weightloss/multumim"} component={WeightlossOriginalThankYou} />
+      <Route path={"/weightloss/confidentialitate"}>{() => <WeightlossOriginalLegal page="confidentialitate" />}</Route>
+      <Route path={"/weightloss/termeni"}>{() => <WeightlossOriginalLegal page="termeni" />}</Route>
+      <Route path={"/weightloss/declaratie"}>{() => <WeightlossOriginalLegal page="declaratie" />}</Route>
+      <Route path={"/weightloss/afiliati"} component={WeightlossOriginalAffiliate} />
+      <Route path={"/weightloss/admin"} component={WeightlossOriginalAdmin} />
+      <Route path={"/relatii"} component={RelatiiOriginalHome} />
+      <Route path={"/relatii/pentru-el"}>{() => <RelatiiOriginalProduct audience="barbati" />}</Route>
+      <Route path={"/relatii/pentru-ea"}>{() => <RelatiiOriginalProduct audience="femei" />}</Route>
+      <Route path={"/relatii/oferta/conversatii-jucause"}>{() => <RelatiiOriginalOffer offerId="conversatii-jucause" />}</Route>
+      <Route path={"/relatii/oferta/downsell-conversatii"}>{() => <RelatiiOriginalOffer offerId="downsell-conversatii" />}</Route>
+      <Route path={"/relatii/oferta/downsell-claritate"}>{() => <RelatiiOriginalOffer offerId="downsell-claritate" />}</Route>
+      <Route path={"/relatii/oferta/downsell-mesaj"}>{() => <RelatiiOriginalOffer offerId="downsell-mesaj" />}</Route>
+      <Route path={"/relatii/oferta/friendzone"}>{() => <RelatiiOriginalOffer offerId="friendzone" />}</Route>
+      <Route path={"/relatii/oferta/downsell-friendzone"}>{() => <RelatiiOriginalOffer offerId="downsell-friendzone" />}</Route>
+      <Route path={"/relatii/oferta/conexiune-incredere"}>{() => <RelatiiOriginalOffer offerId="conexiune-incredere" />}</Route>
+      <Route path={"/relatii/multumesc"} component={RelatiiOriginalThankYou} />
+      <Route path={"/relatii/biblioteca"} component={RelatiiOriginalLibrary} />
+      <Route path={"/relatii/afiliere"} component={RelatiiOriginalAffiliate} />
+      <Route path={"/relatii/admin"} component={RelatiiOriginalAdmin} />
+      <Route path={"/relatii/legal/confidentialitate"}>{() => <RelatiiOriginalLegal page="confidentialitate" />}</Route>
+      <Route path={"/relatii/legal/termeni"}>{() => <RelatiiOriginalLegal page="termeni" />}</Route>
+      <Route path={"/relatii/legal/rambursari"}>{() => <RelatiiOriginalLegal page="rambursari" />}</Route>
+      <Route path={"/relatii/legal/contact"}>{() => <RelatiiOriginalLegal page="contact" />}</Route>
+      <Route path={"/relatii/funnel-dictionarul-barbatilor"} component={RelatiiOriginalFunnelMap} />
+      <Route path={"/oferte/*"} component={LegacyOfferRedirect} />
+      <Route path={"/oferte/:brand"} component={LegacyOfferRedirect} />
+      <Route path={"/:slug"} component={OfferMigrating} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
@@ -117,7 +130,7 @@ function App() {
       >
         <TooltipProvider>
           <Toaster />
-          <Router />
+          <AppRouter />
         </TooltipProvider>
       </ThemeProvider>
     </ErrorBoundary>

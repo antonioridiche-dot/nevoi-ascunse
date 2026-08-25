@@ -19,7 +19,7 @@ export type BrandCatalogItem = {
 export const brandCatalog: BrandCatalogItem[] = [
   {
     key: "peste-despartire",
-    routeBase: "/oferte/peste-despartire",
+    routeBase: "/peste-despartire",
     displayName: "Peste despărțire",
     category: "Relații",
     sourceRepo: "pestedespartire",
@@ -29,7 +29,7 @@ export const brandCatalog: BrandCatalogItem[] = [
   },
   {
     key: "numerologie",
-    routeBase: "/oferte/numerologie",
+    routeBase: "/numerologie",
     displayName: "Numerologie",
     category: "Ritualuri",
     sourceRepo: "numerology",
@@ -39,7 +39,7 @@ export const brandCatalog: BrandCatalogItem[] = [
   },
   {
     key: "soulmate-sketch",
-    routeBase: "/oferte/soulmate-sketch",
+    routeBase: "/soulmate-sketch",
     displayName: "Soulmate Sketch",
     category: "Relații",
     sourceRepo: "soulmate-sketch",
@@ -49,7 +49,7 @@ export const brandCatalog: BrandCatalogItem[] = [
   },
   {
     key: "linia-palmelor",
-    routeBase: "/oferte/linia-palmelor",
+    routeBase: "/linia-palmelor",
     displayName: "Linia palmelor",
     category: "Ritualuri",
     sourceRepo: "linia-palmelor",
@@ -59,7 +59,7 @@ export const brandCatalog: BrandCatalogItem[] = [
   },
   {
     key: "cafeea",
-    routeBase: "/oferte/cafeea",
+    routeBase: "/cafeea",
     displayName: "Cafe(ea)",
     category: "Ritualuri",
     sourceRepo: "cafeea",
@@ -69,7 +69,7 @@ export const brandCatalog: BrandCatalogItem[] = [
   },
   {
     key: "visul-meu",
-    routeBase: "/oferte/visul-meu",
+    routeBase: "/visul-meu",
     displayName: "Visul meu",
     category: "Ritualuri",
     sourceRepo: "visul-meu",
@@ -79,7 +79,7 @@ export const brandCatalog: BrandCatalogItem[] = [
   },
   {
     key: "familieprotejata",
-    routeBase: "/oferte/familieprotejata",
+    routeBase: "/familieprotejata",
     displayName: "Familie protejată",
     category: "Familie",
     sourceRepo: "survival",
@@ -89,7 +89,7 @@ export const brandCatalog: BrandCatalogItem[] = [
   },
   {
     key: "directia-abundentei",
-    routeBase: "/oferte/directia-abundentei",
+    routeBase: "/directia-abundentei",
     displayName: "Direcția abundenței",
     category: "Ritualuri",
     sourceRepo: "directia-abundentei",
@@ -99,7 +99,7 @@ export const brandCatalog: BrandCatalogItem[] = [
   },
   {
     key: "armonii-bine",
-    routeBase: "/oferte/armonii-bine",
+    routeBase: "/armonii-bine",
     displayName: "Armonii & Bine",
     category: "Audio",
     sourceRepo: "armonii-bine",
@@ -109,7 +109,7 @@ export const brandCatalog: BrandCatalogItem[] = [
   },
   {
     key: "iubire",
-    routeBase: "/oferte/iubire",
+    routeBase: "/iubire",
     displayName: "Iubire",
     category: "Audio",
     sourceRepo: "iubire",
@@ -119,7 +119,7 @@ export const brandCatalog: BrandCatalogItem[] = [
   },
   {
     key: "liniste-audio",
-    routeBase: "/oferte/liniste-audio",
+    routeBase: "/liniste-audio",
     displayName: "Liniște Audio",
     category: "Audio",
     sourceRepo: "liniste-audio",
@@ -129,7 +129,7 @@ export const brandCatalog: BrandCatalogItem[] = [
   },
   {
     key: "calendarul-norocului",
-    routeBase: "/oferte/calendarul-norocului",
+    routeBase: "/calendarul-norocului",
     displayName: "Calendarul norocului",
     category: "Ritualuri",
     sourceRepo: "calendarul-norocului",
@@ -139,7 +139,7 @@ export const brandCatalog: BrandCatalogItem[] = [
   },
   {
     key: "relatii",
-    routeBase: "/oferte/relatii",
+    routeBase: "/relatii",
     displayName: "Relații",
     category: "Relații",
     sourceRepo: "dic-ionarul-rela-iilor",
@@ -149,7 +149,7 @@ export const brandCatalog: BrandCatalogItem[] = [
   },
   {
     key: "slabiciunea-zodiei",
-    routeBase: "/oferte/slabiciunea-zodiei",
+    routeBase: "/slabiciunea-zodiei",
     displayName: "Slăbiciunea zodiei",
     category: "Ritualuri",
     sourceRepo: "secretul-zodiei",
@@ -159,7 +159,7 @@ export const brandCatalog: BrandCatalogItem[] = [
   },
   {
     key: "tarot",
-    routeBase: "/oferte/tarot",
+    routeBase: "/tarot",
     displayName: "Tarot",
     category: "Ritualuri",
     sourceRepo: "tarot",
@@ -169,7 +169,7 @@ export const brandCatalog: BrandCatalogItem[] = [
   },
   {
     key: "weightloss",
-    routeBase: "/oferte/weightloss",
+    routeBase: "/weightloss",
     displayName: "Weightloss",
     category: "Wellness",
     sourceRepo: "romanian-weightloss-funnel",
@@ -179,7 +179,7 @@ export const brandCatalog: BrandCatalogItem[] = [
   },
   {
     key: "vraji",
-    routeBase: "/oferte/vraji",
+    routeBase: "/vraji",
     displayName: "Vrăji",
     category: "Ritualuri",
     sourceRepo: "vraji-spells-store",
@@ -189,7 +189,7 @@ export const brandCatalog: BrandCatalogItem[] = [
   },
   {
     key: "prieteni-cu-beneficii",
-    routeBase: "/oferte/prieteni-cu-beneficii",
+    routeBase: "/prieteni-cu-beneficii",
     displayName: "Prieteni cu beneficii",
     category: "Relații",
     sourceRepo: "prieteni-cu-beneficii",

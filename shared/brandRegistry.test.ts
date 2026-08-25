@@ -15,20 +15,26 @@ describe("brand registry", () => {
 
     brandCatalog.forEach((brand) => {
       expect(categories.has(brand.category)).toBe(true);
-      expect(brand.routeBase).toMatch(/^\/oferte\/[a-z0-9-]+$/);
+      expect(brand.routeBase).toMatch(/^\/[a-z0-9-]+$/);
     });
   });
 
   it("finds the confirmed Familie protejată route", () => {
-    expect(findBrandByRoute("/oferte/familieprotejata")?.sourceRepo).toBe("survival");
+    expect(findBrandByRoute("/familieprotejata")?.sourceRepo).toBe("survival");
+  });
+
+  it("uses direct catalog routes for active and in-progress offers", () => {
+    const directRoutes = ["/tarot", "/familieprotejata", "/prieteni-cu-beneficii", "/vraji", "/weightloss", "/relatii"];
+    directRoutes.forEach(route => expect(findBrandByRoute(route)).toBeDefined());
+    expect(findBrandByRoute("/oferte/tarot")).toBeUndefined();
   });
 
   it("routes Vrăji to the active source-fidelity page", () => {
     const vraji = brandCatalog.find((brand) => brand.key === "vraji");
 
-    expect(vraji?.routeBase).toBe("/oferte/vraji");
+    expect(vraji?.routeBase).toBe("/vraji");
     expect(vraji?.displayName).toBe("Vrăji");
     // Legacy public path must remain unresolved after the source-fidelity correction.
-    expect(findBrandByRoute("/oferte/vrajii")).toBeUndefined();
+    expect(findBrandByRoute("/vrajii")).toBeUndefined();
   });
 });

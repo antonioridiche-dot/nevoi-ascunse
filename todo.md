@@ -93,4 +93,11 @@
 - [ ] Elimină orice reinterpretare de design, copy, preț, tip de checkout sau succesiune post-plată care nu există în repository-ul sursă.
 - [ ] Nu declara un flow funcțional înainte de un click-through complet: inițiere checkout, plată sandbox, pași post-cumpărare, thank-you, e-mail și acces.
 - [ ] Efectuează validarea fără browser prin comparație cu sursa, teste automate, rute/tRPC și Stripe sandbox API; marchează explicit orice verificare de interfață care rămâne pentru utilizator.
+- [x] Mută fiecare ofertă activă pe ruta directă de nivel rădăcină, de exemplu `/tarot`, `/relatii`, `/weightloss`, păstrând numai `/oferte` pentru catalog.
+- [ ] Actualizează toate linkurile interne, callback-urile Stripe, linkurile magice, rutele post-cumpărare și hărțile de flux pentru noua convenție de rute directe.
+- [x] Păstrează redirecturi de compatibilitate de la vechile rute `/oferte/<brand>/...` către rutele directe echivalente până la validarea completă.
+- [x] Păstrează fallback controlat pentru fiecare ofertă neportată pe ruta directă, astfel încât niciun card din catalog să nu trimită la 404.
+- [x] Adaugă teste de contract pentru rutele directe active, fallback-urile ofertelor în curs și catalogul `/oferte`.
+- [x] Testează explicit că `/oferte` deschide catalogul și că o ofertă directă neportată, de exemplu `/armonii-bine`, intră în fallback-ul controlat.
+- [x] Testează redirecturile de compatibilitate de la `/oferte/<brand>` și `/oferte/<brand>/...` către rutele directe echivalente.
 - [x] Elimină documentația și hărțile de migrare rămase cu ruta/denumirea învechită Vrăjii, pentru a păstra brandul și checkout-ul Vrăji aliniate la sursă.
