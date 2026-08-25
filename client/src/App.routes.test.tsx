@@ -20,7 +20,7 @@ describe("direct catalog routing contract", () => {
   });
 
   it("keeps a controlled direct fallback for unported offer roots", () => {
-    expect(usesDirectOfferFallback("/armonii-bine")).toBe(true);
+    expect(usesDirectOfferFallback("/iubire")).toBe(true);
     expect(usesDirectOfferFallback("/oferte")).toBe(false);
     expect(usesDirectOfferFallback("/weightloss/comanda")).toBe(false);
   });
@@ -40,8 +40,8 @@ describe("direct catalog routing contract", () => {
   });
 
   it("renders the controlled offer fallback at an unported direct route", () => {
-    const html = renderRoute("/armonii-bine");
-    expect(html).toContain("Armonii &amp; Bine");
+    const html = renderRoute("/iubire");
+    expect(html).toContain("Iubire");
     expect(html).toContain("flux este în curs de consolidare");
   });
 
