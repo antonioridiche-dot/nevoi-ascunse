@@ -39,6 +39,7 @@ import RelatiiOriginalAdmin from "./pages/RelatiiOriginalAdmin";
 import RelatiiOriginalLegal from "./pages/RelatiiOriginalLegal";
 import RelatiiOriginalFunnelMap from "./pages/RelatiiOriginalFunnelMap";
 import CalendarLuckyPreview from "./pages/CalendarLuckyPreview";
+import { IubireLibrary, IubireThankYou } from "./pages/IubireOriginalAccess";
 import ArmoniiOriginalHome from "./pages/ArmoniiOriginalHome";
 
 export const CATALOG_ROUTE = "/oferte";
@@ -114,6 +115,8 @@ export function AppRouter() {
       <Route path={"/relatii/funnel-dictionarul-barbatilor"} component={RelatiiOriginalFunnelMap} />
       <Route path={"/calendarul-norocului"} component={CalendarLuckyPreview} />
       <Route path={"/armonii-bine"} component={ArmoniiOriginalHome} />
+      <Route path={"/iubire/multumesc"} component={IubireThankYou} />
+      <Route path={"/iubire/biblioteca"} component={IubireLibrary} />
       <Route path={"/oferte/*"} component={LegacyOfferRedirect} />
       <Route path={"/oferte/:brand"} component={LegacyOfferRedirect} />
       <Route path={"/:slug"} component={OfferMigrating} />
