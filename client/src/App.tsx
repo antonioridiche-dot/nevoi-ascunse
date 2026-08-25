@@ -42,6 +42,7 @@ import CalendarLuckyPreview from "./pages/CalendarLuckyPreview";
 import { IubireLibrary, IubireThankYou } from "./pages/IubireOriginalAccess";
 import { IubireOriginalCheckout, IubireOriginalHome } from "./pages/IubireOriginalFunnel";
 import ArmoniiOriginalHome from "./pages/ArmoniiOriginalHome";
+import LinisteOriginalHome from "./pages/LinisteOriginalHome";
 
 export const CATALOG_ROUTE = "/oferte";
 export function directPathFromLegacyOffer(location: string) { return location.replace(/^\/oferte/, "") || CATALOG_ROUTE; }
@@ -116,6 +117,7 @@ export function AppRouter() {
       <Route path={"/relatii/funnel-dictionarul-barbatilor"} component={RelatiiOriginalFunnelMap} />
       <Route path={"/calendarul-norocului"} component={CalendarLuckyPreview} />
       <Route path={"/armonii-bine"} component={ArmoniiOriginalHome} />
+      <Route path={"/liniste-audio"} component={LinisteOriginalHome} />
       <Route path={"/iubire"} component={IubireOriginalHome} />
       <Route path={"/iubire/checkout"} component={IubireOriginalCheckout} />
       <Route path={"/iubire/multumesc"} component={IubireThankYou} />
