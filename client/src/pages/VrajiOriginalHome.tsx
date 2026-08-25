@@ -90,6 +90,7 @@ function PaymentForm({ email, offerVariant, bumps, affiliateCode }: { email: str
   const elements = useElements();
   const [, navigate] = useLocation();
   const prepare = trpc.vraji.checkout.prepare.useMutation();
+  const confirmPayment = trpc.vraji.checkout.confirm.useMutation();
   const tracking = trpc.vraji.tracking.event.useMutation();
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -115,6 +116,7 @@ function PaymentForm({ email, offerVariant, bumps, affiliateCode }: { email: str
       return;
     }
     if (result.paymentIntent?.status === "succeeded") {
+      await confirmPayment.mutateAsync({ paymentIntentId: result.paymentIntent.id });
       sessionStorage.setItem("vraji-checkout-email", email);
       sessionStorage.setItem("vraji-payment-intent", result.paymentIntent.id);
       tracking.mutate({ sessionId: getSessionId(), eventName: "payment_succeeded", stage: "payment" });
