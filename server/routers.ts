@@ -11,6 +11,7 @@ import { familyDashboard, issueFamilyAccessForSession, requestFamilyRecovery } f
 import { createPbcCheckout, getPbcCheckoutStatus } from "./commerce/pbcService";
 import { createVrajiPostPurchase, getVrajiPaymentStatus, prepareVrajiPayment } from "./commerce/vrajiService";
 import { getVrajiLibrary, requestVrajiLibraryAccess } from "./access/vrajiAccess";
+import { confirmCalendarIntent, createCalendarIntent } from "./commerce/calendarService";
 import { createWeightlossIntent, getWeightlossSecureDownloads, isWeightlossProduct, listWeightlossDownloadAssets, listWeightlossOrdersForAdmin, oneClickWeightlossUpsell, setWeightlossDownloadActive, uploadWeightlossDownload } from "./commerce/weightlossService";
 import { confirmRelatiiPayment, decideRelatiiOffer, getRelatiiOrder, prepareRelatiiPayment, recordRelatiiAffiliateOfferDecision, submitRelatiiCoachingApplication } from "./commerce/relatiiService";
 import { redeemRelatiiAccessLink, requestRelatiiRecovery } from "./access/relatiiAccess";
@@ -89,6 +90,12 @@ export const appRouter = router({
     library: router({
       requestAccess: publicProcedure.input(z.object({ email: z.string().trim().email().max(320) })).mutation(({ input, ctx }) => requestVrajiLibraryAccess({ email: input.email, origin: ctx.req.headers.origin ?? `${ctx.req.protocol}://${ctx.req.get("host")}` })),
       get: publicProcedure.input(z.object({ accessToken: z.string().trim().min(30).max(200).nullable().optional() })).query(({ input }) => getVrajiLibrary(input.accessToken)),
+    }),
+  }),
+  calendar: router({
+    checkout: router({
+      createIntent: publicProcedure.input(z.object({ packageId: z.enum(["oneMonth", "twoMonths", "threeMonths"]), email: z.string().trim().email().max(320), firstName: z.string().trim().min(1).max(120).optional(), currency: z.enum(["usd", "eur", "gbp"]), visitorId: z.string().trim().min(1).max(128).optional(), oneClickConsent: z.boolean().optional() })).mutation(({ input }) => createCalendarIntent(input)),
+      confirm: publicProcedure.input(z.object({ checkoutToken: z.string().min(20).max(96), paymentIntentId: z.string().min(10).max(255) })).mutation(({ input }) => confirmCalendarIntent(input)),
     }),
   }),
   weightloss: router({
