@@ -1,0 +1,26 @@
+import { BookOpen, Download, LockKeyhole, Mail, ShieldCheck } from "lucide-react";
+import { useState } from "react";
+import { useLocation } from "wouter";
+import { trpc } from "@/lib/trpc";
+
+const labels: Record<string, { title: string; note: string }> = {
+  "love-core": { title: "Vraja pentru iubire", note: "Ghid principal" },
+  "overcoming-rejection": { title: "Depășește respingerea", note: "Bonus inclus" },
+  "keep-love-alive": { title: "Păstrează iubirea vie", note: "Bonus inclus" },
+  "priority-journal": { title: "Jurnal de intenție", note: "Order bump" },
+  "closure-ritual": { title: "Ritual de încheiere", note: "Order bump" },
+  "attraction-expansion": { title: "Extensia de atracție", note: "Pas suplimentar" },
+  "connection-compass": { title: "Busola conexiunii", note: "Pas suplimentar" },
+  "intention-audio": { title: "Audio de intenție", note: "Pas suplimentar" },
+};
+
+export default function VrajiOriginalLibrary() {
+  const [, navigate] = useLocation();
+  const accessToken = new URLSearchParams(window.location.search).get("access");
+  const [email, setEmail] = useState("");
+  const access = trpc.vraji.library.get.useQuery({ accessToken }, { retry: false });
+  const request = trpc.vraji.library.requestAccess.useMutation();
+  if (access.isLoading) return <div className="min-h-screen bg-[#0c0a0c] p-10 text-center text-[#f8ece7]">Încărcăm biblioteca ta…</div>;
+  if (access.isError || !access.data?.customer) return <div className="min-h-screen bg-[#0c0a0c] px-5 py-16 text-[#f8ece7] vraji-noise"><div className="mx-auto max-w-xl border border-[#74515c] bg-[#f7d8cf] p-7 text-[#251720]"><LockKeyhole className="text-[#bd205b]" /><h1 className="mt-5 font-display text-5xl leading-none">Biblioteca ta este privată.</h1><p className="mt-4 text-sm leading-6 text-[#684953]">Cere un link magic pe email. Un link distribuit altcuiva nu oferă acces automat, deoarece creează o sesiune securizată numai după verificare.</p><input value={email} onChange={(event) => setEmail(event.target.value)} type="email" className="mt-6 w-full border border-[#b9969a] bg-white px-4 py-4 outline-none focus:border-[#bd205b]" placeholder="emailul folosit la comandă" /><button disabled={!email || request.isPending} onClick={() => request.mutate({ email })} className="mt-4 flex w-full items-center justify-center gap-2 bg-[#bd205b] px-5 py-4 text-xs font-bold uppercase tracking-[.14em] text-white disabled:opacity-50">Cere link magic <Mail size={16} /></button>{request.data?.delivery === "email_not_configured" && <p className="mt-4 text-xs leading-5 text-[#76505c]">Emailul tranzacțional va fi activat după verificarea domeniului expeditor. Până atunci, accesul public rămâne blocat.</p>}{request.data?.previewUrl && <button onClick={() => navigate(request.data!.previewUrl!.replace(window.location.origin, ""))} className="mt-4 block w-full text-center text-sm font-bold text-[#a02956] underline">Deschide linkul de test</button>}<button onClick={() => navigate("/vraji")} className="mt-6 text-xs font-bold uppercase tracking-[.14em] text-[#76505c]">Înapoi la ofertă</button></div></div>;
+  return <div className="min-h-screen bg-[#0c0a0c] px-5 py-12 text-[#f8ece7] vraji-noise"><div className="mx-auto max-w-6xl"><div className="flex flex-wrap items-center justify-between gap-5"><div><div className="text-[10px] font-bold uppercase tracking-[.2em] text-[#f28d88]">Biblioteca privată</div><h1 className="mt-3 font-display text-5xl">Bun venit în spațiul tău.</h1><p className="mt-2 text-sm text-[#cbb6ba]">{access.data.customer.email}</p></div><button onClick={() => navigate("/vraji")} className="text-xs font-bold uppercase tracking-[.14em] text-[#f28d88]">Vezi oferta →</button></div><div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{access.data.products.length ? access.data.products.map((item) => { const details = labels[item.sku] ?? { title: item.sku, note: "Produs digital" }; return <article key={item.id} className="border border-[#74515c] bg-[#f7d8cf] p-5 text-[#251720]"><div className="flex items-start justify-between"><div className="grid h-10 w-10 place-items-center rounded-full border border-[#bd205b] text-[#bd205b]"><BookOpen size={18} /></div><span className="text-[10px] font-bold uppercase tracking-[.15em] text-[#9e2855]">{details.note}</span></div><h2 className="mt-8 font-display text-3xl">{details.title}</h2><p className="mt-3 text-sm leading-6 text-[#76505c]">Fișier placeholder securizat. Va apărea aici după încărcarea PDF-ului final în bibliotecă.</p><button disabled className="mt-6 flex w-full items-center justify-center gap-2 border border-[#a8898d] px-4 py-3 text-xs font-bold uppercase tracking-[.13em] text-[#81656c] disabled:cursor-not-allowed">Descarcă PDF <Download size={15} /></button></article>; }) : <div className="col-span-full border border-dashed border-[#74515c] p-10 text-center text-[#cbb6ba]">Nu ai produse active în bibliotecă încă.</div>}</div><div className="mt-10 flex gap-3 border-t border-[#3a2530] pt-6 text-xs leading-5 text-[#9d848b]"><ShieldCheck size={17} className="shrink-0 text-[#f28d88]" />Fișierele reale vor fi livrate numai printr-o verificare server-side a dreptului tău de acces și prin URL-uri semnate.</div></div></div>;
+}

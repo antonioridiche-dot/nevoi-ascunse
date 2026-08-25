@@ -20,6 +20,8 @@ import { PbcHome, PbcOffer } from "./pages/PbcOriginalPages";
 import { PbcCheckout, PbcThankYou } from "./pages/PbcOriginalCheckout";
 import VrajiOriginalPost from "./pages/VrajiOriginalPost";
 import VrajiOriginalHome from "./pages/VrajiOriginalHome";
+import VrajiOriginalThankYou from "./pages/VrajiOriginalThankYou";
+import VrajiOriginalLibrary from "./pages/VrajiOriginalLibrary";
 import WeightlossOriginalSales from "./pages/WeightlossOriginalSales";
 import WeightlossOriginalCheckout from "./pages/WeightlossOriginalCheckout";
 import WeightlossOriginalUpsell from "./pages/WeightlossOriginalUpsell";
@@ -75,6 +77,8 @@ export function AppRouter() {
       <Route path={"/vraji/pas/1"} component={VrajiOriginalPost} />
       <Route path={"/vraji/stai"} component={VrajiOriginalPost} />
       <Route path={"/vraji/pas/2"} component={VrajiOriginalPost} />
+      <Route path={"/vraji/multumim"} component={VrajiOriginalThankYou} />
+      <Route path={"/vraji/biblioteca"} component={VrajiOriginalLibrary} />
       <Route path={"/vraji"} component={VrajiOriginalHome} />
       <Route path={"/weightloss"} component={WeightlossOriginalSales} />
       <Route path={"/weightloss/comanda"} component={WeightlossOriginalCheckout} />

@@ -38,7 +38,7 @@ function Brand() {
 
 function Header() {
   const [, navigate] = useLocation();
-  return <header className="sticky top-0 z-40 border-b border-[#3a2530] bg-[#0c0a0c]/95 backdrop-blur-xl"><div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-10"><button onClick={() => navigate("/oferte/vraji")} aria-label="Pagina principală"><Brand/></button><nav className="hidden items-center gap-7 text-[11px] uppercase tracking-[.17em] text-[#cbb6ba] md:flex"><button onClick={() => document.getElementById("oferta")?.scrollIntoView({ behavior: "smooth" })}>Oferta</button><button onClick={() => navigate("/oferte/vraji/afiliat")}>Afiliere</button><button onClick={() => navigate("/oferte/vraji/biblioteca")}>Biblioteca mea</button></nav><button onClick={() => document.getElementById("oferta")?.scrollIntoView({ behavior: "smooth" })} className="bg-[#f28d88] px-4 py-2 text-[11px] font-bold uppercase tracking-[.14em] text-[#160b11] transition hover:bg-[#ffb5aa] active:scale-[.97]">Începe acum</button></div></header>;
+  return <header className="sticky top-0 z-40 border-b border-[#3a2530] bg-[#0c0a0c]/95 backdrop-blur-xl"><div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-10"><button onClick={() => navigate("/vraji")} aria-label="Pagina principală"><Brand/></button><nav className="hidden items-center gap-7 text-[11px] uppercase tracking-[.17em] text-[#cbb6ba] md:flex"><button onClick={() => document.getElementById("oferta")?.scrollIntoView({ behavior: "smooth" })}>Oferta</button><button onClick={() => navigate("/vraji/afiliere")}>Afiliere</button><button onClick={() => navigate("/vraji/biblioteca")}>Biblioteca mea</button></nav><button onClick={() => document.getElementById("oferta")?.scrollIntoView({ behavior: "smooth" })} className="bg-[#f28d88] px-4 py-2 text-[11px] font-bold uppercase tracking-[.14em] text-[#160b11] transition hover:bg-[#ffb5aa] active:scale-[.97]">Începe acum</button></div></header>;
 }
 
 function InputLabel({ label, children, hint }: { label: string; children: ReactNode; hint?: string }) {
@@ -118,7 +118,7 @@ function PaymentForm({ email, offerVariant, bumps, affiliateCode }: { email: str
       sessionStorage.setItem("vraji-checkout-email", email);
       sessionStorage.setItem("vraji-payment-intent", result.paymentIntent.id);
       tracking.mutate({ sessionId: getSessionId(), eventName: "payment_succeeded", stage: "payment" });
-      navigate("/oferte/vraji/pas/1");
+      navigate("/vraji/pas/1");
       return;
     }
     setError("Plata necesită o verificare suplimentară. Încearcă din nou.");
