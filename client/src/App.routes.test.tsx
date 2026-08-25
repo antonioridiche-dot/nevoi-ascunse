@@ -44,4 +44,10 @@ describe("direct catalog routing contract", () => {
     expect(html).toContain("Armonii &amp; Bine");
     expect(html).toContain("flux este în curs de consolidare");
   });
+
+  it("renders the Calendarul norocului source preview at its direct route", () => {
+    const html = renderRoute("/calendarul-norocului");
+    expect(html).toContain("CALENDARUL");
+    expect(html).toContain("Introdu data ta");
+  });
 });
