@@ -13,7 +13,7 @@ export const PBC_PRODUCTS: Record<PbcProductId, { name: string; price: string; d
 const amounts: Record<PbcProductId, number> = { frontEnd: 47, upsellOne: 147, downsell: 73, upsellTwo: 197 };
 export const initialPbcFunnelState: PbcFunnelState = { step: "frontEnd", products: [] };
 const storageKey = "prietenicubeneficii-funnel";
-const prefix = "/oferte/prieteni-cu-beneficii";
+const prefix = "/prieteni-cu-beneficii";
 const addProduct = (products: PbcProductId[], product: PbcProductId) => products.includes(product) ? products : [...products, product];
 
 export function transitionPbcFunnel(state: PbcFunnelState, action: PbcFunnelAction): PbcFunnelState {

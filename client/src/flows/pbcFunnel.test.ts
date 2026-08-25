@@ -10,8 +10,8 @@ describe("Prieteni cu beneficii funnel", () => {
     expect(pbcOrderTotalLei(final)).toBe(120);
   });
 
-  it("aplică prefixul unificat fără să schimbe rutele interne", () => {
-    expect(pbcRouteForStep("upsellOne")).toBe("/oferte/prieteni-cu-beneficii/oferta-speciala");
-    expect(pbcRouteForStep("checkout")).toBe("/oferte/prieteni-cu-beneficii/checkout");
+  it("aplică prefixul direct fără să schimbe rutele interne", () => {
+    expect(pbcRouteForStep("upsellOne")).toBe("/prieteni-cu-beneficii/oferta-speciala");
+    expect(pbcRouteForStep("checkout")).toBe("/prieteni-cu-beneficii/checkout");
   });
 });

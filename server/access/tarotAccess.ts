@@ -12,7 +12,7 @@ function hash(value: string) {
 }
 
 function secureCookieOptions() {
-  return { httpOnly: true, secure: true, sameSite: "lax" as const, path: "/oferte/tarot", maxAge: Math.floor(TOKEN_TTL_MS / 1000) };
+  return { httpOnly: true, secure: true, sameSite: "lax" as const, path: "/tarot", maxAge: Math.floor(TOKEN_TTL_MS / 1000) };
 }
 
 export function extractCookieValue(header: string | undefined, name: string) {

@@ -10,12 +10,12 @@ import { trpc } from "@/lib/trpc";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || "");
 
-function getNextRoute(slug: ProductSlug, orderToken: string, originalPaymentIntentId: string) {
+export function getNextRoute(slug: ProductSlug, orderToken: string, originalPaymentIntentId: string) {
   const payment = encodeURIComponent(originalPaymentIntentId);
-  if (slug === "bucatarie") return `/oferte/weightloss/oferta/retete?comanda=${encodeURIComponent(orderToken)}&plata=${payment}`;
+  if (slug === "bucatarie") return `/weightloss/oferta/retete?comanda=${encodeURIComponent(orderToken)}&plata=${payment}`;
   const index = orderedUpsells.indexOf(slug as Exclude<ProductSlug, "bucatarie">);
   const next = orderedUpsells[index + 1];
-  return next ? `/oferte/weightloss/oferta/${next}?comanda=${encodeURIComponent(orderToken)}&plata=${payment}` : `/oferte/weightloss/multumim?comanda=${encodeURIComponent(orderToken)}`;
+  return next ? `/weightloss/oferta/${next}?comanda=${encodeURIComponent(orderToken)}&plata=${payment}` : `/weightloss/multumim?comanda=${encodeURIComponent(orderToken)}`;
 }
 
 function PayButton({ buyerEmail, orderToken, product }: { buyerEmail: string; orderToken: string; product: ProductSlug }) {
@@ -36,8 +36,8 @@ function PayButton({ buyerEmail, orderToken, product }: { buyerEmail: string; or
     const { error: confirmError, paymentIntent } = await stripe.confirmPayment({
       elements,
       confirmParams: { return_url: product === "bucatarie"
-        ? `${window.location.origin}/oferte/weightloss/oferta/retete?comanda=${encodeURIComponent(orderToken)}`
-        : `${window.location.origin}/oferte/weightloss/multumim?comanda=${encodeURIComponent(orderToken)}` },
+        ? `${window.location.origin}/weightloss/oferta/retete?comanda=${encodeURIComponent(orderToken)}`
+        : `${window.location.origin}/weightloss/multumim?comanda=${encodeURIComponent(orderToken)}` },
       redirect: "if_required",
     });
     if (confirmError) { setError(confirmError.message ?? "Plata nu a putut fi confirmată."); setBusy(false); return; }

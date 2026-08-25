@@ -1,34 +1,34 @@
 # Approved Offer Inventory and Source-Fidelity Matrix
 
-> **Source of truth:** the corresponding repository in `/home/ubuntu/nevoi-ascunse-source/`. Each unified implementation must copy the source route, UI, copy, prices, checkout type, transitions, and delivery behavior. The only permitted differences are the `/oferte/...` prefix and required shared platform adapters.
+> **Source of truth:** the corresponding repository in `/home/ubuntu/nevoi-ascunse-source/`. Each unified implementation must copy the source route, UI, copy, prices, checkout type, transitions, and delivery behavior. The only permitted differences are the direct root-level route (for example, `/tarot`), compatibility redirects from the legacy path, and required shared platform adapters. The route `/oferte` is the catalog only.
 
 | Offer / brand | Approved source repository | Unified route | Source checkout behavior | Current state | Required remaining work before verified |
 |---|---|---|---|---|---|
-| Tarot | `tarot` | `/oferte/tarot` | Embedded Stripe card payment | Active source port | Full sandbox click-through, sender delivery, source-to-target route diff, library assets |
-| Familie protejată | `survival` | `/oferte/familieprotejata` | Embedded Stripe card payment | Partially active | Source quiz, delivery/recovery, affiliate, administration, real sandbox flow |
-| Prieteni cu beneficii | `prieteni-cu-beneficii` | `/oferte/prieteni-cu-beneficii` | **External Stripe Checkout** | Partially active | Verify hosted-session creation and return, then source legal, fulfillment, library, and automation routes |
-| Vrăji | `vraji-spells-store` | `/oferte/vraji` | Embedded Stripe card payment | Partially active | Source thank-you, library, magic link, affiliate, administration, and sandbox flow |
-| Weightloss | `romanian-weightloss-funnel` + `weight-los-manifest` | `/oferte/weightloss` | Embedded Stripe Payment Element and one-click sequence | Active route batch, unverified | Sandbox main payment, one-click sequence, secure downloads, file upload/admin, source manifest comparison |
-| Relații | `dic-ionarul-rela-iilor` | `/oferte/relatii` | Embedded Stripe card payment | Active route batch, unverified | Source route diff, valid-order click-through, affiliate attribution, e-mail delivery, sandbox flow |
-| Armonii & Bine | `armonii-bine` | `/oferte/armonii-bine` | Source checkout in repository | Not ported | Copy Home, Confirmation, Admin, checkout and audio/PDF access contract |
-| Iubire | `iubire` | `/oferte/iubire` | Source checkout in repository | Not ported | Copy Home, Checkout, ThankYou, Library, transactional delivery |
-| Liniște Audio | `liniste-audio` | `/oferte/liniste-audio` | Source checkout in repository | Not ported | Copy Quiz, Checkout, Upsell, ThankYou, Recovery, Legal and audio access |
-| Calendarul norocului | `calendarul-norocului` | `/oferte/calendarul-norocului` | Repository-specific personalized flow | Not ported | Copy Home and source calendar/personalization and campaign behavior |
-| Peste despărțire | `pestedespartire` | `/oferte/peste-despartire` | Source checkout in repository | Not ported | Copy Sales, female sales, quiz, offers, checkout, thank-you, legal |
-| Numerologie | `numerology` | `/oferte/numerologie` | Source checkout in repository | Not ported | Copy Home, Checkout, Report, Affiliate, Legal |
-| Soulmate Sketch | `soulmate-sketch` | `/oferte/soulmate-sketch` | Repository-specific capture/checkout flow | Not ported | Copy complete source application and delivery route |
-| Linia palmelor | `linia-palmelor` | `/oferte/linia-palmelor` | Repository-specific interpretation flow | Not ported | Copy complete source application and affiliate behavior |
-| Cafe(ea) | `cafeea` | `/oferte/cafeea` | Repository-specific intake/result flow | Not ported | Copy complete source application, result, legal and affiliate behavior |
-| Visul meu | `visul-meu` | `/oferte/visul-meu` | Repository-specific offer/checkout flow | Not ported | Copy Home, Offer, ThankYou, Affiliate and Legal routes |
-| Direcția abundenței | `directia-abundentei` | `/oferte/directia-abundentei` | Source checkout and optional post-purchase step | Not ported | Copy FunnelHome, Checkout, PostPurchase and ThankYou routes |
-| Slăbiciunea zodiei | `secretul-zodiei` | `/oferte/slabiciunea-zodiei` | Source personalized storefront checkout | Not ported | Copy Storefront, affiliate program/dashboard/admin and zodiac step offers |
+| Tarot | `tarot` | `/tarot` | Embedded Stripe card payment | Active source port | Full sandbox click-through, sender delivery, source-to-target route diff, library assets |
+| Familie protejată | `survival` | `/familieprotejata` | Embedded Stripe card payment | Partially active | Source quiz, delivery/recovery, affiliate, administration, real sandbox flow |
+| Prieteni cu beneficii | `prieteni-cu-beneficii` | `/prieteni-cu-beneficii` | **External Stripe Checkout** | Partially active | Verify hosted-session creation and return, then source legal, fulfillment, library, and automation routes |
+| Vrăji | `vraji-spells-store` | `/vraji` | Embedded Stripe card payment | Partially active | Source thank-you, library, magic link, affiliate, administration, and sandbox flow |
+| Weightloss | `romanian-weightloss-funnel` + `weight-los-manifest` | `/weightloss` | Embedded Stripe Payment Element and one-click sequence | Active route batch, unverified | Sandbox main payment, one-click sequence, secure downloads, file upload/admin, source manifest comparison |
+| Relații | `dic-ionarul-rela-iilor` | `/relatii` | Embedded Stripe card payment | Active route batch, unverified | Source route diff, valid-order click-through, affiliate attribution, e-mail delivery, sandbox flow |
+| Armonii & Bine | `armonii-bine` | `/armonii-bine` | Source checkout in repository | Not ported | Copy Home, Confirmation, Admin, checkout and audio/PDF access contract |
+| Iubire | `iubire` | `/iubire` | Source checkout in repository | Not ported | Copy Home, Checkout, ThankYou, Library, transactional delivery |
+| Liniște Audio | `liniste-audio` | `/liniste-audio` | Source checkout in repository | Not ported | Copy Quiz, Checkout, Upsell, ThankYou, Recovery, Legal and audio access |
+| Calendarul norocului | `calendarul-norocului` | `/calendarul-norocului` | Repository-specific personalized flow | Not ported | Copy Home and source calendar/personalization and campaign behavior |
+| Peste despărțire | `pestedespartire` | `/peste-despartire` | Source checkout in repository | Not ported | Copy Sales, female sales, quiz, offers, checkout, thank-you, legal |
+| Numerologie | `numerology` | `/numerologie` | Source checkout in repository | Not ported | Copy Home, Checkout, Report, Affiliate, Legal |
+| Soulmate Sketch | `soulmate-sketch` | `/soulmate-sketch` | Repository-specific capture/checkout flow | Not ported | Copy complete source application and delivery route |
+| Linia palmelor | `linia-palmelor` | `/linia-palmelor` | Repository-specific interpretation flow | Not ported | Copy complete source application and affiliate behavior |
+| Cafe(ea) | `cafeea` | `/cafeea` | Repository-specific intake/result flow | Not ported | Copy complete source application, result, legal and affiliate behavior |
+| Visul meu | `visul-meu` | `/visul-meu` | Repository-specific offer/checkout flow | Not ported | Copy Home, Offer, ThankYou, Affiliate and Legal routes |
+| Direcția abundenței | `directia-abundentei` | `/directia-abundentei` | Source checkout and optional post-purchase step | Not ported | Copy FunnelHome, Checkout, PostPurchase and ThankYou routes |
+| Slăbiciunea zodiei | `secretul-zodiei` | `/slabiciunea-zodiei` | Source personalized storefront checkout | Not ported | Copy Storefront, affiliate program/dashboard/admin and zodiac step offers |
 
 ## Approved Consolidations and Exclusions
 
 | Repository | Treatment |
 |---|---|
-| `romanian-weightloss-funnel` + `weight-los-manifest` | One consolidated Weightloss offer under `/oferte/weightloss`; the main funnel is authoritative and the manifest supplies approved supplementary source material. |
-| `dic-ionarul-rela-iilor` | The public, authoritative Relații source under `/oferte/relatii`. |
+| `romanian-weightloss-funnel` + `weight-los-manifest` | One consolidated Weightloss offer under `/weightloss`; the main funnel is authoritative and the manifest supplies approved supplementary source material. |
+| `dic-ionarul-rela-iilor` | The public, authoritative Relații source under `/relatii`. |
 | `dictionarulrelatiilor` | Technical archive only; never a public offer or migration target. |
 | `tevreauinapoi` | Explicitly excluded. |
 | `groworpay-website` and `groworpay-v2` | Explicitly excluded. |

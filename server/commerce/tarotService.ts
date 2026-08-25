@@ -245,7 +245,7 @@ export async function finalizeTarotEmbeddedPayment(publicToken: string, paymentI
   const intent = await stripeClient().paymentIntents.retrieve(paymentIntentId);
   if (intent.status !== "succeeded" || intent.metadata.checkout_token !== publicToken || intent.metadata.product_key !== "tarot_guide") throw new Error("Plata nu a fost confirmată.");
   await completeTarotCheckout({ id: `embedded-${intent.id}`, metadata: { brand_key: "tarot", checkout_token: publicToken, product_key: "tarot_guide" }, payment_intent: intent.id, customer: intent.customer } as unknown as Stripe.Checkout.Session, `embedded-${intent.id}`);
-  return { dashboardPath: "/oferte/tarot/dashboard" };
+  return { dashboardPath: "/tarot/dashboard" };
 }
 
 export async function recordTarotExitOffer(publicToken: string) {
@@ -371,7 +371,7 @@ export async function completeTarotCheckout(session: Stripe.Checkout.Session, pr
   if (contact) {
     const accessToken = await issueTarotAccess(contact.id);
     const publicBaseUrl = (process.env.PUBLIC_APP_URL || "https://nevoi-ascunse.ro").replace(/\/$/, "");
-    const accessLink = `${publicBaseUrl}/oferte/tarot/acces?token=${encodeURIComponent(accessToken)}`;
+    const accessLink = `${publicBaseUrl}/tarot/acces?token=${encodeURIComponent(accessToken)}`;
     await sendBrandEmail({
       brandId: brand.id,
       brandName: brand.displayName,

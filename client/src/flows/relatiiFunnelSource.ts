@@ -18,7 +18,7 @@ export type BookPath = {
 export const BOOKS: Record<Audience, BookPath> = {
   barbati: {
     audience: "barbati",
-    route: "/oferte/relatii/pentru-el",
+    route: "/relatii/pentru-el",
     handle: "dictionarul-femeilor",
     title: "Dicționarul Femeilor",
     eyebrow: "Pentru bărbații care vor să înțeleagă femeile",
@@ -44,7 +44,7 @@ export const BOOKS: Record<Audience, BookPath> = {
   },
   femei: {
     audience: "femei",
-    route: "/oferte/relatii/pentru-ea",
+    route: "/relatii/pentru-ea",
     handle: "dictionarul-barbatilor",
     title: "Dicționarul Bărbaților",
     eyebrow: "Pentru femeile care vor să înțeleagă bărbații",
@@ -71,7 +71,7 @@ export const BOOKS: Record<Audience, BookPath> = {
 };
 
 /** All successful main-product payments begin at the same preserved first step. */
-export const MAIN_PRODUCT_POST_PAYMENT_ROUTE = "/oferte/relatii/oferta/conversatii-jucause";
+export const MAIN_PRODUCT_POST_PAYMENT_ROUTE = "/relatii/oferta/conversatii-jucause";
 
 export type Offer = {
   route: string;
@@ -92,8 +92,8 @@ export const OFFERS: Record<string, Offer> = {
     subtitle: "Un ghid despre prezență, stil conversațional și semnale de interes care pot face apropierea mai naturală, fără jocuri și fără presiune.",
     price: "97 RON",
     details: ["Cum transmiți interes și disponibilitate fără să forțezi apropierea.", "Repere pentru prezență, conversație și reciprocitate.", "Cum lași atracția să crească fără să construiești o mască."],
-    acceptTo: "/oferte/relatii/oferta/friendzone",
-    declineTo: "/oferte/relatii/oferta/downsell-conversatii",
+    acceptTo: "/relatii/oferta/friendzone",
+    declineTo: "/relatii/oferta/downsell-conversatii",
   },
   "downsell-conversatii": {
     route: "downsell-conversatii",
@@ -102,8 +102,8 @@ export const OFFERS: Record<string, Offer> = {
     subtitle: "O variantă concentrată pentru cei care vor să înceapă cu ritmul, reciprocitatea și limitele unei conversații jucăușe.",
     price: "37 RON",
     details: ["Un format scurt, bun de parcurs într-o singură sesiune.", "Trei repere pentru tachinare atentă și răspunsuri naturale.", "O trecere simplă către următoarea conversație care contează."],
-    acceptTo: "/oferte/relatii/oferta/friendzone",
-    declineTo: "/oferte/relatii/oferta/downsell-claritate",
+    acceptTo: "/relatii/oferta/friendzone",
+    declineTo: "/relatii/oferta/downsell-claritate",
   },
   "downsell-claritate": {
     route: "downsell-claritate",
@@ -112,8 +112,8 @@ export const OFFERS: Record<string, Offer> = {
     subtitle: "Un ghid scurt de orientare pentru momentele în care apropierea devine ambiguă și ai nevoie de o întrebare mai bună.",
     price: "49 RON",
     details: ["Trei întrebări de verificare înainte de orice mesaj.", "O structură calmă pentru conversații incomode.", "Repere pentru a evita presiunea și presupunerile."],
-    acceptTo: "/oferte/relatii/oferta/conexiune-incredere",
-    declineTo: "/oferte/relatii/oferta/downsell-mesaj",
+    acceptTo: "/relatii/oferta/conexiune-incredere",
+    declineTo: "/relatii/oferta/downsell-mesaj",
   },
   "downsell-mesaj": {
     route: "downsell-mesaj",
@@ -122,8 +122,8 @@ export const OFFERS: Record<string, Offer> = {
     subtitle: "Un material compact care te ajută să formulezi o invitație, o clarificare sau o limită cu mai multă sinceritate.",
     price: "27 RON",
     details: ["Un cadru simplu pentru formularea intenției.", "Exemple de mesaje fără jocuri sau presiune.", "Un ultim pas de verificare înainte să apeși trimite."],
-    acceptTo: "/oferte/relatii/oferta/conexiune-incredere",
-    declineTo: "/oferte/relatii/multumesc",
+    acceptTo: "/relatii/oferta/conexiune-incredere",
+    declineTo: "/relatii/multumesc",
   },
   friendzone: {
     route: "friendzone",
@@ -132,8 +132,8 @@ export const OFFERS: Record<string, Offer> = {
     subtitle: "Un ghid despre cum exprimi atracția, cum vorbești despre sex cu acord explicit și cum clarifici dacă vă doriți o relație, prietenie sau o relație cu beneficii.",
     price: "67 RON",
     details: ["Cum treci de la presupuneri la o conversație sinceră despre dorință.", "Cum ceri și verifici acordul înainte de apropiere fizică.", "Cum primești un da, un nu sau un nu acum fără presiune."],
-    acceptTo: "/oferte/relatii/oferta/conexiune-incredere",
-    declineTo: "/oferte/relatii/oferta/downsell-friendzone",
+    acceptTo: "/relatii/oferta/conexiune-incredere",
+    declineTo: "/relatii/oferta/downsell-friendzone",
   },
   "downsell-friendzone": {
     route: "downsell-friendzone",
@@ -142,8 +142,8 @@ export const OFFERS: Record<string, Offer> = {
     subtitle: "O variantă esențială pentru a exprima interesul și a primi un răspuns fără scenarii, ultimatumuri sau presiune.",
     price: "37 RON",
     details: ["Cum formulezi intenția în câteva fraze simple.", "Cum lași loc pentru un răspuns sincer.", "Cum păstrezi demnitatea și respectul indiferent de direcție."],
-    acceptTo: "/oferte/relatii/oferta/conexiune-incredere",
-    declineTo: "/oferte/relatii/oferta/conexiune-incredere",
+    acceptTo: "/relatii/oferta/conexiune-incredere",
+    declineTo: "/relatii/oferta/conexiune-incredere",
   },
   "conexiune-incredere": {
     route: "conexiune-incredere",
@@ -152,8 +152,8 @@ export const OFFERS: Record<string, Offer> = {
     subtitle: "Un ghid pentru sex mai conectat și mai plăcut, cu comunicare înainte, în timpul apropierii și după — fără promisiuni nerealiste și fără performanță forțată.",
     price: "29,95 RON",
     details: ["Cum vorbiți despre dorințe, limite și protecție înainte de sex.", "Cum observi reacțiile și ajustezi ritmul fără să presupui.", "Cum păstrați conexiunea și respectul și după apropiere."],
-    acceptTo: "/oferte/relatii/multumesc",
-    declineTo: "/oferte/relatii/multumesc",
+    acceptTo: "/relatii/multumesc",
+    declineTo: "/relatii/multumesc",
   },
 };
 

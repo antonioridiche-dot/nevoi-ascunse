@@ -47,7 +47,7 @@ export async function requestRelatiiRecovery(input: { email: string; origin: str
     const { db, brand } = await relatiiBrand();
     const contact = (await db.select().from(contacts).where(eq(contacts.email, input.email.trim().toLowerCase())).limit(1))[0];
     if (contact) {
-      const dashboardUrl = `${input.origin.replace(/\/$/, "")}/oferte/relatii/biblioteca?token=${encodeURIComponent(access.token)}`;
+      const dashboardUrl = `${input.origin.replace(/\/$/, "")}/relatii/biblioteca?token=${encodeURIComponent(access.token)}`;
       await sendBrandEmail({
         brandId: brand.id,
         brandName: brand.displayName,
