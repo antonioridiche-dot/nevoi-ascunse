@@ -43,6 +43,10 @@ describe("direct catalog routing contract", () => {
     expect(redirectedRoute("/oferte/relatii/oferta/friendzone")).toBe("/relatii/oferta/friendzone");
   });
 
+  it("sends the Vrăji affiliate entry point to the approved central affiliate portal", () => {
+    expect(redirectedRoute("/vraji/afiliere")).toBe("/afiliere");
+  });
+
   it("renders the editorial catalog at /oferte", () => {
     expect(renderRoute("/oferte")).toContain("Alege ce");
   });

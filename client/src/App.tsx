@@ -100,6 +100,7 @@ export function AppRouter() {
       <Route path={"/vraji/stai"} component={VrajiOriginalPost} />
       <Route path={"/vraji/pas/2"} component={VrajiOriginalPost} />
       <Route path={"/vraji/multumim"} component={VrajiOriginalThankYou} />
+      <Route path={"/vraji/afiliere"}>{() => <Redirect to="/afiliere" replace />}</Route>
       <Route path={"/vraji/biblioteca"} component={VrajiOriginalLibrary} />
       <Route path={"/vraji"} component={VrajiOriginalHome} />
       <Route path={"/weightloss"} component={WeightlossOriginalSales} />

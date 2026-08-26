@@ -60,6 +60,7 @@
 - [x] Direcționează linkurile legale Prieteni cu beneficii către rute directe cu stare explicită de document sursă indisponibil, fără copy legal inventat.
 - [x] Adaptează contractul de plată embedded Vrăji pentru oferta principală, bump-uri și post-cumpărare one-click.
 - [ ] Portează paginile, biblioteca, afilierea și administrarea Vrăji cu designul și copy-ul sursă.
+- [x] Redirecționează ruta Vrăji de afiliere către portalul central aprobat, deoarece sursa locală nu conține pagină publică de afiliere proprie.
 - [x] Portează pagina principală și cei trei pași post-cumpărare Vrăji cu checkout Stripe embedded din sursă.
 - [ ] Portează thank-you-ul, biblioteca, magic link-ul, afilierea și administrarea Vrăji cu contractele sursă.
 - [x] Aliniază exact mesajul accesului magic Vrăji la sursă, fără a promite livrare e-mail până la verificarea expeditorului.
