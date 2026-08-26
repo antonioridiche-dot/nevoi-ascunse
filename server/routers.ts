@@ -12,7 +12,7 @@ import { createPbcCheckout, getPbcCheckoutStatus } from "./commerce/pbcService";
 import { createVrajiPostPurchase, getVrajiPaymentStatus, prepareVrajiPayment } from "./commerce/vrajiService";
 import { getVrajiLibrary, requestVrajiLibraryAccess } from "./access/vrajiAccess";
 import { confirmCalendarIntent, createCalendarIntent, purchaseCalendarOneClick } from "./commerce/calendarService";
-import { calendarLifecycleEvents, trackCalendarLifecycle } from "./commerce/calendarTracking";
+import { calendarLifecycleEvents, getCalendarCampaignExport, getCalendarManualSegments, trackCalendarLifecycle } from "./commerce/calendarTracking";
 import { createWeightlossIntent, getWeightlossSecureDownloads, isWeightlossProduct, listWeightlossDownloadAssets, listWeightlossOrdersForAdmin, oneClickWeightlossUpsell, setWeightlossDownloadActive, uploadWeightlossDownload } from "./commerce/weightlossService";
 import { confirmRelatiiPayment, decideRelatiiOffer, getRelatiiOrder, prepareRelatiiPayment, recordRelatiiAffiliateOfferDecision, submitRelatiiCoachingApplication } from "./commerce/relatiiService";
 import { redeemRelatiiAccessLink, requestRelatiiRecovery } from "./access/relatiiAccess";
@@ -148,7 +148,7 @@ export const appRouter = router({
       confirm: publicProcedure.input(z.object({ checkoutToken: z.string().min(20).max(96), paymentIntentId: z.string().min(10).max(255) })).mutation(({ input }) => confirmCalendarIntent(input)),
       oneClick: publicProcedure.input(z.object({ email: z.string().trim().email().max(320), packageId: z.enum(["oneMonth", "twoMonths", "threeMonths"]) })).mutation(({ input }) => purchaseCalendarOneClick(input)),
     }),
-    lifecycle: router({ track: publicProcedure.input(z.object({ eventType: z.enum(calendarLifecycleEvents), email: z.string().trim().email().max(320).optional(), visitorId: z.string().trim().min(1).max(128).optional(), productId: z.enum(["oneMonth", "twoMonths", "threeMonths"]).optional(), metadata: z.record(z.string(), z.unknown()).optional() })).mutation(({ input }) => trackCalendarLifecycle(input)) }),
+    lifecycle: router({ manualSegments: adminProcedure.query(() => getCalendarManualSegments()), exportCampaign: adminProcedure.input(z.object({ campaignKey: z.enum(["abandoned_checkout", "base_only", "next_step_skipped", "missing_product"]) })).query(({ input }) => getCalendarCampaignExport(input.campaignKey)), track: publicProcedure.input(z.object({ eventType: z.enum(calendarLifecycleEvents), email: z.string().trim().email().max(320).optional(), visitorId: z.string().trim().min(1).max(128).optional(), productId: z.enum(["oneMonth", "twoMonths", "threeMonths"]).optional(), metadata: z.record(z.string(), z.unknown()).optional() })).mutation(({ input }) => trackCalendarLifecycle(input)) }),
   }),
   weightloss: router({
     admin: router({
