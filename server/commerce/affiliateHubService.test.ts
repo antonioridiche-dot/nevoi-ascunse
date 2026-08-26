@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { AFFILIATE_COMMISSION_BPS, AFFILIATE_HOLD_DAYS, AFFILIATE_MINIMUM_PAYOUT_CENTS, AFFILIATE_PAYOUT_CURRENCY, AFFILIATE_PAYOUT_SCHEDULE, assertAffiliatePayoutRequestReview, assertAffiliatePayoutRequestTransition, calculateAffiliateCommission, canReviewAffiliatePayoutRequest, shouldQueueAffiliateCommissionReviewForLostPartialDispute, shouldQueueAffiliateCommissionReviewForPartialRefund, shouldReverseAffiliateCommissionForFullRefund, shouldReverseAffiliateCommissionForLostFullDispute } from "./affiliateHubService";
+import { AFFILIATE_COMMISSION_BPS, AFFILIATE_HOLD_DAYS, AFFILIATE_MINIMUM_PAYOUT_CENTS, AFFILIATE_PAYOUT_CURRENCY, AFFILIATE_PAYOUT_SCHEDULE, assertAffiliatePayoutRequestReview, assertAffiliatePayoutRequestTransition, calculateAffiliateCommission, canReviewAffiliatePayoutRequest, isValidRomanianPayoutIban, shouldQueueAffiliateCommissionReviewForLostPartialDispute, shouldQueueAffiliateCommissionReviewForPartialRefund, shouldReverseAffiliateCommissionForFullRefund, shouldReverseAffiliateCommissionForLostFullDispute } from "./affiliateHubService";
 
 describe("affiliate hub commission policy", () => {
   it("uses the confirmed commission rate, hold period, and payout threshold", () => {
@@ -20,6 +20,12 @@ describe("affiliate hub commission policy", () => {
 });
 
 describe("affiliate hub payout review policy", () => {
+  it("accepts only a checksum-valid Romanian IBAN for manual RON payout v1", () => {
+    expect(isValidRomanianPayoutIban("RO49AAAA1B31007593840000")).toBe(true);
+    expect(isValidRomanianPayoutIban("RO48AAAA1B31007593840000")).toBe(false);
+    expect(isValidRomanianPayoutIban("DE89370400440532013000")).toBe(false);
+  });
+
   it("allows the requested → approved → paid path only in that order", () => {
     expect(canReviewAffiliatePayoutRequest("requested", "approved")).toBe(true);
     expect(canReviewAffiliatePayoutRequest("approved", "paid")).toBe(true);

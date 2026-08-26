@@ -25,6 +25,7 @@ export const AFFILIATE_COMMISSION_BPS = 5_000;
 export const AFFILIATE_HOLD_DAYS = 30;
 export const AFFILIATE_MINIMUM_PAYOUT_CENTS = 10_000;
 export const AFFILIATE_PAYOUT_CURRENCY = "ron" as const;
+export const AFFILIATE_PAYOUT_IBAN_COUNTRY = "RO" as const;
 export const AFFILIATE_PAYOUT_SCHEDULE = "Cererile eligibile sunt revizuite în două batchuri lunare, la 1 și 15. După aprobare, plata manuală este confirmată în ledger după transferul bancar.";
 export const AFFILIATE_TERMS_VERSION = "2026-08-v1";
 const LOGIN_CODE_TTL_MS = 10 * 60 * 1_000;
@@ -34,6 +35,18 @@ const ATTRIBUTION_TTL_MS = AFFILIATE_HOLD_DAYS * 24 * 60 * 60 * 1_000;
 const sha256 = (value: string) => createHash("sha256").update(value).digest("hex");
 const normalizeEmail = (value: string) => value.trim().toLowerCase();
 const canonicalRoute = (brandKey: string) => `/${brandKey}`;
+
+export function isValidRomanianPayoutIban(value: string) {
+  const iban = value.replace(/\s/g, "").toUpperCase();
+  if (!/^RO\d{2}[A-Z0-9]{20}$/.test(iban)) return false;
+  const rearranged = `${iban.slice(4)}${iban.slice(0, 4)}`;
+  let remainder = 0;
+  for (const character of rearranged) {
+    const numeric = character >= "A" && character <= "Z" ? String(character.charCodeAt(0) - 55) : character;
+    for (const digit of numeric) remainder = (remainder * 10 + Number(digit)) % 97;
+  }
+  return remainder === 1;
+}
 
 export type AffiliatePayoutRequestStatus = "requested" | "reviewing" | "approved" | "paid" | "rejected" | "cancelled";
 export type AffiliatePayoutDecision = "approved" | "rejected" | "paid";
@@ -257,8 +270,9 @@ export async function affiliateDashboard(sessionToken: string) {
 export async function submitAffiliatePayoutProfile(sessionToken: string, input: { legalName: string; beneficiaryType: "individual" | "pfa" | "company"; taxResidenceCountry: string; legalAddress: string; taxIdentifier?: string; iban: string; bic?: string; payoutCurrency: typeof AFFILIATE_PAYOUT_CURRENCY }) {
   const { db, account } = await accountFromSession(sessionToken);
   const legalName = input.legalName.trim(); const country = input.taxResidenceCountry.trim().toUpperCase(); const iban = input.iban.replace(/\s/g, "").toUpperCase();
-  if (legalName.length < 2 || !/^[A-Z]{2}$/.test(country) || input.legalAddress.trim().length < 5 || iban.length < 15) throw new Error("Completează datele de retragere valide.");
+  if (legalName.length < 2 || !/^[A-Z]{2}$/.test(country) || input.legalAddress.trim().length < 5) throw new Error("Completează datele de retragere valide.");
   if (input.payoutCurrency !== AFFILIATE_PAYOUT_CURRENCY) throw new Error("În această versiune, profilurile de payout sunt acceptate numai în RON.");
+  if (!isValidRomanianPayoutIban(iban)) throw new Error("În această versiune, retragerile manuale în RON necesită un IBAN românesc valid. Rezidența fiscală este revizuită separat de administrator.");
   await db.insert(affiliatePayoutProfiles).values({ affiliateId: account.id, legalName, beneficiaryType: input.beneficiaryType, taxResidenceCountry: country, legalAddress: input.legalAddress.trim(), taxIdentifier: input.taxIdentifier?.trim() || null, iban, bic: input.bic?.trim().toUpperCase() || null, payoutCurrency: AFFILIATE_PAYOUT_CURRENCY, verificationStatus: "submitted" }).onDuplicateKeyUpdate({ set: { legalName, beneficiaryType: input.beneficiaryType, taxResidenceCountry: country, legalAddress: input.legalAddress.trim(), taxIdentifier: input.taxIdentifier?.trim() || null, iban, bic: input.bic?.trim().toUpperCase() || null, payoutCurrency: AFFILIATE_PAYOUT_CURRENCY, verificationStatus: "submitted", verifiedAt: null } });
   return { submitted: true as const };
 }

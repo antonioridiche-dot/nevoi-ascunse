@@ -129,6 +129,6 @@
 - [x] Persistă refundurile și disputele parțiale neautomatizate într-un jurnal de review contabil, în loc să fie ignorate.
 - [x] Afișează în administrația de afiliere cazurile parțiale care necesită review contabil, fără a pretinde ajustare automată.
 - [x] Actualizează endpointul Stripe sandbox către domeniul public și selectează evenimentele necesare pentru confirmare, refund și dispută.
-- [ ] Aplică validare/reguli explicite pentru payout-urile afiliere România/SEPA: țări eligibile, IBAN/BIC compatibile și tratament clar pentru conturi non-SEPA.
+- [x] Aplică validare/reguli explicite pentru payout-urile afiliere România/SEPA: țări eligibile, IBAN/BIC compatibile și tratament clar pentru conturi non-SEPA.
 - [x] Aliniază batchul de payout cu moneda/profilul de payout sau limitează explicit v1 la RON în serviciu, UI, reguli și teste pentru requested → approved → paid.
 - [x] Limitează explicit payouturile manuale v1 la RON în contractul API, formularul afiliat și comunicarea publică, fără a pretinde suport SEPA/EUR.
