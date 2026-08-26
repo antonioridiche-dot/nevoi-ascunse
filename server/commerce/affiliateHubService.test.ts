@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { AFFILIATE_COMMISSION_BPS, AFFILIATE_HOLD_DAYS, AFFILIATE_MINIMUM_PAYOUT_CENTS, AFFILIATE_PAYOUT_CURRENCY, AFFILIATE_PAYOUT_SCHEDULE, assertAffiliatePayoutRequestReview, assertAffiliatePayoutRequestTransition, calculateAffiliateCommission, canReviewAffiliatePayoutRequest } from "./affiliateHubService";
+import { AFFILIATE_COMMISSION_BPS, AFFILIATE_HOLD_DAYS, AFFILIATE_MINIMUM_PAYOUT_CENTS, AFFILIATE_PAYOUT_CURRENCY, AFFILIATE_PAYOUT_SCHEDULE, assertAffiliatePayoutRequestReview, assertAffiliatePayoutRequestTransition, calculateAffiliateCommission, canReviewAffiliatePayoutRequest, shouldQueueAffiliateCommissionReviewForLostPartialDispute, shouldQueueAffiliateCommissionReviewForPartialRefund, shouldReverseAffiliateCommissionForFullRefund, shouldReverseAffiliateCommissionForLostFullDispute } from "./affiliateHubService";
 
 describe("affiliate hub commission policy", () => {
   it("uses the confirmed commission rate, hold period, and payout threshold", () => {
@@ -43,5 +43,26 @@ describe("affiliate hub payout review policy", () => {
   it("requires a bank-transfer reference before a request can become paid", () => {
     expect(() => assertAffiliatePayoutRequestReview({ status: "approved", decision: "paid" })).toThrow("referința transferului bancar");
     expect(() => assertAffiliatePayoutRequestReview({ status: "approved", decision: "paid", payoutReference: "BT-2026-08-001" })).not.toThrow();
+  });
+});
+
+describe("affiliate hub automatic reversals", () => {
+  it("accepts only a completed full refund for automatic reversal", () => {
+    expect(shouldReverseAffiliateCommissionForFullRefund({ refundStatus: "succeeded", chargeRefunded: true, chargeAmountCents: 19_700, chargeAmountRefundedCents: 19_700 })).toBe(true);
+    expect(shouldReverseAffiliateCommissionForFullRefund({ refundStatus: "pending", chargeRefunded: true, chargeAmountCents: 19_700, chargeAmountRefundedCents: 19_700 })).toBe(false);
+    expect(shouldReverseAffiliateCommissionForFullRefund({ refundStatus: "succeeded", chargeRefunded: false, chargeAmountCents: 19_700, chargeAmountRefundedCents: 9_850 })).toBe(false);
+  });
+
+  it("accepts only a lost dispute that covers the full charge", () => {
+    expect(shouldReverseAffiliateCommissionForLostFullDispute({ disputeStatus: "lost", disputeAmountCents: 19_700, chargeAmountCents: 19_700 })).toBe(true);
+    expect(shouldReverseAffiliateCommissionForLostFullDispute({ disputeStatus: "won", disputeAmountCents: 19_700, chargeAmountCents: 19_700 })).toBe(false);
+    expect(shouldReverseAffiliateCommissionForLostFullDispute({ disputeStatus: "lost", disputeAmountCents: 9_850, chargeAmountCents: 19_700 })).toBe(false);
+  });
+
+  it("queues only succeeded partial outcomes for accounting review", () => {
+    expect(shouldQueueAffiliateCommissionReviewForPartialRefund({ refundStatus: "succeeded", chargeAmountCents: 19_700, chargeAmountRefundedCents: 9_850 })).toBe(true);
+    expect(shouldQueueAffiliateCommissionReviewForPartialRefund({ refundStatus: "pending", chargeAmountCents: 19_700, chargeAmountRefundedCents: 9_850 })).toBe(false);
+    expect(shouldQueueAffiliateCommissionReviewForLostPartialDispute({ disputeStatus: "lost", chargeAmountCents: 19_700, disputeAmountCents: 9_850 })).toBe(true);
+    expect(shouldQueueAffiliateCommissionReviewForLostPartialDispute({ disputeStatus: "won", chargeAmountCents: 19_700, disputeAmountCents: 9_850 })).toBe(false);
   });
 });

@@ -12,9 +12,11 @@ import {
   affiliatePayoutRequests,
   brands,
   checkoutSessions,
+  funnelEvents,
   orderItems,
   orders,
   products,
+  webhookDeliveries,
 } from "../../drizzle/schema";
 import { ENV } from "../_core/env";
 import { getDb } from "../db";
@@ -49,6 +51,22 @@ export function assertAffiliatePayoutRequestTransition(status: AffiliatePayoutRe
 export function assertAffiliatePayoutRequestReview(input: { status: AffiliatePayoutRequestStatus; decision: AffiliatePayoutDecision; payoutReference?: string }) {
   assertAffiliatePayoutRequestTransition(input.status, input.decision);
   if (input.decision === "paid" && !input.payoutReference?.trim()) throw new Error("Adaugă referința transferului bancar înainte de confirmarea plății.");
+}
+
+export function shouldReverseAffiliateCommissionForFullRefund(input: { refundStatus: string | null | undefined; chargeRefunded: boolean; chargeAmountCents: number; chargeAmountRefundedCents: number }) {
+  return input.refundStatus === "succeeded" && input.chargeRefunded && input.chargeAmountCents > 0 && input.chargeAmountRefundedCents === input.chargeAmountCents;
+}
+
+export function shouldReverseAffiliateCommissionForLostFullDispute(input: { disputeStatus: string | null | undefined; disputeAmountCents: number; chargeAmountCents: number }) {
+  return input.disputeStatus === "lost" && input.chargeAmountCents > 0 && input.disputeAmountCents === input.chargeAmountCents;
+}
+
+export function shouldQueueAffiliateCommissionReviewForPartialRefund(input: { refundStatus: string | null | undefined; chargeAmountCents: number; chargeAmountRefundedCents: number }) {
+  return input.refundStatus === "succeeded" && input.chargeAmountCents > 0 && input.chargeAmountRefundedCents > 0 && input.chargeAmountRefundedCents < input.chargeAmountCents;
+}
+
+export function shouldQueueAffiliateCommissionReviewForLostPartialDispute(input: { disputeStatus: string | null | undefined; disputeAmountCents: number; chargeAmountCents: number }) {
+  return input.disputeStatus === "lost" && input.chargeAmountCents > 0 && input.disputeAmountCents > 0 && input.disputeAmountCents < input.chargeAmountCents;
 }
 
 export function calculateAffiliateCommission(input: { grossSaleAmountCents: number; excludedTaxAmountCents?: number; excludedProcessorFeeCents?: number }) {
@@ -182,7 +200,7 @@ export async function createAffiliateCommissionsForOrder(checkoutSessionId: numb
 
 export async function reverseAffiliateCommissionsForOrder(input: { orderId: number; reason: "refund" | "chargeback"; reference?: string }) {
   const db = await database();
-  const commissions = await db.select().from(affiliateLedgerEntries).where(and(eq(affiliateLedgerEntries.orderId, input.orderId), eq(affiliateLedgerEntries.entryType, "commission")));
+  const commissions = (await db.select().from(affiliateLedgerEntries).where(and(eq(affiliateLedgerEntries.orderId, input.orderId), eq(affiliateLedgerEntries.entryType, "commission")))).filter((commission) => commission.status !== "reversed");
   const reversedAt = new Date();
   for (const commission of commissions) {
     await db.update(affiliateLedgerEntries).set({ status: "reversed", reversedAt }).where(eq(affiliateLedgerEntries.id, commission.id));
@@ -191,6 +209,28 @@ export async function reverseAffiliateCommissionsForOrder(input: { orderId: numb
     await db.insert(affiliateLedgerEntries).values({ affiliateId: commission.affiliateId, brandId: commission.brandId, orderId: commission.orderId, orderItemId: commission.orderItemId, entryType, status, commissionRateBps: commission.commissionRateBps, grossSaleAmountCents: 0, excludedTaxAmountCents: 0, excludedProcessorFeeCents: 0, commissionBaseAmountCents: 0, grossCommissionAmountCents: 0, withholdingAmountCents: 0, netCommissionAmountCents: -Math.abs(commission.netCommissionAmountCents), currency: commission.currency, eligibleAt: reversedAt, reversedAt, metadataJson: JSON.stringify({ sourceLedgerEntryId: commission.id, reason: input.reason, reference: input.reference?.trim() || null }) }).onDuplicateKeyUpdate({ set: { metadataJson: sql`metadataJson`, reversedAt } });
   }
   return { reversed: commissions.length, reason: input.reason };
+}
+
+export async function reverseAffiliateCommissionsForStripePayment(input: { stripePaymentIntentId: string; reason: "refund" | "chargeback"; reference?: string }) {
+  const db = await database();
+  const order = (await db.select().from(orders).where(eq(orders.stripePaymentIntentId, input.stripePaymentIntentId)).limit(1))[0];
+  if (!order) return { found: false as const, reversed: 0 };
+  const result = await reverseAffiliateCommissionsForOrder({ orderId: order.id, reason: input.reason, reference: input.reference });
+  if (input.reason === "refund") await db.update(orders).set({ fulfillmentStatus: "refunded" }).where(eq(orders.id, order.id));
+  return { found: true as const, orderId: order.id, ...result };
+}
+
+export async function recordAffiliateCommissionReview(input: { providerEventId: string; providerEventType: string; stripePaymentIntentId: string; reason: "partial_refund" | "partial_chargeback"; reference?: string }) {
+  const db = await database();
+  const existing = (await db.select().from(webhookDeliveries).where(and(eq(webhookDeliveries.provider, "stripe"), eq(webhookDeliveries.providerEventId, input.providerEventId))).limit(1))[0];
+  if (existing) return { recorded: false as const };
+  await db.insert(webhookDeliveries).values({ provider: "stripe", providerEventId: input.providerEventId, eventType: `${input.providerEventType}:accounting_review`, processingStatus: "received" });
+  const order = (await db.select().from(orders).where(eq(orders.stripePaymentIntentId, input.stripePaymentIntentId)).limit(1))[0];
+  if (order) {
+    await db.insert(funnelEvents).values({ brandId: order.brandId, contactId: order.contactId, orderId: order.id, eventType: "affiliate_commission_review_required", metadataJson: JSON.stringify({ reason: input.reason, stripePaymentIntentId: input.stripePaymentIntentId, reference: input.reference?.trim() || null, providerEventId: input.providerEventId }) });
+  }
+  await db.update(webhookDeliveries).set({ processingStatus: "processed", processedAt: new Date() }).where(and(eq(webhookDeliveries.provider, "stripe"), eq(webhookDeliveries.providerEventId, input.providerEventId)));
+  return { recorded: true as const, orderId: order?.id ?? null };
 }
 
 export async function affiliateDashboard(sessionToken: string) {
@@ -206,7 +246,7 @@ export async function affiliateDashboard(sessionToken: string) {
     else if (item.status === "pending") state.pending += amount;
     else if (item.status === "eligible") state.eligible += amount;
     else if (item.status === "paid") state.paid += amount;
-    else if (item.status === "reversed" || item.status === "chargeback_adjustment") state.reversed += Math.abs(amount);
+    else if ((item.status === "reversed" || item.status === "chargeback_adjustment") && item.entryType !== "commission") state.reversed += Math.abs(amount);
     return state;
   }, { pending: 0, eligible: 0, paid: 0, reversed: 0 });
   const profile = (await db.select().from(affiliatePayoutProfiles).where(eq(affiliatePayoutProfiles.affiliateId, account.id)).limit(1))[0];
