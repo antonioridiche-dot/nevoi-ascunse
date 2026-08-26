@@ -107,5 +107,7 @@
 - [ ] Implementează atribuirea server-side pentru linkurile `/afiliere/<oferta>/<cod>`, cu retenție de 30 de zile prin checkouturile și pașii post-cumpărare eligibili.
 - [ ] Aplică regula de comision de 50%, pragul de retragere de 100 RON, maturizarea de 30 de zile și ledgerul reversibil pentru refund/chargeback.
 - [ ] Implementează profilul de payout la prima retragere și batchul de payout pentru România/SEPA, fără Stripe Connect sau transfer automat în prima versiune.
-- [ ] Definește și afișează calendarul concret al batchurilor de payout, aprobării administrative și plății după maturizare.
+- [x] Definește și afișează calendarul concret al batchurilor de payout, aprobării administrative și plății după maturizare.
 - [ ] Adaugă proceduri și teste pentru reversarea comisioanelor la refund/chargeback și pentru intrările `chargeback_adjustment` din ledger.
+- [ ] Aplică validare/reguli explicite pentru payout-urile afiliere România/SEPA: țări eligibile, IBAN/BIC compatibile și tratament clar pentru conturi non-SEPA.
+- [ ] Aliniază batchul de payout cu moneda/profilul de payout sau limitează explicit v1 la RON în serviciu, UI, reguli și teste pentru requested → approved → paid.
