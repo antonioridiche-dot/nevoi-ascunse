@@ -73,6 +73,8 @@
 - [ ] Migrează Iubire cu toate paginile, checkout-ul, biblioteca, e-mailurile și administrarea din sursă.
 - [x] Restaurează în biblioteca Iubire textul sursă despre pregătirea structurii resurselor reale, fără a inventa active.
 - [ ] Migrează Liniște Audio cu toate paginile, quiz-ul, checkout-ul, biblioteca, recovery și administrarea din sursă.
+- [x] Păstrează în recuperarea Liniște Audio ramura sursă `deliveryReady`, fără a pretinde disponibilitatea e-mailului cât timp expeditorul este neverificat.
+- [ ] Restaurează structura și stilurile sursă ale formularului de recuperare Liniște Audio, eliminate de reutilizarea stilului checkout.
 - [ ] Migrează Calendarul norocului cu toate paginile, personalizarea, checkout-ul, campaniile și administrarea din sursă.
 - [x] Expune la `/calendarul-norocului/admin` segmentele Calendar și exporturile manuale de campanie, fără trimitere automată de e-mail.
 - [ ] Migrează Peste despărțire cu toate paginile, quiz-ul, checkout-ul, pașii post-cumpărare și accesul din sursă.
