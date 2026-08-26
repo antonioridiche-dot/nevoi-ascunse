@@ -44,6 +44,7 @@ import { IubireOriginalCheckout, IubireOriginalHome } from "./pages/IubireOrigin
 import ArmoniiOriginalHome from "./pages/ArmoniiOriginalHome";
 import LinisteOriginalHome from "./pages/LinisteOriginalHome";
 import LinisteOriginalQuiz from "./pages/LinisteOriginalQuiz";
+import LinisteOriginalTheme from "./pages/LinisteOriginalTheme";
 
 export const CATALOG_ROUTE = "/oferte";
 export function directPathFromLegacyOffer(location: string) { return location.replace(/^\/oferte/, "") || CATALOG_ROUTE; }
@@ -120,6 +121,11 @@ export function AppRouter() {
       <Route path={"/armonii-bine"} component={ArmoniiOriginalHome} />
       <Route path={"/liniste-audio"} component={LinisteOriginalHome} />
       <Route path={"/liniste-audio/quiz"} component={LinisteOriginalQuiz} />
+      <Route path={"/liniste-audio/bani"}>{() => <LinisteOriginalTheme theme="bani" />}</Route>
+      <Route path={"/liniste-audio/sanatate"}>{() => <LinisteOriginalTheme theme="sanatate" />}</Route>
+      <Route path={"/liniste-audio/anxietate"}>{() => <LinisteOriginalTheme theme="anxietate" />}</Route>
+      <Route path={"/liniste-audio/eliberare"}>{() => <LinisteOriginalTheme theme="eliberare" />}</Route>
+      <Route path={"/liniste-audio/iubire"}>{() => <LinisteOriginalTheme theme="iubire" />}</Route>
       <Route path={"/iubire"} component={IubireOriginalHome} />
       <Route path={"/iubire/checkout"} component={IubireOriginalCheckout} />
       <Route path={"/iubire/multumesc"} component={IubireThankYou} />
