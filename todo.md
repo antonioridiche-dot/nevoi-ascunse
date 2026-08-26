@@ -94,6 +94,7 @@
 - [x] Publică un inventar complet al tuturor repository-urilor aprobate, rutelor unificate, stării implementării, checkout-ului sursă și lucrului rămas.
 - [ ] Auditează toate checkout-urile active: Tarot, Familie protejată, Prieteni cu beneficii, Vrăji, Weightloss și Relații, inclusiv handoff-urile post-plată.
 - [ ] Testează în Stripe sandbox fiecare flux embedded și păstrează separat testul Stripe Checkout extern pentru Prieteni cu beneficii.
+- [ ] Auditează PBC cu o sesiune Stripe Checkout sandbox plătită, returnare directă și reconciliere verificată pentru comandă, entitlement și ledger afiliat.
 - [ ] Repară orice checkout, webhook, fulfillment, e-mail sau acces client care eșuează în audit înainte de migrarea următorului lot.
 - [x] Reutilizează o singură inițializare Stripe.js în checkouturile portate, păstrând tipul de plată și succesiunea fiecărui flux.
 - [ ] Verifică operațional domeniul `nevoi-ascunse.ro` în Resend pentru a permite e-mailurile tranzacționale per brand; auditul Tarot a primit răspunsul 403 de domeniu neverificat.
