@@ -1,5 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { AFFILIATE_COMMISSION_BPS, AFFILIATE_HOLD_DAYS, AFFILIATE_MINIMUM_PAYOUT_CENTS, AFFILIATE_PAYOUT_CURRENCY, AFFILIATE_PAYOUT_SCHEDULE, assertAffiliatePayoutRequestReview, assertAffiliatePayoutRequestTransition, calculateAffiliateCommission, canReviewAffiliatePayoutRequest, isValidRomanianPayoutIban, shouldQueueAffiliateCommissionReviewForLostPartialDispute, shouldQueueAffiliateCommissionReviewForPartialRefund, shouldReverseAffiliateCommissionForFullRefund, shouldReverseAffiliateCommissionForLostFullDispute } from "./affiliateHubService";
+import { describe, expect, it, vi } from "vitest";
+
+const { getDbMock } = vi.hoisted(() => ({ getDbMock: vi.fn() }));
+
+vi.mock("../db", () => ({ getDb: getDbMock }));
+
+import { AFFILIATE_COMMISSION_BPS, AFFILIATE_HOLD_DAYS, AFFILIATE_MINIMUM_PAYOUT_CENTS, AFFILIATE_PAYOUT_CURRENCY, AFFILIATE_PAYOUT_SCHEDULE, affiliateCommissionReversalRecoveryPolicy, assertAffiliatePayoutRequestReview, assertAffiliatePayoutRequestTransition, calculateAffiliateCommission, canReviewAffiliatePayoutRequest, isValidRomanianPayoutIban, reverseAffiliateCommissionsForOrder, shouldQueueAffiliateCommissionReviewForLostPartialDispute, shouldQueueAffiliateCommissionReviewForPartialRefund, shouldReverseAffiliateCommissionForFullRefund, shouldReverseAffiliateCommissionForLostFullDispute } from "./affiliateHubService";
 
 describe("affiliate hub commission policy", () => {
   it("uses the confirmed commission rate, hold period, and payout threshold", () => {
@@ -70,5 +76,34 @@ describe("affiliate hub automatic reversals", () => {
     expect(shouldQueueAffiliateCommissionReviewForPartialRefund({ refundStatus: "pending", chargeAmountCents: 19_700, chargeAmountRefundedCents: 9_850 })).toBe(false);
     expect(shouldQueueAffiliateCommissionReviewForLostPartialDispute({ disputeStatus: "lost", chargeAmountCents: 19_700, disputeAmountCents: 9_850 })).toBe(true);
     expect(shouldQueueAffiliateCommissionReviewForLostPartialDispute({ disputeStatus: "won", chargeAmountCents: 19_700, disputeAmountCents: 9_850 })).toBe(false);
+  });
+
+  it("reverses the ledger for a paid commission without claiming an automatic bank recovery", () => {
+    expect(affiliateCommissionReversalRecoveryPolicy("paid")).toEqual({ requiresManualBankRecovery: true, recoveryMethod: "manual_bank_recovery" });
+    expect(affiliateCommissionReversalRecoveryPolicy("eligible")).toEqual({ requiresManualBankRecovery: false, recoveryMethod: "not_applicable" });
+  });
+
+  it("creates one idempotent chargeback adjustment and records manual recovery for a paid commission", async () => {
+    const commission = { id: 71, affiliateId: 31, brandId: 9, orderId: 44, orderItemId: 56, entryType: "commission", status: "paid", commissionRateBps: 5_000, netCommissionAmountCents: 8_700, currency: "ron" };
+    const inserted: Array<Record<string, unknown>> = [];
+    const updates: Array<Record<string, unknown>> = [];
+    const db = {
+      select: vi.fn(() => ({ from: vi.fn(() => ({ where: vi.fn(async () => [commission]) })) })),
+      update: vi.fn(() => ({ set: vi.fn((values) => ({ where: vi.fn(async () => { updates.push(values); }) })) })),
+      insert: vi.fn(() => ({ values: vi.fn((values) => ({ onDuplicateKeyUpdate: vi.fn(async () => { inserted.push(values); }) })) })),
+    };
+    getDbMock.mockResolvedValue(db);
+
+    await expect(reverseAffiliateCommissionsForOrder({ orderId: 44, reason: "chargeback", reference: "dp_cb_01" })).resolves.toEqual({ reversed: 1, reason: "chargeback" });
+    const firstAdjustment = inserted[0];
+    expect(firstAdjustment.entryType).toBe("chargeback_adjustment");
+    expect(firstAdjustment.netCommissionAmountCents).toBe(-8_700);
+    expect(JSON.parse(String(firstAdjustment.metadataJson))).toMatchObject({ sourceLedgerEntryId: 71, reason: "chargeback", reference: "dp_cb_01", recovery: { requiresManualBankRecovery: true, recoveryMethod: "manual_bank_recovery" } });
+    expect(updates).toEqual([{ status: "reversed", reversedAt: expect.any(Date) }]);
+
+    commission.status = "reversed";
+    await expect(reverseAffiliateCommissionsForOrder({ orderId: 44, reason: "chargeback", reference: "dp_cb_01" })).resolves.toEqual({ reversed: 0, reason: "chargeback" });
+    expect(inserted).toHaveLength(1);
+    expect(updates).toHaveLength(1);
   });
 });

@@ -124,7 +124,8 @@
 - [ ] Aplică regula de comision de 50%, pragul de retragere de 100 RON, maturizarea de 30 de zile și ledgerul reversibil pentru refund/chargeback.
 - [ ] Implementează profilul de payout la prima retragere și batchul de payout pentru România/SEPA, fără Stripe Connect sau transfer automat în prima versiune.
 - [x] Definește și afișează calendarul concret al batchurilor de payout, aprobării administrative și plății după maturizare.
-- [ ] Adaugă proceduri și teste pentru reversarea comisioanelor la refund/chargeback și pentru intrările `chargeback_adjustment` din ledger.
+- [x] Adaugă proceduri și teste pentru reversarea comisioanelor la refund/chargeback și pentru intrările `chargeback_adjustment` din ledger.
+- [x] Clarifică și testează reversarea idempotentă a comisioanelor deja plătite: ledgerul se ajustează, iar recuperarea bancară rămâne manuală, fără debit automat.
 - [x] Procesează prin webhook Stripe doar refundurile și disputele integrale confirmate; păstrează refundurile parțiale pentru revizuire contabilă până la modelarea ajustărilor proporționale.
 - [x] Configurează `/api/stripe/webhook` cu body raw compatibil Stripe și testează semnăturile pentru `refund.updated` și `charge.dispute.closed`.
 - [x] Persistă refundurile și disputele parțiale neautomatizate într-un jurnal de review contabil, în loc să fie ignorate.

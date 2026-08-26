@@ -82,6 +82,11 @@ export function shouldQueueAffiliateCommissionReviewForLostPartialDispute(input:
   return input.disputeStatus === "lost" && input.chargeAmountCents > 0 && input.disputeAmountCents > 0 && input.disputeAmountCents < input.chargeAmountCents;
 }
 
+export function affiliateCommissionReversalRecoveryPolicy(commissionStatus: string) {
+  if (commissionStatus === "paid") return { requiresManualBankRecovery: true as const, recoveryMethod: "manual_bank_recovery" as const };
+  return { requiresManualBankRecovery: false as const, recoveryMethod: "not_applicable" as const };
+}
+
 export function calculateAffiliateCommission(input: { grossSaleAmountCents: number; excludedTaxAmountCents?: number; excludedProcessorFeeCents?: number }) {
   const excludedTaxAmountCents = Math.max(0, input.excludedTaxAmountCents ?? 0);
   const excludedProcessorFeeCents = Math.max(0, input.excludedProcessorFeeCents ?? 0);
@@ -219,7 +224,7 @@ export async function reverseAffiliateCommissionsForOrder(input: { orderId: numb
     await db.update(affiliateLedgerEntries).set({ status: "reversed", reversedAt }).where(eq(affiliateLedgerEntries.id, commission.id));
     const entryType = input.reason === "refund" ? "refund_reversal" as const : "chargeback_adjustment" as const;
     const status = input.reason === "refund" ? "reversed" as const : "chargeback_adjustment" as const;
-    await db.insert(affiliateLedgerEntries).values({ affiliateId: commission.affiliateId, brandId: commission.brandId, orderId: commission.orderId, orderItemId: commission.orderItemId, entryType, status, commissionRateBps: commission.commissionRateBps, grossSaleAmountCents: 0, excludedTaxAmountCents: 0, excludedProcessorFeeCents: 0, commissionBaseAmountCents: 0, grossCommissionAmountCents: 0, withholdingAmountCents: 0, netCommissionAmountCents: -Math.abs(commission.netCommissionAmountCents), currency: commission.currency, eligibleAt: reversedAt, reversedAt, metadataJson: JSON.stringify({ sourceLedgerEntryId: commission.id, reason: input.reason, reference: input.reference?.trim() || null }) }).onDuplicateKeyUpdate({ set: { metadataJson: sql`metadataJson`, reversedAt } });
+    await db.insert(affiliateLedgerEntries).values({ affiliateId: commission.affiliateId, brandId: commission.brandId, orderId: commission.orderId, orderItemId: commission.orderItemId, entryType, status, commissionRateBps: commission.commissionRateBps, grossSaleAmountCents: 0, excludedTaxAmountCents: 0, excludedProcessorFeeCents: 0, commissionBaseAmountCents: 0, grossCommissionAmountCents: 0, withholdingAmountCents: 0, netCommissionAmountCents: -Math.abs(commission.netCommissionAmountCents), currency: commission.currency, eligibleAt: reversedAt, reversedAt, metadataJson: JSON.stringify({ sourceLedgerEntryId: commission.id, reason: input.reason, reference: input.reference?.trim() || null, recovery: affiliateCommissionReversalRecoveryPolicy(commission.status) }) }).onDuplicateKeyUpdate({ set: { metadataJson: sql`metadataJson`, reversedAt } });
   }
   return { reversed: commissions.length, reason: input.reason };
 }
