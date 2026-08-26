@@ -106,6 +106,7 @@
 - [ ] Actualizează toate linkurile interne, callback-urile Stripe, linkurile magice, rutele post-cumpărare și hărțile de flux pentru noua convenție de rute directe.
 - [x] Validează global că sursele client active nu folosesc prefixul legacy în afara routerului de compatibilitate.
 - [x] Actualizează testele server-side de catalog la contractul de rute directe, păstrând separat testele redirecturilor de compatibilitate.
+- [x] Validează prin test că sursele server-side active nu emit prefixul legacy în callbackuri Stripe sau linkuri de acces.
 - [x] Înlocuiește tranzițiile Tarot rămase pe `/oferte/tarot` cu rutele directe echivalente, inclusiv biblioteca și pașii post-cumpărare.
 - [x] Înlocuiește linkurile legacy Weightloss din chrome-ul sursă portat cu rutele directe echivalente.
 - [x] Păstrează redirecturi de compatibilitate de la vechile rute `/oferte/<brand>/...` către rutele directe echivalente până la validarea completă.
