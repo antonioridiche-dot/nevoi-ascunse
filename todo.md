@@ -104,6 +104,7 @@
 - [ ] Efectuează validarea fără browser prin comparație cu sursa, teste automate, rute/tRPC și Stripe sandbox API; marchează explicit orice verificare de interfață care rămâne pentru utilizator.
 - [x] Mută fiecare ofertă activă pe ruta directă de nivel rădăcină, de exemplu `/tarot`, `/relatii`, `/weightloss`, păstrând numai `/oferte` pentru catalog.
 - [ ] Actualizează toate linkurile interne, callback-urile Stripe, linkurile magice, rutele post-cumpărare și hărțile de flux pentru noua convenție de rute directe.
+- [x] Înlocuiește linkurile legacy Weightloss din chrome-ul sursă portat cu rutele directe echivalente.
 - [x] Păstrează redirecturi de compatibilitate de la vechile rute `/oferte/<brand>/...` către rutele directe echivalente până la validarea completă.
 - [x] Păstrează fallback controlat pentru fiecare ofertă neportată pe ruta directă, astfel încât niciun card din catalog să nu trimită la 404.
 - [x] Adaugă teste de contract pentru rutele directe active, fallback-urile ofertelor în curs și catalogul `/oferte`.
