@@ -18,6 +18,7 @@ import { FamilyThankYouPage } from "./pages/FamilyOriginalPost";
 import FamilyOriginalDashboard from "./pages/FamilyOriginalDashboard";
 import { PbcHome, PbcOffer } from "./pages/PbcOriginalPages";
 import { PbcCheckout, PbcThankYou } from "./pages/PbcOriginalCheckout";
+import PbcLegalUnavailable from "./pages/PbcLegalUnavailable";
 import VrajiOriginalPost from "./pages/VrajiOriginalPost";
 import VrajiOriginalHome from "./pages/VrajiOriginalHome";
 import VrajiOriginalThankYou from "./pages/VrajiOriginalThankYou";
@@ -92,6 +93,9 @@ export function AppRouter() {
       <Route path={"/prieteni-cu-beneficii/program-avansat"}>{() => <PbcOffer stage="upsellTwo" />}</Route>
       <Route path={"/prieteni-cu-beneficii/checkout"} component={PbcCheckout} />
       <Route path={"/prieteni-cu-beneficii/multumim"} component={PbcThankYou} />
+      <Route path={"/prieteni-cu-beneficii/termeni"} component={PbcLegalUnavailable} />
+      <Route path={"/prieteni-cu-beneficii/retur"} component={PbcLegalUnavailable} />
+      <Route path={"/prieteni-cu-beneficii/confidentialitate"} component={PbcLegalUnavailable} />
       <Route path={"/vraji/pas/1"} component={VrajiOriginalPost} />
       <Route path={"/vraji/stai"} component={VrajiOriginalPost} />
       <Route path={"/vraji/pas/2"} component={VrajiOriginalPost} />

@@ -83,6 +83,12 @@ describe("direct catalog routing contract", () => {
     expect(renderRoute("/iubire/multumesc")).toContain("Bine ai venit în spațiul tău pentru iubire");
   });
 
+  it("keeps PBC legal links on direct routes without inventing missing legal copy", () => {
+    const html = renderRoute("/prieteni-cu-beneficii/termeni");
+    expect(html).toContain("DOCUMENT SURSĂ INDISPONIBIL");
+    expect(html).toContain("nu este prezent în repository-ul disponibil");
+  });
+
   it("renders Iubire before the generic direct-route fallback", () => {
     expect(renderRoute("/iubire")).toContain("Deschide spațiu pentru iubirea");
   });
