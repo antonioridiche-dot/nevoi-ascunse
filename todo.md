@@ -44,7 +44,7 @@
 - [ ] Portează cele două trasee Relații, checkout-ul, șapte oferte post-cumpărare, thank-you-ul, biblioteca, afilierea și administrarea sursă.
 - [ ] Activează complet cele șapte pagini Relații post-cumpărare cu verificarea comenzii, deciziile și trackingul afiliatului din sursă.
 - [ ] Testează Relații cu o comandă validă: verificarea accesului, acceptarea/refuzul fiecărei oferte și navigarea prefixată între pași.
-- [ ] Portează pagina de mulțumire Relații și formularul de coaching 1:1 cu persistarea cererii din sursă.
+- [x] Portează pagina de mulțumire Relații și formularul de coaching 1:1 cu persistarea cererii din sursă.
 - [ ] Portează înscrierea, autentificarea, dashboardul și trackingul programului de afiliere Relații din sursă.
 - [x] Prefixează toate tranzițiile Relații din sursă cu `/oferte/relatii`, fără modificarea ordinii sau a copy-ului funnelului.
 - [ ] Migrează fidel ofertele audio din Music Tracks, inclusiv livrarea și biblioteca lor client.
