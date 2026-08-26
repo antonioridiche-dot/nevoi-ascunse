@@ -101,3 +101,5 @@
 - [x] Testează explicit că `/oferte` deschide catalogul și că o ofertă directă neportată, de exemplu `/armonii-bine`, intră în fallback-ul controlat.
 - [x] Testează redirecturile de compatibilitate de la `/oferte/<brand>` și `/oferte/<brand>/...` către rutele directe echivalente.
 - [x] Elimină documentația și hărțile de migrare rămase cu ruta/denumirea învechită Vrăjii, pentru a păstra brandul și checkout-ul Vrăji aliniate la sursă.
+- [ ] Definește pentru marketplace-ul de afiliere de tip ClickBank politica de refund, reversare a comisionului, perioadă de maturizare și calendar de plată a afiliaților.
+- [ ] Modelează ledger-ul de comisioane cu stări pending, eligibil, plătit, reversat și ajustare pentru chargeback.
