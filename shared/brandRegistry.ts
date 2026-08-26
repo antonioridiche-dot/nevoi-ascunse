@@ -1,3 +1,5 @@
+import { isApprovedMigrationRepository } from "./migrationAllowlist";
+
 export type BrandCategory =
   | "Relații"
   | "Ritualuri"
@@ -198,6 +200,13 @@ export const brandCatalog: BrandCatalogItem[] = [
     tone: "terra",
   },
 ];
+
+const unapprovedCatalogSources = brandCatalog
+  .filter((brand) => !isApprovedMigrationRepository(brand.sourceRepo))
+  .map((brand) => brand.sourceRepo);
+if (unapprovedCatalogSources.length > 0) {
+  throw new Error(`Registrul public conține surse neaprobate: ${unapprovedCatalogSources.join(", ")}`);
+}
 
 export const brandCategories: Array<BrandCategory | "Toate"> = [
   "Toate",

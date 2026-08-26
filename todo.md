@@ -6,7 +6,7 @@
 - [x] Implementează catalogul principal cu oferte reale, categorii și navigare funcțională.
 - [ ] Verifică afișarea responsivă și livrabilele înainte de publicare.
 - [x] Inventariază pentru fiecare repository eligibil paginile FE, upsell, downsell, thank-you, dashboard și automatizările de e-mail.
-- [ ] Exclude explicit proiectele tevreauinapoi, GrowOrPay și parinte-de-succes din migrare prin allowlist verificabil.
+- [x] Exclude explicit proiectele tevreauinapoi, GrowOrPay și parinte-de-succes din migrare prin allowlist verificabil.
 - [x] Mapează rutele consolidate, inclusiv /oferte/familieprotejata pentru fluxul Survival și /oferte/relatii pentru Dicționarul relațiilor.
 - [ ] Unifică modelele de produse, comenzi, acces client și declanșatoarele de e-mail fără pierderea fluxurilor existente.
 - [ ] Testează separat fiecare traseu de cumpărare și post-cumpărare înainte de lansare.
@@ -26,8 +26,9 @@
 - [ ] Adaugă conținutul livrabil al bibliotecii Tarot după selectarea materialelor de produs.
 - [ ] Configurează identitatea expeditorului Mara Tarot și validează livrarea e-mailului tranzacțional prin Resend.
 - [x] Conectează serverul la cheia Resend deja configurată pentru expedierea per brand.
-- [ ] Creează o allowlist unică a repository-urilor aprobate și rezolvă versiunile duplicate înainte de migrarea următoarelor fluxuri.
+- [x] Creează o allowlist unică a repository-urilor aprobate și rezolvă versiunile duplicate înainte de migrarea următoarelor fluxuri.
 - [ ] Aplică allowlist-ul în instrumentul de inventariere/migrare, astfel încât repository-urile neaprobate să fie blocate tehnic.
+- [x] Aplică allowlistul independent direct la registrul public de branduri, cu test pentru excluderea surselor neaprobate.
 - [x] Decide și documentează dacă weight-los-manifest și romanian-weightloss-funnel sunt două branduri distincte sau o singură ofertă consolidată.
 - [ ] Migrează fluxul Familie protejată: pagină FE, checkout, downsell-uri, thank-you și bibliotecă privată.
 - [ ] Înlocuiește reinterpretarea Tarot cu paginile, copy-ul, CSS-ul și checkout-ul embedded identice cu repository-ul sursă.
