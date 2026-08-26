@@ -18,7 +18,7 @@ import { confirmRelatiiPayment, decideRelatiiOffer, getRelatiiOrder, prepareRela
 import { redeemRelatiiAccessLink, requestRelatiiRecovery } from "./access/relatiiAccess";
 import { authenticateRelatiiAffiliate, createRelatiiAffiliate, getRelatiiAffiliateStats, trackRelatiiAffiliateClick } from "./commerce/relatiiAffiliateService";
 import { getRelatiiAdminSnapshot } from "./commerce/relatiiAdminService";
-import { confirmArmoniiIntent, createArmoniiIntent, getArmoniiDownloads } from "./commerce/armoniiService";
+import { chargeArmoniiUpsell, confirmArmoniiIntent, createArmoniiIntent, finalizeArmoniiUpsell, getArmoniiDownloads, getArmoniiUpsellOffer } from "./commerce/armoniiService";
 import { authorizeIubireLibrary, confirmIubireIntent, createIubireIntent } from "./commerce/iubireService";
 import { authorizeLinisteAccess, chargeLinisteEveningPause, confirmLinisteIntent, createLinisteIntent, finalizeLinisteEveningPause, getLinisteEveningPauseOffer } from "./commerce/linisteService";
 import { requestLinisteRecovery } from "./access/linisteRecovery";
@@ -124,6 +124,7 @@ export const appRouter = router({
       confirm: publicProcedure.input(z.object({ checkoutToken: z.string().min(20).max(96), paymentIntentId: z.string().startsWith("pi_") })).mutation(({ input }) => confirmArmoniiIntent(input)),
       downloads: publicProcedure.input(z.object({ access: z.string().min(30).max(200) })).query(({ input }) => getArmoniiDownloads(input.access)),
     }),
+    postPurchase: router({ context: publicProcedure.input(z.object({ access: z.string().min(30).max(200) })).query(({ input }) => getArmoniiUpsellOffer(input.access)), chargeRitual: publicProcedure.input(z.object({ access: z.string().min(30).max(200) })).mutation(({ input }) => chargeArmoniiUpsell(input.access)), finalizeRitual: publicProcedure.input(z.object({ access: z.string().min(30).max(200), paymentIntentId: z.string().startsWith("pi_") })).mutation(({ input }) => finalizeArmoniiUpsell(input.access, input.paymentIntentId)) }),
   }),
   iubire: router({
     checkout: router({
