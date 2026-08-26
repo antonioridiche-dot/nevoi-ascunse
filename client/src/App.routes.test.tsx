@@ -45,6 +45,16 @@ describe("direct catalog routing contract", () => {
     expect(renderRoute("/oferte")).toContain("Alege ce");
   });
 
+  it("renders the central affiliate program before the generic direct-route fallback", () => {
+    const html = renderRoute("/afiliere");
+    expect(html).toContain("Promovează ofertele");
+    expect(html).toContain("50% comision standard");
+  });
+
+  it("renders the honest affiliate materials status", () => {
+    expect(renderRoute("/afiliere/materiale")).toContain("Materialele sunt în lucru");
+  });
+
   it("renders the controlled offer fallback at an unported direct route", () => {
     const html = renderRoute("/peste-despartire");
     expect(html).toContain("Peste despărțire");

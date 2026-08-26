@@ -48,6 +48,7 @@ import LinisteOriginalQuiz from "./pages/LinisteOriginalQuiz";
 import LinisteOriginalTheme from "./pages/LinisteOriginalTheme";
 import LinisteOriginalCheckout, { LinisteOriginalOffer, LinisteOriginalThankYou } from "./pages/LinisteOriginalCheckout";
 import LinisteOriginalRecovery from "./pages/LinisteOriginalRecovery";
+import { AffiliateHubDashboard, AffiliateHubPublic, AffiliateReferral } from "./pages/AffiliateHub";
 
 export const CATALOG_ROUTE = "/oferte";
 export function directPathFromLegacyOffer(location: string) { return location.replace(/^\/oferte/, "") || CATALOG_ROUTE; }
@@ -64,6 +65,11 @@ export function AppRouter() {
     <Switch>
       <Route path={"/"} component={Home} />
       <Route path={CATALOG_ROUTE} component={Home} />
+      <Route path={"/afiliere"}>{() => <AffiliateHubPublic section="home" />}</Route>
+      <Route path={"/afiliere/materiale"}>{() => <AffiliateHubPublic section="materials" />}</Route>
+      <Route path={"/afiliere/reguli"}>{() => <AffiliateHubPublic section="rules" />}</Route>
+      <Route path={"/afiliere/dashboard"} component={AffiliateHubDashboard} />
+      <Route path={"/afiliere/:offer/:code"} component={AffiliateReferral} />
       <Route path={"/tarot"} component={TarotOriginalHome} />
       <Route path={"/tarot/citire"} component={TarotOriginalCheckout} />
       <Route path={"/tarot/asteapta"}>{() => <TarotOriginalPostPurchase productCode="numerology" />}</Route>

@@ -20,8 +20,14 @@ import { authenticateRelatiiAffiliate, createRelatiiAffiliate, getRelatiiAffilia
 import { getRelatiiAdminSnapshot } from "./commerce/relatiiAdminService";
 import { confirmArmoniiIntent, createArmoniiIntent, getArmoniiDownloads } from "./commerce/armoniiService";
 import { authorizeIubireLibrary, confirmIubireIntent, createIubireIntent } from "./commerce/iubireService";
-import { authorizeLinisteAccess, confirmLinisteIntent, createLinisteIntent } from "./commerce/linisteService";
+import { authorizeLinisteAccess, chargeLinisteEveningPause, confirmLinisteIntent, createLinisteIntent, finalizeLinisteEveningPause } from "./commerce/linisteService";
 import { requestLinisteRecovery } from "./access/linisteRecovery";
+import { affiliateAdminSnapshot, affiliateDashboard, listAffiliateOffers, logoutAffiliate, registerAffiliate, requestAffiliateLoginCode, requestAffiliatePayout, reverseAffiliateCommissionsForOrder, reviewAffiliatePayoutProfile, reviewAffiliatePayoutRequest, submitAffiliatePayoutProfile, trackAffiliateReferral, verifyAffiliateLoginCode } from "./commerce/affiliateHubService";
+
+function affiliateVisitorFromRequest(cookieHeader?: string) {
+  const value = cookieHeader?.match(/(?:^|;\s*)na_affiliate_visitor=([a-f0-9]{64})(?:;|$)/i)?.[1];
+  return value?.toLowerCase();
+}
 
 export const appRouter = router({
     // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
@@ -38,6 +44,21 @@ export const appRouter = router({
   }),
   catalog: router({
     listBrands: publicProcedure.query(async () => getBrandCatalog()),
+  }),
+  affiliateHub: router({
+    offers: publicProcedure.query(() => listAffiliateOffers()),
+    register: publicProcedure.input(z.object({ displayName: z.string().trim().min(2).max(160), email: z.string().trim().email().max(320), acceptedTerms: z.literal(true) })).mutation(({ input }) => registerAffiliate(input)),
+    requestLoginCode: publicProcedure.input(z.object({ email: z.string().trim().email().max(320) })).mutation(({ input }) => requestAffiliateLoginCode(input.email)),
+    verifyLoginCode: publicProcedure.input(z.object({ email: z.string().trim().email().max(320), code: z.string().regex(/^\d{6}$/) })).mutation(({ input }) => verifyAffiliateLoginCode(input)),
+    logout: publicProcedure.input(z.object({ sessionToken: z.string().length(64) })).mutation(({ input }) => logoutAffiliate(input.sessionToken)),
+    dashboard: publicProcedure.input(z.object({ sessionToken: z.string().length(64) })).query(({ input }) => affiliateDashboard(input.sessionToken)),
+    trackReferral: publicProcedure.input(z.object({ offerKey: z.string().trim().regex(/^[a-z0-9-]+$/).max(80), affiliateCode: z.string().trim().min(4).max(64), visitorToken: z.string().length(64), landingPath: z.string().startsWith("/").max(500) })).mutation(({ input }) => trackAffiliateReferral(input)),
+    submitPayoutProfile: publicProcedure.input(z.object({ sessionToken: z.string().length(64), legalName: z.string().trim().min(2).max(255), beneficiaryType: z.enum(["individual", "pfa", "company"]), taxResidenceCountry: z.string().trim().regex(/^[A-Za-z]{2}$/), legalAddress: z.string().trim().min(5).max(2000), taxIdentifier: z.string().trim().max(120).optional(), iban: z.string().trim().min(15).max(64), bic: z.string().trim().max(32).optional(), payoutCurrency: z.enum(["ron", "eur"]) })).mutation(({ input }) => submitAffiliatePayoutProfile(input.sessionToken, input)),
+    requestPayout: publicProcedure.input(z.object({ sessionToken: z.string().length(64) })).mutation(({ input }) => requestAffiliatePayout(input.sessionToken)),
+    adminSnapshot: adminProcedure.query(() => affiliateAdminSnapshot()),
+    reviewPayoutProfile: adminProcedure.input(z.object({ payoutProfileId: z.number().int().positive(), decision: z.enum(["approved", "rejected"]) })).mutation(({ input }) => reviewAffiliatePayoutProfile(input)),
+    reviewPayoutRequest: adminProcedure.input(z.object({ payoutRequestId: z.number().int().positive(), decision: z.enum(["approved", "rejected", "paid"]), payoutReference: z.string().trim().max(255).optional() })).mutation(({ input }) => reviewAffiliatePayoutRequest(input)),
+    reverseOrderCommission: adminProcedure.input(z.object({ orderId: z.number().int().positive(), reason: z.enum(["refund", "chargeback"]), reference: z.string().trim().max(255).optional() })).mutation(({ input }) => reverseAffiliateCommissionsForOrder(input)),
   }),
   tarot: router({
     redeemAccess: publicProcedure.input(z.object({ token: z.string().min(30).max(128) })).mutation(async ({ input, ctx }) => redeemTarotAccess(input.token, ctx.res)),
@@ -68,7 +89,7 @@ export const appRouter = router({
       .mutation(async ({ input, ctx }) => startTarotOfferCheckout({ ...input, origin: ctx.req.headers.origin ?? "" })),
   }),
   familie: router({
-    createPaymentIntent: publicProcedure.input(z.object({ customerName: z.string().trim().min(2).max(160), customerEmail: z.string().trim().email().max(320), checkoutKey: z.string().min(16).max(120), currency: z.enum(["ron", "eur", "usd", "gbp"]), variant: z.enum(["promo67", "exit20"]).optional(), productHandle: z.enum(["last-mile-72-hour-readiness-plan", "field-continuity-protocol", "field-continuity-protocol-essentials", "72-hour-decision-card-pack"]) })).mutation(({ input }) => createFamilyPaymentIntent(input)),
+    createPaymentIntent: publicProcedure.input(z.object({ customerName: z.string().trim().min(2).max(160), customerEmail: z.string().trim().email().max(320), checkoutKey: z.string().min(16).max(120), currency: z.enum(["ron", "eur", "usd", "gbp"]), variant: z.enum(["promo67", "exit20"]).optional(), productHandle: z.enum(["last-mile-72-hour-readiness-plan", "field-continuity-protocol", "field-continuity-protocol-essentials", "72-hour-decision-card-pack"]) })).mutation(({ input, ctx }) => createFamilyPaymentIntent({ ...input, affiliateVisitorToken: affiliateVisitorFromRequest(ctx.req.headers.cookie) })),
     confirmPayment: publicProcedure.input(z.object({ sessionToken: z.string().regex(/^[a-f0-9]{48}$/), paymentIntentId: z.string().startsWith("pi_") })).mutation(({ input }) => confirmFamilyPayment(input.sessionToken, input.paymentIntentId)),
     guard: publicProcedure.input(z.object({ sessionToken: z.string().regex(/^[a-f0-9]{48}$/), step: z.enum(["oto1", "ds1", "ds2", "thank_you"]) })).query(({ input }) => guardFamilyStep(input.sessionToken, input.step)),
     decide: publicProcedure.input(z.object({ sessionToken: z.string().regex(/^[a-f0-9]{48}$/), currentStep: z.enum(["oto1", "ds1", "ds2"]), accepted: z.boolean(), consent: z.boolean().default(false) })).mutation(({ input }) => decideFamilyOffer(input.sessionToken, input.currentStep, input.accepted, input.consent)),
@@ -78,7 +99,7 @@ export const appRouter = router({
   }),
   pbc: router({
     checkout: router({
-      create: publicProcedure.input(z.object({ productIds: z.array(z.enum(["frontEnd", "upsellOne", "downsell", "upsellTwo"])).min(1), customerName: z.string().trim().min(2).max(160), customerEmail: z.string().trim().email().max(320), acceptedTerms: z.literal(true) })).mutation(({ input, ctx }) => createPbcCheckout({ ...input, origin: ctx.req.headers.origin, host: ctx.req.headers.host, protocol: ctx.req.protocol })),
+      create: publicProcedure.input(z.object({ productIds: z.array(z.enum(["frontEnd", "upsellOne", "downsell", "upsellTwo"])).min(1), customerName: z.string().trim().min(2).max(160), customerEmail: z.string().trim().email().max(320), acceptedTerms: z.literal(true) })).mutation(({ input, ctx }) => createPbcCheckout({ ...input, origin: ctx.req.headers.origin, host: ctx.req.headers.host, protocol: ctx.req.protocol, affiliateVisitorToken: affiliateVisitorFromRequest(ctx.req.headers.cookie) })),
       status: publicProcedure.input(z.object({ sessionId: z.string().min(8).max(255) })).query(({ input }) => getPbcCheckoutStatus(input.sessionId)),
     }),
   }),
@@ -99,29 +120,30 @@ export const appRouter = router({
   }),
   armonii: router({
     checkout: router({
-      createIntent: publicProcedure.input(z.object({ email: z.string().trim().email().max(320), name: z.string().trim().max(160).optional() })).mutation(({ input }) => createArmoniiIntent(input)),
+      createIntent: publicProcedure.input(z.object({ email: z.string().trim().email().max(320), name: z.string().trim().max(160).optional() })).mutation(({ input, ctx }) => createArmoniiIntent({ ...input, affiliateVisitorToken: affiliateVisitorFromRequest(ctx.req.headers.cookie) })),
       confirm: publicProcedure.input(z.object({ checkoutToken: z.string().min(20).max(96), paymentIntentId: z.string().startsWith("pi_") })).mutation(({ input }) => confirmArmoniiIntent(input)),
       downloads: publicProcedure.input(z.object({ access: z.string().min(30).max(200) })).query(({ input }) => getArmoniiDownloads(input.access)),
     }),
   }),
   iubire: router({
     checkout: router({
-      createIntent: publicProcedure.input(z.object({ email: z.string().trim().email().max(320), offer: z.enum(["standard", "exit20"]), idempotencyKey: z.string().uuid() })).mutation(({ input }) => createIubireIntent(input)),
+      createIntent: publicProcedure.input(z.object({ email: z.string().trim().email().max(320), offer: z.enum(["standard", "exit20"]), idempotencyKey: z.string().uuid() })).mutation(({ input, ctx }) => createIubireIntent({ ...input, affiliateVisitorToken: affiliateVisitorFromRequest(ctx.req.headers.cookie) })),
       confirm: publicProcedure.input(z.object({ checkoutToken: z.string().min(32).max(96), paymentIntentId: z.string().startsWith("pi_") })).mutation(({ input }) => confirmIubireIntent(input)),
     }),
     library: router({ authorize: publicProcedure.input(z.object({ access: z.string().length(64) })).query(({ input }) => authorizeIubireLibrary(input.access)) }),
   }),
   liniste: router({
     checkout: router({
-      createIntent: publicProcedure.input(z.object({ productKey: z.enum(["anxietate", "dispozitie-joasa", "frica", "pachet-intreg"]), email: z.string().trim().email().max(320), currency: z.enum(["ron", "eur", "usd", "gbp"]), offer: z.enum(["exit20"]).optional(), idempotencyKey: z.string().uuid() })).mutation(({ input }) => createLinisteIntent(input)),
+      createIntent: publicProcedure.input(z.object({ productKey: z.enum(["anxietate", "dispozitie-joasa", "frica", "pachet-intreg"]), email: z.string().trim().email().max(320), currency: z.enum(["ron", "eur", "usd", "gbp"]), offer: z.enum(["exit20"]).optional(), idempotencyKey: z.string().uuid() })).mutation(({ input, ctx }) => createLinisteIntent({ ...input, affiliateVisitorToken: affiliateVisitorFromRequest(ctx.req.headers.cookie) })),
       confirm: publicProcedure.input(z.object({ checkoutToken: z.string().min(32).max(96), paymentIntentId: z.string().startsWith("pi_") })).mutation(({ input }) => confirmLinisteIntent(input)),
     }),
     recovery: router({ request: publicProcedure.input(z.object({ email: z.string().trim().email().max(320) })).mutation(({ input }) => requestLinisteRecovery(input.email)) }),
     library: router({ authorize: publicProcedure.input(z.object({ access: z.string().length(64) })).query(({ input }) => authorizeLinisteAccess(input.access)) }),
+    postPurchase: router({ chargeEveningPause: publicProcedure.input(z.object({ access: z.string().length(64) })).mutation(({ input }) => chargeLinisteEveningPause(input.access)), finalizeEveningPause: publicProcedure.input(z.object({ access: z.string().length(64), paymentIntentId: z.string().startsWith("pi_") })).mutation(({ input }) => finalizeLinisteEveningPause(input.access, input.paymentIntentId)) }),
   }),
   calendar: router({
     checkout: router({
-      createIntent: publicProcedure.input(z.object({ packageId: z.enum(["oneMonth", "twoMonths", "threeMonths"]), email: z.string().trim().email().max(320), firstName: z.string().trim().min(1).max(120).optional(), currency: z.enum(["usd", "eur", "gbp"]), visitorId: z.string().trim().min(1).max(128).optional(), marketingConsent: z.boolean().default(false), oneClickConsent: z.boolean().default(false) })).mutation(({ input }) => createCalendarIntent(input)),
+      createIntent: publicProcedure.input(z.object({ packageId: z.enum(["oneMonth", "twoMonths", "threeMonths"]), email: z.string().trim().email().max(320), firstName: z.string().trim().min(1).max(120).optional(), currency: z.enum(["usd", "eur", "gbp"]), visitorId: z.string().trim().min(1).max(128).optional(), marketingConsent: z.boolean().default(false), oneClickConsent: z.boolean().default(false) })).mutation(({ input, ctx }) => createCalendarIntent({ ...input, affiliateVisitorToken: affiliateVisitorFromRequest(ctx.req.headers.cookie) })),
       confirm: publicProcedure.input(z.object({ checkoutToken: z.string().min(20).max(96), paymentIntentId: z.string().min(10).max(255) })).mutation(({ input }) => confirmCalendarIntent(input)),
       oneClick: publicProcedure.input(z.object({ email: z.string().trim().email().max(320), packageId: z.enum(["oneMonth", "twoMonths", "threeMonths"]) })).mutation(({ input }) => purchaseCalendarOneClick(input)),
     }),
@@ -138,7 +160,7 @@ export const appRouter = router({
       secureDownloads: publicProcedure.input(z.object({ orderToken: z.string().uuid(), buyerEmail: z.string().email() })).mutation(({ input }) => getWeightlossSecureDownloads(input)),
     }),
     payment: router({
-      createIntent: publicProcedure.input(z.object({ productSlug: z.string().refine(isWeightlossProduct, "Produs necunoscut"), buyerEmail: z.string().email(), buyerName: z.string().trim().min(2).max(160), orderToken: z.string().uuid().optional(), affiliateCode: z.string().trim().max(64).optional() })).mutation(({ input }) => createWeightlossIntent(input)),
+      createIntent: publicProcedure.input(z.object({ productSlug: z.string().refine(isWeightlossProduct, "Produs necunoscut"), buyerEmail: z.string().email(), buyerName: z.string().trim().min(2).max(160), orderToken: z.string().uuid().optional(), affiliateCode: z.string().trim().max(64).optional() })).mutation(({ input, ctx }) => createWeightlossIntent({ ...input, affiliateVisitorToken: affiliateVisitorFromRequest(ctx.req.headers.cookie) })),
       oneClickUpsell: publicProcedure.input(z.object({ productSlug: z.enum(["retete", "miscare", "longevitate"]), orderToken: z.string().uuid(), originalPaymentIntentId: z.string().min(5) })).mutation(({ input }) => oneClickWeightlossUpsell(input)),
     }),
   }),

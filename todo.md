@@ -103,3 +103,9 @@
 - [x] Elimină documentația și hărțile de migrare rămase cu ruta/denumirea învechită Vrăjii, pentru a păstra brandul și checkout-ul Vrăji aliniate la sursă.
 - [ ] Definește pentru marketplace-ul de afiliere de tip ClickBank politica de refund, reversare a comisionului, perioadă de maturizare și calendar de plată a afiliaților.
 - [ ] Modelează ledger-ul de comisioane cu stări pending, eligibil, plătit, reversat și ajustare pentru chargeback.
+- [x] Construiește portalul central `/afiliere` cu înscriere deschisă, cod de acces pe e-mail, reguli publice, materiale marcate „În lucru” și dashboard securizat.
+- [ ] Implementează atribuirea server-side pentru linkurile `/afiliere/<oferta>/<cod>`, cu retenție de 30 de zile prin checkouturile și pașii post-cumpărare eligibili.
+- [ ] Aplică regula de comision de 50%, pragul de retragere de 100 RON, maturizarea de 30 de zile și ledgerul reversibil pentru refund/chargeback.
+- [ ] Implementează profilul de payout la prima retragere și batchul de payout pentru România/SEPA, fără Stripe Connect sau transfer automat în prima versiune.
+- [ ] Definește și afișează calendarul concret al batchurilor de payout, aprobării administrative și plății după maturizare.
+- [ ] Adaugă proceduri și teste pentru reversarea comisioanelor la refund/chargeback și pentru intrările `chargeback_adjustment` din ledger.

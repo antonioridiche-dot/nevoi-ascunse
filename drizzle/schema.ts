@@ -135,6 +135,7 @@ export const checkoutSessions = mysqlTable("checkout_sessions", {
   offerStepId: int("offerStepId").references(() => offerSteps.id, { onDelete: "set null" }),
   contactId: int("contactId").references(() => contacts.id, { onDelete: "set null" }),
   trackingSessionId: int("trackingSessionId").references(() => trackingSessions.id, { onDelete: "set null" }),
+  affiliateAttributionId: int("affiliateAttributionId").references(() => affiliateAttributions.id, { onDelete: "set null" }),
   checkoutToken: varchar("checkoutToken", { length: 96 }).notNull().unique(),
   stripeCheckoutSessionId: varchar("stripeCheckoutSessionId", { length: 255 }).unique(),
   stripePaymentIntentId: varchar("stripePaymentIntentId", { length: 255 }).unique(),
@@ -144,6 +145,7 @@ export const checkoutSessions = mysqlTable("checkout_sessions", {
 }, (table) => [
   index("checkout_sessions_brand_state_index").on(table.brandId, table.checkoutState),
   index("checkout_sessions_contact_index").on(table.contactId),
+  index("checkout_sessions_affiliate_attribution_index").on(table.affiliateAttributionId),
 ]);
 
 export const orders = mysqlTable("orders", {
@@ -324,6 +326,117 @@ export const affiliateCommissions = mysqlTable("affiliate_commissions", {
   paidAt: timestamp("paidAt"),
 }, (table) => [
   uniqueIndex("affiliate_commissions_item_unique").on(table.affiliateId, table.orderItemId),
+]);
+
+export const affiliateHubAccounts = mysqlTable("affiliate_hub_accounts", {
+  id: int("id").autoincrement().primaryKey(),
+  email: varchar("email", { length: 320 }).notNull().unique(),
+  displayName: varchar("displayName", { length: 160 }).notNull(),
+  affiliateCode: varchar("affiliateCode", { length: 64 }).notNull().unique(),
+  status: mysqlEnum("status", ["active", "paused"]).notNull().default("active"),
+  termsVersion: varchar("termsVersion", { length: 32 }).notNull(),
+  termsAcceptedAt: timestamp("termsAcceptedAt").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export const affiliateHubLoginCodes = mysqlTable("affiliate_hub_login_codes", {
+  id: int("id").autoincrement().primaryKey(),
+  affiliateId: int("affiliateId").notNull().references(() => affiliateHubAccounts.id, { onDelete: "cascade" }),
+  codeHash: varchar("codeHash", { length: 128 }).notNull(),
+  expiresAt: timestamp("expiresAt").notNull(),
+  consumedAt: timestamp("consumedAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => [index("affiliate_hub_login_codes_affiliate_index").on(table.affiliateId)]);
+
+export const affiliateHubSessions = mysqlTable("affiliate_hub_sessions", {
+  id: int("id").autoincrement().primaryKey(),
+  affiliateId: int("affiliateId").notNull().references(() => affiliateHubAccounts.id, { onDelete: "cascade" }),
+  tokenHash: varchar("tokenHash", { length: 128 }).notNull().unique(),
+  expiresAt: timestamp("expiresAt").notNull(),
+  revokedAt: timestamp("revokedAt"),
+  lastUsedAt: timestamp("lastUsedAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => [index("affiliate_hub_sessions_affiliate_index").on(table.affiliateId)]);
+
+export const affiliateAttributions = mysqlTable("affiliate_attributions", {
+  id: int("id").autoincrement().primaryKey(),
+  affiliateId: int("affiliateId").notNull().references(() => affiliateHubAccounts.id, { onDelete: "cascade" }),
+  brandId: int("brandId").notNull().references(() => brands.id, { onDelete: "cascade" }),
+  visitorTokenHash: varchar("visitorTokenHash", { length: 128 }).notNull(),
+  landingPath: varchar("landingPath", { length: 500 }).notNull(),
+  clickedAt: timestamp("clickedAt").defaultNow().notNull(),
+  expiresAt: timestamp("expiresAt").notNull(),
+}, (table) => [
+  uniqueIndex("affiliate_attributions_visitor_brand_unique").on(table.visitorTokenHash, table.brandId),
+  index("affiliate_attributions_affiliate_brand_index").on(table.affiliateId, table.brandId),
+]);
+
+export const affiliateLedgerEntries = mysqlTable("affiliate_ledger_entries", {
+  id: int("id").autoincrement().primaryKey(),
+  affiliateId: int("affiliateId").notNull().references(() => affiliateHubAccounts.id, { onDelete: "restrict" }),
+  brandId: int("brandId").notNull().references(() => brands.id, { onDelete: "restrict" }),
+  orderId: int("orderId").references(() => orders.id, { onDelete: "set null" }),
+  orderItemId: int("orderItemId").references(() => orderItems.id, { onDelete: "set null" }),
+  entryType: mysqlEnum("entryType", ["commission", "refund_reversal", "chargeback_adjustment", "payout_debit"]).notNull(),
+  status: mysqlEnum("status", ["pending", "eligible", "paid", "reversed", "chargeback_adjustment"]).notNull().default("pending"),
+  commissionRateBps: int("commissionRateBps").notNull().default(5000),
+  grossSaleAmountCents: int("grossSaleAmountCents").notNull().default(0),
+  excludedTaxAmountCents: int("excludedTaxAmountCents").notNull().default(0),
+  excludedProcessorFeeCents: int("excludedProcessorFeeCents").notNull().default(0),
+  commissionBaseAmountCents: int("commissionBaseAmountCents").notNull().default(0),
+  grossCommissionAmountCents: int("grossCommissionAmountCents").notNull().default(0),
+  withholdingAmountCents: int("withholdingAmountCents").notNull().default(0),
+  netCommissionAmountCents: int("netCommissionAmountCents").notNull().default(0),
+  currency: varchar("currency", { length: 8 }).notNull().default("ron"),
+  eligibleAt: timestamp("eligibleAt").notNull(),
+  reversedAt: timestamp("reversedAt"),
+  metadataJson: text("metadataJson"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => [
+  uniqueIndex("affiliate_ledger_order_item_commission_unique").on(table.affiliateId, table.orderItemId, table.entryType),
+  index("affiliate_ledger_affiliate_status_index").on(table.affiliateId, table.status),
+  index("affiliate_ledger_brand_order_index").on(table.brandId, table.orderId),
+]);
+
+export const affiliatePayoutProfiles = mysqlTable("affiliate_payout_profiles", {
+  id: int("id").autoincrement().primaryKey(),
+  affiliateId: int("affiliateId").notNull().unique().references(() => affiliateHubAccounts.id, { onDelete: "cascade" }),
+  legalName: varchar("legalName", { length: 255 }).notNull(),
+  beneficiaryType: mysqlEnum("beneficiaryType", ["individual", "pfa", "company"]).notNull(),
+  taxResidenceCountry: varchar("taxResidenceCountry", { length: 2 }).notNull(),
+  legalAddress: text("legalAddress").notNull(),
+  taxIdentifier: varchar("taxIdentifier", { length: 120 }),
+  iban: varchar("iban", { length: 64 }).notNull(),
+  bic: varchar("bic", { length: 32 }),
+  payoutCurrency: mysqlEnum("payoutCurrency", ["ron", "eur"]).notNull().default("ron"),
+  verificationStatus: mysqlEnum("verificationStatus", ["submitted", "reviewing", "approved", "rejected"]).notNull().default("submitted"),
+  verifiedAt: timestamp("verifiedAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export const affiliatePayoutRequests = mysqlTable("affiliate_payout_requests", {
+  id: int("id").autoincrement().primaryKey(),
+  affiliateId: int("affiliateId").notNull().references(() => affiliateHubAccounts.id, { onDelete: "restrict" }),
+  payoutProfileId: int("payoutProfileId").notNull().references(() => affiliatePayoutProfiles.id, { onDelete: "restrict" }),
+  requestedAmountCents: int("requestedAmountCents").notNull(),
+  currency: varchar("currency", { length: 8 }).notNull().default("ron"),
+  status: mysqlEnum("status", ["requested", "reviewing", "approved", "paid", "rejected", "cancelled"]).notNull().default("requested"),
+  adminNote: text("adminNote"),
+  payoutReference: varchar("payoutReference", { length: 255 }),
+  requestedAt: timestamp("requestedAt").defaultNow().notNull(),
+  reviewedAt: timestamp("reviewedAt"),
+  paidAt: timestamp("paidAt"),
+});
+
+export const affiliatePayoutRequestEntries = mysqlTable("affiliate_payout_request_entries", {
+  id: int("id").autoincrement().primaryKey(),
+  payoutRequestId: int("payoutRequestId").notNull().references(() => affiliatePayoutRequests.id, { onDelete: "cascade" }),
+  ledgerEntryId: int("ledgerEntryId").notNull().references(() => affiliateLedgerEntries.id, { onDelete: "restrict" }),
+}, (table) => [
+  uniqueIndex("affiliate_payout_request_entry_unique").on(table.payoutRequestId, table.ledgerEntryId),
+  index("affiliate_payout_request_entries_ledger_index").on(table.ledgerEntryId),
 ]);
 
 export const webhookDeliveries = mysqlTable("webhook_deliveries", {
