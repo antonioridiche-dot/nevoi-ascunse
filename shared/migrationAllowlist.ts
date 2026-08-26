@@ -2,7 +2,7 @@ import { brandCatalog } from "./brandRegistry";
 
 /**
  * Singura listă de repository-uri care poate fi migrată în acest proiect.
- * Varianta completă `dic-ionarul-rela-iilor` este sursa pentru ruta /oferte/relatii;
+ * Varianta completă `dic-ionarul-rela-iilor` este sursa pentru ruta /relatii;
  * repository-ul `dictionarulrelatiilor` rămâne arhivă tehnică, nu ofertă distinctă.
  */
 /** Repository-uri aprobate ca surse secundare ale unei rute unice. */
