@@ -75,6 +75,7 @@
 - [ ] Migrează Armonii & Bine cu toate paginile, checkout-ul embedded, livrarea audio/PDF și administrarea din sursă.
 - [ ] Migrează Iubire cu toate paginile, checkout-ul, biblioteca, e-mailurile și administrarea din sursă.
 - [x] Restaurează în biblioteca Iubire textul sursă despre pregătirea structurii resurselor reale, fără a inventa active.
+- [x] Restaurează secțiunile editoriale Iubire disponibile în sursă (final problem, metodă detaliată, bonusuri și FAQ), fără active substituite.
 - [ ] Migrează Liniște Audio cu toate paginile, quiz-ul, checkout-ul, biblioteca, recovery și administrarea din sursă.
 - [x] Păstrează în recuperarea Liniște Audio ramura sursă `deliveryReady`, fără a pretinde disponibilitatea e-mailului cât timp expeditorul este neverificat.
 - [ ] Restaurează structura și stilurile sursă ale formularului de recuperare Liniște Audio, eliminate de reutilizarea stilului checkout.
@@ -129,6 +130,7 @@
 - [x] Persistă refundurile și disputele parțiale neautomatizate într-un jurnal de review contabil, în loc să fie ignorate.
 - [x] Afișează în administrația de afiliere cazurile parțiale care necesită review contabil, fără a pretinde ajustare automată.
 - [x] Actualizează endpointul Stripe sandbox către domeniul public și selectează evenimentele necesare pentru confirmare, refund și dispută.
-- [x] Aplică validare/reguli explicite pentru payout-urile afiliere România/SEPA: țări eligibile, IBAN/BIC compatibile și tratament clar pentru conturi non-SEPA.
+- [ ] Aplică validare/reguli explicite pentru payout-urile afiliere România/SEPA: țări eligibile, IBAN/BIC compatibile și tratament clar pentru conturi non-SEPA.
+- [x] Restrânge payouturile v1 la RON cu IBAN românesc valid și review fiscal manual, fără a pretinde suport SEPA.
 - [x] Aliniază batchul de payout cu moneda/profilul de payout sau limitează explicit v1 la RON în serviciu, UI, reguli și teste pentru requested → approved → paid.
 - [x] Limitează explicit payouturile manuale v1 la RON în contractul API, formularul afiliat și comunicarea publică, fără a pretinde suport SEPA/EUR.
