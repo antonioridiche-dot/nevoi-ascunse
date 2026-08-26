@@ -4,7 +4,7 @@
 
 | Offer / brand | Approved source repository | Unified route | Source checkout behavior | Current state | Required remaining work before verified |
 |---|---|---|---|---|---|
-| Tarot | `tarot` | `/tarot` | Embedded Stripe card payment | Active source port | Full sandbox click-through, sender delivery, source-to-target route diff, library assets |
+| Tarot | `tarot` | `/tarot` | Embedded Stripe card payment | Active source port | Full sandbox click-through, sender delivery, source-to-target route diff, library assets. Sursa locală disponibilă conține doar `client/src/pages/Citire.tsx`; paginile sursă separate de post-cumpărare/bibliotecă nu sunt disponibile local pentru comparație copy-first. |
 | Familie protejată | `survival` | `/familieprotejata` | Embedded Stripe card payment | Partially active | Source quiz, delivery/recovery, affiliate, administration, real sandbox flow |
 | Prieteni cu beneficii | `prieteni-cu-beneficii` | `/prieteni-cu-beneficii` | **External Stripe Checkout** | Partially active | Checkout-ul preview a fost verificat vizual, iar revenirea din flux și CTA-ul de plată nefinalizată folosesc acum rutele directe; Stripe Checkout extern, inclusiv deschiderea sa într-o fereastră separată, a rămas neschimbat. Mai sunt necesare verificarea hosted-session/return, legalul, fulfillment-ul, biblioteca și automatizările. Repository-ul sursă leagă pagini legale, dar nu conține implementările lor; acestea nu au fost inventate. |
 | Vrăji | `vraji-spells-store` | `/vraji` | Embedded Stripe card payment | Active flow, partially verified | Fulfillment idempotent, thank-you, magic-link request and private library are ported; affiliate, administration, source assets and completed sandbox-to-library audit remain |
