@@ -23,6 +23,14 @@
 | Direcția abundenței | `directia-abundentei` | `/directia-abundentei` | Source checkout and optional post-purchase step | Not ported | Copy FunnelHome, Checkout, PostPurchase and ThankYou routes |
 | Slăbiciunea zodiei | `secretul-zodiei` | `/slabiciunea-zodiei` | Source personalized storefront checkout | Not ported | Copy Storefront, affiliate program/dashboard/admin and zodiac step offers |
 
+## Program central de afiliere
+
+Portalul central este activ la `/afiliere`, cu reguli publice, materiale marcate explicit **„În lucru”**, înscriere deschisă, dashboard de afiliat și zona administrativă `/afiliere/admin`. Linkul canonic este `/afiliere/<oferta>/<cod>`; acesta validează afiliatul și oferta, persistă atribuirea de 30 de zile în server și redirecționează la ruta directă a brandului.
+
+Regula curentă este 50% din baza de comision server-side, cu maturizare de 30 de zile complete, prag de 100 RON și batch administrativ la 1 și 15 ale lunii. Payouturile nu sunt inițiate automat și nu folosesc Stripe Connect în această versiune. La prima cerere se colectează profilul de payout; un administrator verifică profilul, aprobă cererea și poate marca plata doar cu o referință bancară. Ledgerul are stări pentru pending, eligible, paid, reversed și chargeback adjustment; reversarea este disponibilă administrativ pentru refund/chargeback.
+
+Integrarea afiliată este conectată la checkout/fulfillment pentru Tarot, Familie protejată, Prieteni cu beneficii, Vrăji, Weightloss, Relații, Armonii & Bine, Iubire, Liniște Audio și Calendarul norocului. Prieteni cu beneficii păstrează obligatoriu Stripe Checkout extern; după o sesiune plătită, serverul materializează comanda, drepturile și ledgerul fără a schimba checkoutul hosted. Nu este declarată încă paritatea end-to-end pentru upsellurile, downsellurile, refundurile venite prin webhook sau rutele neportate. Autentificarea prin cod este implementată, dar livrarea codului nu poate fi declarată funcțională până la verificarea expeditorului Resend `nevoi-ascunse.ro`.
+
 ## Approved Consolidations and Exclusions
 
 | Repository | Treatment |

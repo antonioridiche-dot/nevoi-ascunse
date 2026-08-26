@@ -5,6 +5,7 @@ import { brandContacts, brands, contacts, funnelEvents } from "../../drizzle/sch
 import { ENV } from "../_core/env";
 import { getDb } from "../db";
 import { registerVrajiPaymentIntent } from "./vrajiFulfillment";
+import { resolveAffiliateAttribution } from "./affiliateHubService";
 
 export const VRAJI_PRODUCTS = {
   loveCore: { sku: "love-core", name: "Vraja pentru iubire", priceRonBani: 20_000 },
@@ -58,9 +59,9 @@ async function findOrCreateVrajiStripeCustomer(email: string, contactId: number)
   return customer.id;
 }
 
-export async function prepareVrajiPayment(input: { email: string; offerVariant: VrajiVariant; bumps: VrajiBumpSku[]; affiliateCode?: string | null }) {
+export async function prepareVrajiPayment(input: { email: string; offerVariant: VrajiVariant; bumps: VrajiBumpSku[]; affiliateCode?: string | null; affiliateVisitorToken?: string }) {
   if (input.bumps.some((sku) => !validBumps.has(sku))) throw new Error("Un extra selectat nu este disponibil.");
-  const { db, brand, contact } = await getVrajiContact(input.email);
+  const { db, brand, contact } = await getVrajiContact(input.email); const attribution = await resolveAffiliateAttribution(brand.id, input.affiliateVisitorToken);
   const cleanBumps = [...input.bumps].sort() as VrajiBumpSku[];
   const customerId = await findOrCreateVrajiStripeCustomer(contact.email, contact.id);
   const amount = vrajiCheckoutAmount(input.offerVariant, cleanBumps);
@@ -72,7 +73,7 @@ export async function prepareVrajiPayment(input: { email: string; offerVariant: 
     receipt_email: contact.email,
     payment_method_types: ["card"],
     setup_future_usage: "off_session",
-    metadata: { brand_key: brand.key, brand_id: String(brand.id), contact_id: String(contact.id), offer_variant: input.offerVariant, skus: [VRAJI_PRODUCTS.loveCore.sku, ...cleanBumps].join(","), affiliate_code: input.affiliateCode ?? "" },
+    metadata: { brand_key: brand.key, brand_id: String(brand.id), contact_id: String(contact.id), offer_variant: input.offerVariant, skus: [VRAJI_PRODUCTS.loveCore.sku, ...cleanBumps].join(","), affiliate_code: input.affiliateCode ?? "", affiliate_attribution_id: attribution ? String(attribution.id) : "" },
   }, { idempotencyKey });
   await registerVrajiPaymentIntent({ brandId: brand.id, contactId: contact.id, intent });
   await db.insert(funnelEvents).values({ brandId: brand.id, contactId: contact.id, eventType: "payment_prepared", metadataJson: JSON.stringify({ paymentIntentId: intent.id, amount, variant: input.offerVariant, bumps: cleanBumps }) });

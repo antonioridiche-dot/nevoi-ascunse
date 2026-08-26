@@ -2,6 +2,7 @@ import Stripe from "stripe";
 import { and, eq } from "drizzle-orm";
 import { checkoutSessions, entitlements, funnelEvents, orderItems, orders, products } from "../../drizzle/schema";
 import { getDb } from "../db";
+import { createAffiliateCommissionsForOrder } from "./affiliateHubService";
 
 const vrajiProductNames: Record<string, string> = {
   "love-core": "Vraja pentru iubire",
@@ -51,6 +52,7 @@ export async function registerVrajiPaymentIntent(input: { brandId: number; conta
       contactId: input.contactId,
       checkoutToken: `vraji-${input.intent.id}`,
       stripePaymentIntentId: input.intent.id,
+      affiliateAttributionId: Number.isInteger(Number(input.intent.metadata.affiliate_attribution_id)) && Number(input.intent.metadata.affiliate_attribution_id) > 0 ? Number(input.intent.metadata.affiliate_attribution_id) : null,
       checkoutState: input.intent.status === "succeeded" ? "completed" : "payment_pending",
     });
   }
@@ -97,7 +99,7 @@ export async function fulfillVrajiPayment(intent: Stripe.PaymentIntent) {
     if (!entitlement) await db.insert(entitlements).values({ contactId, brandId, productId: product.id, orderItemId: item.id, status: "active" });
   }
 
-  if (checkout) await db.update(checkoutSessions).set({ checkoutState: "completed" }).where(eq(checkoutSessions.id, checkout.id));
+  if (checkout) { await db.update(checkoutSessions).set({ checkoutState: "completed" }).where(eq(checkoutSessions.id, checkout.id)); await createAffiliateCommissionsForOrder(checkout.id, order.id); }
   await db.insert(funnelEvents).values({ brandId, contactId, orderId: order.id, eventType: "purchase_fulfilled", metadataJson: JSON.stringify({ paymentIntentId: intent.id, skus }) });
   return { fulfilled: true as const, orderId: order.id, skus };
 }

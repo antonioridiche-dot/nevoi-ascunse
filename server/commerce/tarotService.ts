@@ -20,6 +20,7 @@ import { sendBrandEmail } from "../email/brandMailer";
 import { issueTarotAccess } from "../access/tarotAccess";
 import { ENV } from "../_core/env";
 import { isTarotCard, TAROT_PRODUCTS } from "./tarotConfig";
+import { createAffiliateCommissionsForOrder, resolveAffiliateAttribution } from "./affiliateHubService";
 
 type TarotCheckoutInput = {
   customerName: string;
@@ -225,18 +226,19 @@ export async function getTarotOrder(publicToken: string) {
   return { publicToken, customerName: [contact.firstName, contact.lastName].filter(Boolean).join(" ") || "Client", customerEmail: contact.email, birthDate: payload.birthDate ?? "", topic: payload.topic ?? "", selectedCards: payload.selectedCards ?? [], status: checkout.checkoutState };
 }
 
-export async function prepareTarotEmbeddedPayment(publicToken: string, currency: keyof typeof TAROT_EMBEDDED_PRICES, offerCode: "welcome33" | "exit20") {
+export async function prepareTarotEmbeddedPayment(publicToken: string, currency: keyof typeof TAROT_EMBEDDED_PRICES, offerCode: "welcome33" | "exit20", affiliateVisitorToken?: string) {
   const { db, brand } = await getTarotBrand();
   const checkout = (await db.select().from(checkoutSessions).where(and(eq(checkoutSessions.checkoutToken, publicToken), eq(checkoutSessions.brandId, brand.id))).limit(1))[0];
   if (!checkout?.contactId) throw new Error("Cererea nu a fost găsită.");
   if (checkout.checkoutState === "completed") throw new Error("Această comandă este deja plătită.");
   const contact = (await db.select().from(contacts).where(eq(contacts.id, checkout.contactId)).limit(1))[0];
+  const attribution = await resolveAffiliateAttribution(brand.id, affiliateVisitorToken);
   const stripe = stripeClient();
   const customer = await stripe.customers.create({ email: contact.email, name: [contact.firstName, contact.lastName].filter(Boolean).join(" ") || undefined, metadata: { brand_key: brand.key, checkout_token: publicToken } });
   const amount = TAROT_EMBEDDED_PRICES[currency][offerCode];
-  const intent = await stripe.paymentIntents.create({ amount, currency, customer: customer.id, receipt_email: contact.email, setup_future_usage: "off_session", description: "Ghid tarot personalizat", metadata: { brand_key: brand.key, checkout_token: publicToken, product_key: "tarot_guide", offer_code: offerCode, checkout_currency: currency, contact_id: String(contact.id) } }, { idempotencyKey: `tarot-embedded-${checkout.id}-${currency}-${offerCode}` });
+  const intent = await stripe.paymentIntents.create({ amount, currency, customer: customer.id, receipt_email: contact.email, setup_future_usage: "off_session", description: "Ghid tarot personalizat", metadata: { brand_key: brand.key, checkout_token: publicToken, product_key: "tarot_guide", offer_code: offerCode, checkout_currency: currency, contact_id: String(contact.id), affiliate_attribution_id: attribution ? String(attribution.id) : "" } }, { idempotencyKey: `tarot-embedded-${checkout.id}-${currency}-${offerCode}` });
   if (!intent.client_secret) throw new Error("Plata nu a putut fi pregătită.");
-  await db.update(checkoutSessions).set({ checkoutState: "payment_pending", stripePaymentIntentId: intent.id }).where(eq(checkoutSessions.id, checkout.id));
+  await db.update(checkoutSessions).set({ checkoutState: "payment_pending", stripePaymentIntentId: intent.id, affiliateAttributionId: attribution?.id ?? checkout.affiliateAttributionId }).where(eq(checkoutSessions.id, checkout.id));
   await db.insert(funnelEvents).values({ brandId: brand.id, contactId: contact.id, eventType: "embedded_checkout_prepared", metadataJson: JSON.stringify({ publicToken, paymentIntentId: intent.id, currency, offerCode }) });
   return { clientSecret: intent.client_secret, price: { amount, currency } };
 }
@@ -339,6 +341,7 @@ export async function completeTarotCheckout(session: Stripe.Checkout.Session, pr
   if (!checkout || checkout.brandId !== brand.id || !checkout.contactId) return;
   const paymentIntentId = typeof session.payment_intent === "string" ? session.payment_intent : session.payment_intent?.id;
   if (!paymentIntentId) throw new Error("Stripe nu a transmis identificatorul plății confirmate.");
+  const confirmedIntent = await stripeClient().paymentIntents.retrieve(paymentIntentId);
 
   await db.update(checkoutSessions).set({ checkoutState: "completed", stripeCheckoutSessionId: session.id, stripePaymentIntentId: paymentIntentId }).where(eq(checkoutSessions.id, checkout.id));
   let order = (await db.select().from(orders).where(eq(orders.stripePaymentIntentId, paymentIntentId)).limit(1))[0];
@@ -349,6 +352,8 @@ export async function completeTarotCheckout(session: Stripe.Checkout.Session, pr
       checkoutSessionId: checkout.id,
       stripeCustomerId: typeof session.customer === "string" ? session.customer : session.customer?.id ?? null,
       stripePaymentIntentId: paymentIntentId,
+      amountCents: confirmedIntent.amount,
+      currency: confirmedIntent.currency,
       fulfillmentStatus: "fulfilled",
       fulfilledAt: new Date(),
     });
@@ -364,6 +369,7 @@ export async function completeTarotCheckout(session: Stripe.Checkout.Session, pr
   if (!entitlement) {
     await db.insert(entitlements).values({ contactId: checkout.contactId, brandId: brand.id, productId: purchasedProduct.id, orderItemId: item.id, status: "active" });
   }
+  await createAffiliateCommissionsForOrder(checkout.id, order.id);
   await db.insert(funnelEvents).values({ brandId: brand.id, contactId: checkout.contactId, orderId: order.id, eventType: productKey === "tarot_guide" ? "purchase_completed" : "offer_completed", metadataJson: JSON.stringify({ checkoutToken, paymentIntentId, productKey }) });
   await db.update(webhookDeliveries).set({ processingStatus: "processed", processedAt: new Date() }).where(and(eq(webhookDeliveries.provider, "stripe"), eq(webhookDeliveries.providerEventId, providerEventId)));
 

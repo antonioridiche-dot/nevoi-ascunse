@@ -66,7 +66,7 @@ export const appRouter = router({
     dashboard: publicProcedure.query(async ({ ctx }) => getTarotDashboard(ctx.req)),
     createOrder: publicProcedure.input(z.object({ customerName: z.string().min(2).max(160), customerEmail: z.string().email().max(320), birthDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/), topic: z.string().min(2).max(160), selectedCards: z.array(z.string()).length(3), marketingConsent: z.boolean() })).mutation(async ({ input }) => createTarotOrder(input)),
     getOrder: publicProcedure.input(z.object({ publicToken: z.string().min(32).max(96) })).query(async ({ input }) => getTarotOrder(input.publicToken)),
-    prepareEmbeddedPayment: publicProcedure.input(z.object({ publicToken: z.string().min(32).max(96), currency: z.enum(["ron", "eur", "gbp", "usd"]), offerCode: z.enum(["welcome33", "exit20"]) })).mutation(async ({ input }) => prepareTarotEmbeddedPayment(input.publicToken, input.currency, input.offerCode)),
+    prepareEmbeddedPayment: publicProcedure.input(z.object({ publicToken: z.string().min(32).max(96), currency: z.enum(["ron", "eur", "gbp", "usd"]), offerCode: z.enum(["welcome33", "exit20"]) })).mutation(async ({ input, ctx }) => prepareTarotEmbeddedPayment(input.publicToken, input.currency, input.offerCode, affiliateVisitorFromRequest(ctx.req.headers.cookie))),
     finalizeEmbeddedPayment: publicProcedure.input(z.object({ publicToken: z.string().min(32).max(96), paymentIntentId: z.string().startsWith("pi_") })).mutation(async ({ input }) => finalizeTarotEmbeddedPayment(input.publicToken, input.paymentIntentId)),
     recordExitOffer: publicProcedure.input(z.object({ publicToken: z.string().min(32).max(96) })).mutation(async ({ input }) => recordTarotExitOffer(input.publicToken)),
     trackFunnelEvent: publicProcedure.input(z.object({ publicToken: z.string().min(32).max(96), eventType: z.enum(["checkout_viewed", "currency_changed", "dashboard_viewed", "payment_form_error"]) })).mutation(async ({ input }) => trackTarotEvent(input.publicToken, input.eventType)),
@@ -108,7 +108,7 @@ export const appRouter = router({
       event: publicProcedure.input(z.object({ sessionId: z.string().min(8).max(80), eventName: z.string().min(2).max(80), stage: z.string().min(2).max(64) })).mutation(async () => ({ success: true as const })),
     }),
     checkout: router({
-      prepare: publicProcedure.input(z.object({ email: z.string().trim().email().max(320), offerVariant: z.enum(["promo67", "exit20"]), bumps: z.array(z.enum(["priority-journal", "closure-ritual"])).max(2), affiliateCode: z.string().trim().min(4).max(48).nullable().optional() })).mutation(({ input }) => prepareVrajiPayment(input)),
+      prepare: publicProcedure.input(z.object({ email: z.string().trim().email().max(320), offerVariant: z.enum(["promo67", "exit20"]), bumps: z.array(z.enum(["priority-journal", "closure-ritual"])).max(2), affiliateCode: z.string().trim().min(4).max(48).nullable().optional() })).mutation(({ input, ctx }) => prepareVrajiPayment({ ...input, affiliateVisitorToken: affiliateVisitorFromRequest(ctx.req.headers.cookie) })),
       status: publicProcedure.input(z.object({ paymentIntentId: z.string().min(10).max(255) })).query(({ input }) => getVrajiPaymentStatus(input.paymentIntentId)),
       confirm: publicProcedure.input(z.object({ paymentIntentId: z.string().min(10).max(255) })).mutation(({ input }) => getVrajiPaymentStatus(input.paymentIntentId)),
       postPurchase: publicProcedure.input(z.object({ email: z.string().trim().email().max(320), sourcePaymentIntentId: z.string().min(10).max(255), sku: z.enum(["attraction-expansion", "connection-compass", "intention-audio"]) })).mutation(({ input }) => createVrajiPostPurchase(input)),
@@ -195,7 +195,7 @@ export const appRouter = router({
         email: z.string().trim().email().max(320),
         offerCode: z.enum(["promo67", "exit20"]),
         affiliateCode: z.string().trim().min(4).max(64).optional(),
-      })).mutation(({ input }) => prepareRelatiiPayment(input)),
+      })).mutation(({ input, ctx }) => prepareRelatiiPayment({ ...input, affiliateVisitorToken: affiliateVisitorFromRequest(ctx.req.headers.cookie) })),
       confirm: publicProcedure.input(z.object({
         checkoutToken: z.string().min(32).max(96),
         paymentIntentId: z.string().startsWith("pi_"),

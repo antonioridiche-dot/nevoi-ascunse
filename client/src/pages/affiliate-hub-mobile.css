@@ -16,4 +16,8 @@
   .affiliate-nav nav a {
     font-size: 10px;
   }
+
+  .affiliate-admin-actions {
+    width: 100%;
+  }
 }

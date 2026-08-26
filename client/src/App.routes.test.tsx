@@ -55,6 +55,10 @@ describe("direct catalog routing contract", () => {
     expect(renderRoute("/afiliere/materiale")).toContain("Materialele sunt în lucru");
   });
 
+  it("renders a central affiliate referral handoff before the direct-offer fallback", () => {
+    expect(renderRoute("/afiliere/tarot/cod-afiliat-1234")).toContain("Pregătim oferta recomandată");
+  });
+
   it("renders the controlled offer fallback at an unported direct route", () => {
     const html = renderRoute("/peste-despartire");
     expect(html).toContain("Peste despărțire");

@@ -16,6 +16,7 @@ import {
 } from "../../drizzle/schema";
 import { ENV } from "../_core/env";
 import { getDb } from "../db";
+import { createAffiliateCommissionsForOrder, resolveAffiliateAttribution } from "./affiliateHubService";
 
 export const RELATII_PRODUCTS = {
   "dictionarul-femeilor": {
@@ -107,17 +108,20 @@ export async function prepareRelatiiPayment(input: {
   email: string;
   offerCode: RelatiiOfferCode;
   affiliateCode?: string;
+  affiliateVisitorToken?: string;
 }) {
   if (!isRelatiiProductKey(input.productKey)) throw new Error("Produs indisponibil.");
   const definition = RELATII_PRODUCTS[input.productKey];
   if (definition.audience !== input.audience) throw new Error("Traseul selectat nu corespunde produsului.");
   const { db, brand, products: relatiiProducts } = await getRelatiiResources();
   const contact = await ensureContact(db, brand.id, input.email);
+  const centralAttribution = await resolveAffiliateAttribution(brand.id, input.affiliateVisitorToken);
   const token = checkoutToken();
   const checkoutInsert = await db.insert(checkoutSessions).values({
     brandId: brand.id,
     productId: relatiiProducts[input.productKey].id,
     contactId: contact.id,
+    affiliateAttributionId: centralAttribution?.id,
     checkoutToken: token,
     checkoutState: "started",
   });
@@ -142,6 +146,7 @@ export async function prepareRelatiiPayment(input: {
       audience: input.audience,
       offer_code: input.offerCode,
       affiliate_code: input.affiliateCode ?? "",
+      affiliate_attribution_id: centralAttribution ? String(centralAttribution.id) : "",
       contact_id: String(contact.id),
     },
   }, { idempotencyKey: `relatii-embedded-${checkoutId}-${input.offerCode}` });
@@ -198,6 +203,7 @@ export async function confirmRelatiiPayment(input: { checkoutToken: string; paym
   }
   const entitlement = (await db.select().from(entitlements).where(and(eq(entitlements.contactId, checkout.contactId), eq(entitlements.productId, product.id))).limit(1))[0];
   if (!entitlement) await db.insert(entitlements).values({ contactId: checkout.contactId, brandId: brand.id, productId: product.id, orderItemId: item.id, status: "active" });
+  await createAffiliateCommissionsForOrder(checkout.id, order.id);
   await db.insert(funnelEvents).values({ brandId: brand.id, contactId: checkout.contactId, orderId: order.id, eventType: "purchase_completed", metadataJson: JSON.stringify({ checkoutToken: input.checkoutToken, productKey, paymentIntentId: intent.id }) });
   return { orderId: order.id };
 }
