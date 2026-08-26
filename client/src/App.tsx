@@ -45,6 +45,7 @@ import ArmoniiOriginalHome from "./pages/ArmoniiOriginalHome";
 import LinisteOriginalHome from "./pages/LinisteOriginalHome";
 import LinisteOriginalQuiz from "./pages/LinisteOriginalQuiz";
 import LinisteOriginalTheme from "./pages/LinisteOriginalTheme";
+import LinisteOriginalCheckout, { LinisteOriginalOffer, LinisteOriginalThankYou } from "./pages/LinisteOriginalCheckout";
 
 export const CATALOG_ROUTE = "/oferte";
 export function directPathFromLegacyOffer(location: string) { return location.replace(/^\/oferte/, "") || CATALOG_ROUTE; }
@@ -126,6 +127,9 @@ export function AppRouter() {
       <Route path={"/liniste-audio/anxietate"}>{() => <LinisteOriginalTheme theme="anxietate" />}</Route>
       <Route path={"/liniste-audio/eliberare"}>{() => <LinisteOriginalTheme theme="eliberare" />}</Route>
       <Route path={"/liniste-audio/iubire"}>{() => <LinisteOriginalTheme theme="iubire" />}</Route>
+      <Route path={"/liniste-audio/comanda"} component={LinisteOriginalCheckout} />
+      <Route path={"/liniste-audio/oferta"} component={LinisteOriginalOffer} />
+      <Route path={"/liniste-audio/multumesc"} component={LinisteOriginalThankYou} />
       <Route path={"/iubire"} component={IubireOriginalHome} />
       <Route path={"/iubire/checkout"} component={IubireOriginalCheckout} />
       <Route path={"/iubire/multumesc"} component={IubireThankYou} />
