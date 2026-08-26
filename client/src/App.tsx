@@ -42,6 +42,7 @@ import CalendarLuckyPreview from "./pages/CalendarLuckyPreview";
 import { IubireLibrary, IubireThankYou } from "./pages/IubireOriginalAccess";
 import { IubireOriginalCheckout, IubireOriginalHome } from "./pages/IubireOriginalFunnel";
 import ArmoniiOriginalHome from "./pages/ArmoniiOriginalHome";
+import ArmoniiOriginalConfirmation from "./pages/ArmoniiOriginalConfirmation";
 import LinisteOriginalHome from "./pages/LinisteOriginalHome";
 import LinisteOriginalQuiz from "./pages/LinisteOriginalQuiz";
 import LinisteOriginalTheme from "./pages/LinisteOriginalTheme";
@@ -120,6 +121,7 @@ export function AppRouter() {
       <Route path={"/relatii/funnel-dictionarul-barbatilor"} component={RelatiiOriginalFunnelMap} />
       <Route path={"/calendarul-norocului"} component={CalendarLuckyPreview} />
       <Route path={"/armonii-bine"} component={ArmoniiOriginalHome} />
+      <Route path={"/armonii-bine/multumim"} component={ArmoniiOriginalConfirmation} />
       <Route path={"/liniste-audio"} component={LinisteOriginalHome} />
       <Route path={"/liniste-audio/quiz"} component={LinisteOriginalQuiz} />
       <Route path={"/liniste-audio/bani"}>{() => <LinisteOriginalTheme theme="bani" />}</Route>
