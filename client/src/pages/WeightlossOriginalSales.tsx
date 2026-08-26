@@ -106,7 +106,7 @@ export default function SalesPage() {
           <p className="text-lg font-bold text-[#777] line-through">{formatWeightlossPrice(product.oldPrice!)}</p>
           <p className="mt-2 text-[25px] font-bold text-[#cf2222]">Astăzi: {formatWeightlossPrice(product.price)}</p>
           <p className="mt-4 text-[13px] leading-5 text-[#555]">Acces digital securizat. După confirmarea plății, poți continua către materialele suplimentare și pagina ta de descărcare.</p>
-          <Link href="/oferte/weightloss/comanda?produs=bucatarie" className="mt-6 block border-2 border-[#775000] bg-[#f5c842] px-4 py-5 text-[17px] font-extrabold leading-6 text-[#241600] shadow-[0_3px_0_#9b7412] transition hover:bg-[#ffd561] active:translate-y-px">DA — VREAU SĂ ÎNCEP CU GHIDUL DIGITAL ACUM</Link>
+          <Link href="/weightloss/comanda?produs=bucatarie" className="mt-6 block border-2 border-[#775000] bg-[#f5c842] px-4 py-5 text-[17px] font-extrabold leading-6 text-[#241600] shadow-[0_3px_0_#9b7412] transition hover:bg-[#ffd561] active:translate-y-px">DA — VREAU SĂ ÎNCEP CU GHIDUL DIGITAL ACUM</Link>
           <p className="mt-5 text-[12px] text-[#555]"><LockKeyhole className="mr-1 inline h-3.5 w-3.5" />Plata este procesată securizat, direct pe acest site.</p>
         </section>
 
@@ -122,7 +122,7 @@ export default function SalesPage() {
         <footer className="mt-10 border-t border-[#ddd] pt-6 text-center text-[10px] leading-5 text-[#555]">
           <ShieldCheck className="mx-auto mb-2 h-5 w-5 text-[#18733b]" />
           <p>© {new Date().getFullYear()} Bucătăria Vie. Materialele au scop educațional general.</p>
-          <p className="mt-2"><Link className="text-[#18733b] underline" href="/oferte/weightloss/confidentialitate">Confidențialitate</Link> · <Link className="text-[#18733b] underline" href="/oferte/weightloss/termeni">Termeni și condiții</Link> · <Link className="text-[#18733b] underline" href="/oferte/weightloss/declaratie">Declarație</Link> · <Link className="text-[#18733b] underline" href="/oferte/weightloss/afiliati">Afiliere</Link></p>
+          <p className="mt-2"><Link className="text-[#18733b] underline" href="/weightloss/confidentialitate">Confidențialitate</Link> · <Link className="text-[#18733b] underline" href="/weightloss/termeni">Termeni și condiții</Link> · <Link className="text-[#18733b] underline" href="/weightloss/declaratie">Declarație</Link> · <Link className="text-[#18733b] underline" href="/weightloss/afiliati">Afiliere</Link></p>
           <p className="mt-2">Conținutul nu înlocuiește sfatul, diagnosticul sau tratamentul medical personalizat.</p>
         </footer>
       </main>
