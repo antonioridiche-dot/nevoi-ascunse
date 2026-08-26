@@ -20,7 +20,7 @@ import { authenticateRelatiiAffiliate, createRelatiiAffiliate, getRelatiiAffilia
 import { getRelatiiAdminSnapshot } from "./commerce/relatiiAdminService";
 import { confirmArmoniiIntent, createArmoniiIntent, getArmoniiDownloads } from "./commerce/armoniiService";
 import { authorizeIubireLibrary, confirmIubireIntent, createIubireIntent } from "./commerce/iubireService";
-import { authorizeLinisteAccess, chargeLinisteEveningPause, confirmLinisteIntent, createLinisteIntent, finalizeLinisteEveningPause } from "./commerce/linisteService";
+import { authorizeLinisteAccess, chargeLinisteEveningPause, confirmLinisteIntent, createLinisteIntent, finalizeLinisteEveningPause, getLinisteEveningPauseOffer } from "./commerce/linisteService";
 import { requestLinisteRecovery } from "./access/linisteRecovery";
 import { affiliateAdminSnapshot, affiliateDashboard, listAffiliateOffers, logoutAffiliate, registerAffiliate, requestAffiliateLoginCode, requestAffiliatePayout, reverseAffiliateCommissionsForOrder, reviewAffiliatePayoutProfile, reviewAffiliatePayoutRequest, submitAffiliatePayoutProfile, trackAffiliateReferral, verifyAffiliateLoginCode } from "./commerce/affiliateHubService";
 
@@ -139,7 +139,7 @@ export const appRouter = router({
     }),
     recovery: router({ request: publicProcedure.input(z.object({ email: z.string().trim().email().max(320) })).mutation(({ input }) => requestLinisteRecovery(input.email)) }),
     library: router({ authorize: publicProcedure.input(z.object({ access: z.string().length(64) })).query(({ input }) => authorizeLinisteAccess(input.access)) }),
-    postPurchase: router({ chargeEveningPause: publicProcedure.input(z.object({ access: z.string().length(64) })).mutation(({ input }) => chargeLinisteEveningPause(input.access)), finalizeEveningPause: publicProcedure.input(z.object({ access: z.string().length(64), paymentIntentId: z.string().startsWith("pi_") })).mutation(({ input }) => finalizeLinisteEveningPause(input.access, input.paymentIntentId)) }),
+    postPurchase: router({ context: publicProcedure.input(z.object({ access: z.string().length(64) })).query(({ input }) => getLinisteEveningPauseOffer(input.access)), chargeEveningPause: publicProcedure.input(z.object({ access: z.string().length(64) })).mutation(({ input }) => chargeLinisteEveningPause(input.access)), finalizeEveningPause: publicProcedure.input(z.object({ access: z.string().length(64), paymentIntentId: z.string().startsWith("pi_") })).mutation(({ input }) => finalizeLinisteEveningPause(input.access, input.paymentIntentId)) }),
   }),
   calendar: router({
     checkout: router({
