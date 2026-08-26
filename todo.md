@@ -71,6 +71,7 @@
 - [ ] Finalizează Relații până la paritate sursă, inclusiv afiliere, administrare, legal, livrare și testare Stripe reală în sandbox.
 - [ ] Migrează Armonii & Bine cu toate paginile, checkout-ul embedded, livrarea audio/PDF și administrarea din sursă.
 - [ ] Migrează Iubire cu toate paginile, checkout-ul, biblioteca, e-mailurile și administrarea din sursă.
+- [x] Restaurează în biblioteca Iubire textul sursă despre pregătirea structurii resurselor reale, fără a inventa active.
 - [ ] Migrează Liniște Audio cu toate paginile, quiz-ul, checkout-ul, biblioteca, recovery și administrarea din sursă.
 - [ ] Migrează Calendarul norocului cu toate paginile, personalizarea, checkout-ul, campaniile și administrarea din sursă.
 - [x] Expune la `/calendarul-norocului/admin` segmentele Calendar și exporturile manuale de campanie, fără trimitere automată de e-mail.
