@@ -20,6 +20,7 @@ import { getRelatiiAdminSnapshot } from "./commerce/relatiiAdminService";
 import { confirmArmoniiIntent, createArmoniiIntent, getArmoniiDownloads } from "./commerce/armoniiService";
 import { authorizeIubireLibrary, confirmIubireIntent, createIubireIntent } from "./commerce/iubireService";
 import { authorizeLinisteAccess, confirmLinisteIntent, createLinisteIntent } from "./commerce/linisteService";
+import { requestLinisteRecovery } from "./access/linisteRecovery";
 
 export const appRouter = router({
     // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
@@ -114,6 +115,7 @@ export const appRouter = router({
       createIntent: publicProcedure.input(z.object({ productKey: z.enum(["anxietate", "dispozitie-joasa", "frica", "pachet-intreg"]), email: z.string().trim().email().max(320), currency: z.enum(["ron", "eur", "usd", "gbp"]), offer: z.enum(["exit20"]).optional(), idempotencyKey: z.string().uuid() })).mutation(({ input }) => createLinisteIntent(input)),
       confirm: publicProcedure.input(z.object({ checkoutToken: z.string().min(32).max(96), paymentIntentId: z.string().startsWith("pi_") })).mutation(({ input }) => confirmLinisteIntent(input)),
     }),
+    recovery: router({ request: publicProcedure.input(z.object({ email: z.string().trim().email().max(320) })).mutation(({ input }) => requestLinisteRecovery(input.email)) }),
     library: router({ authorize: publicProcedure.input(z.object({ access: z.string().length(64) })).query(({ input }) => authorizeLinisteAccess(input.access)) }),
   }),
   calendar: router({

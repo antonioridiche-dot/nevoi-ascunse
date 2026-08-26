@@ -47,6 +47,7 @@ import LinisteOriginalHome from "./pages/LinisteOriginalHome";
 import LinisteOriginalQuiz from "./pages/LinisteOriginalQuiz";
 import LinisteOriginalTheme from "./pages/LinisteOriginalTheme";
 import LinisteOriginalCheckout, { LinisteOriginalOffer, LinisteOriginalThankYou } from "./pages/LinisteOriginalCheckout";
+import LinisteOriginalRecovery from "./pages/LinisteOriginalRecovery";
 
 export const CATALOG_ROUTE = "/oferte";
 export function directPathFromLegacyOffer(location: string) { return location.replace(/^\/oferte/, "") || CATALOG_ROUTE; }
@@ -132,6 +133,7 @@ export function AppRouter() {
       <Route path={"/liniste-audio/comanda"} component={LinisteOriginalCheckout} />
       <Route path={"/liniste-audio/oferta"} component={LinisteOriginalOffer} />
       <Route path={"/liniste-audio/multumesc"} component={LinisteOriginalThankYou} />
+      <Route path={"/liniste-audio/recuperare"} component={LinisteOriginalRecovery} />
       <Route path={"/iubire"} component={IubireOriginalHome} />
       <Route path={"/iubire/checkout"} component={IubireOriginalCheckout} />
       <Route path={"/iubire/multumesc"} component={IubireThankYou} />
