@@ -47,7 +47,7 @@
 - [ ] Testează Relații cu o comandă validă: verificarea accesului, acceptarea/refuzul fiecărei oferte și navigarea prefixată între pași.
 - [x] Portează pagina de mulțumire Relații și formularul de coaching 1:1 cu persistarea cererii din sursă.
 - [x] Portează înscrierea, autentificarea, dashboardul și trackingul programului de afiliere Relații din sursă.
-- [x] Prefixează toate tranzițiile Relații din sursă cu `/oferte/relatii`, fără modificarea ordinii sau a copy-ului funnelului.
+- [x] Prefixează toate tranzițiile Relații din sursă cu ruta directă `/relatii`, fără modificarea ordinii sau a copy-ului funnelului.
 - [ ] Migrează fidel ofertele audio din Music Tracks, inclusiv livrarea și biblioteca lor client.
 - [ ] Portează Armonii & Bine cu pagina, checkout-ul embedded, accesul audio/PDF și administrarea din sursă.
 - [ ] Transferă în storage-ul unificat toate resursele vizuale sau audio care lipsesc din repository-uri, fără înlocuiri creative.
