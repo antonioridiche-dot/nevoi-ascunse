@@ -60,6 +60,7 @@
 - [ ] Portează paginile, biblioteca, afilierea și administrarea Vrăji cu designul și copy-ul sursă.
 - [x] Portează pagina principală și cei trei pași post-cumpărare Vrăji cu checkout Stripe embedded din sursă.
 - [ ] Portează thank-you-ul, biblioteca, magic link-ul, afilierea și administrarea Vrăji cu contractele sursă.
+- [x] Aliniază exact mesajul accesului magic Vrăji la sursă, fără a promite livrare e-mail până la verificarea expeditorului.
 - [x] Corectează ruta publică din catalog pentru Vrăji astfel încât să deschidă pagina sursă activă, nu ecranul de consolidare.
 - [x] Aliniază denumirea catalogului Vrăji cu identitatea din pagina sursă portată.
 - [ ] Finalizează Tarot până la paritate sursă, inclusiv activele livrabile, e-mailul per brand și testul Stripe sandbox complet.
