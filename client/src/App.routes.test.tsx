@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
 import React from "react";
+import fs from "node:fs";
+import path from "node:path";
 import { renderToStaticMarkup } from "react-dom/server";
 import { Router, type SsrContext } from "wouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -87,5 +89,12 @@ describe("direct catalog routing contract", () => {
 
   it("renders Liniște Audio before the generic direct-route fallback", () => {
     expect(renderRoute("/liniste-audio")).toContain("Un spațiu sonor");
+  });
+
+  it("declares direct post-purchase routes before the generic direct-route fallback", () => {
+    const appSource = fs.readFileSync(path.join(import.meta.dirname, "App.tsx"), "utf8");
+    for (const route of ["/vraji/multumim", "/vraji/biblioteca", "/weightloss/multumim", "/relatii/multumesc", "/liniste-audio/recuperare"]) {
+      expect(appSource).toContain(`path={"${route}"}`);
+    }
   });
 });
