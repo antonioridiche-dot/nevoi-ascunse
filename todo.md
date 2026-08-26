@@ -110,4 +110,5 @@
 - [x] Definește și afișează calendarul concret al batchurilor de payout, aprobării administrative și plății după maturizare.
 - [ ] Adaugă proceduri și teste pentru reversarea comisioanelor la refund/chargeback și pentru intrările `chargeback_adjustment` din ledger.
 - [ ] Aplică validare/reguli explicite pentru payout-urile afiliere România/SEPA: țări eligibile, IBAN/BIC compatibile și tratament clar pentru conturi non-SEPA.
-- [ ] Aliniază batchul de payout cu moneda/profilul de payout sau limitează explicit v1 la RON în serviciu, UI, reguli și teste pentru requested → approved → paid.
+- [x] Aliniază batchul de payout cu moneda/profilul de payout sau limitează explicit v1 la RON în serviciu, UI, reguli și teste pentru requested → approved → paid.
+- [x] Limitează explicit payouturile manuale v1 la RON în contractul API, formularul afiliat și comunicarea publică, fără a pretinde suport SEPA/EUR.

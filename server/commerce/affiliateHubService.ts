@@ -22,6 +22,7 @@ import { getDb } from "../db";
 export const AFFILIATE_COMMISSION_BPS = 5_000;
 export const AFFILIATE_HOLD_DAYS = 30;
 export const AFFILIATE_MINIMUM_PAYOUT_CENTS = 10_000;
+export const AFFILIATE_PAYOUT_CURRENCY = "ron" as const;
 export const AFFILIATE_PAYOUT_SCHEDULE = "Cererile eligibile sunt revizuite în două batchuri lunare, la 1 și 15. După aprobare, plata manuală este confirmată în ledger după transferul bancar.";
 export const AFFILIATE_TERMS_VERSION = "2026-08-v1";
 const LOGIN_CODE_TTL_MS = 10 * 60 * 1_000;
@@ -31,6 +32,24 @@ const ATTRIBUTION_TTL_MS = AFFILIATE_HOLD_DAYS * 24 * 60 * 60 * 1_000;
 const sha256 = (value: string) => createHash("sha256").update(value).digest("hex");
 const normalizeEmail = (value: string) => value.trim().toLowerCase();
 const canonicalRoute = (brandKey: string) => `/${brandKey}`;
+
+export type AffiliatePayoutRequestStatus = "requested" | "reviewing" | "approved" | "paid" | "rejected" | "cancelled";
+export type AffiliatePayoutDecision = "approved" | "rejected" | "paid";
+
+export function canReviewAffiliatePayoutRequest(status: AffiliatePayoutRequestStatus, decision: AffiliatePayoutDecision) {
+  if (decision === "approved") return status === "requested" || status === "reviewing";
+  if (decision === "rejected") return status === "requested" || status === "reviewing" || status === "approved";
+  return status === "approved";
+}
+
+export function assertAffiliatePayoutRequestTransition(status: AffiliatePayoutRequestStatus, decision: AffiliatePayoutDecision) {
+  if (!canReviewAffiliatePayoutRequest(status, decision)) throw new Error(`Nu poți schimba cererea din starea „${status}” în „${decision}”.`);
+}
+
+export function assertAffiliatePayoutRequestReview(input: { status: AffiliatePayoutRequestStatus; decision: AffiliatePayoutDecision; payoutReference?: string }) {
+  assertAffiliatePayoutRequestTransition(input.status, input.decision);
+  if (input.decision === "paid" && !input.payoutReference?.trim()) throw new Error("Adaugă referința transferului bancar înainte de confirmarea plății.");
+}
 
 export function calculateAffiliateCommission(input: { grossSaleAmountCents: number; excludedTaxAmountCents?: number; excludedProcessorFeeCents?: number }) {
   const excludedTaxAmountCents = Math.max(0, input.excludedTaxAmountCents ?? 0);
@@ -195,11 +214,12 @@ export async function affiliateDashboard(sessionToken: string) {
   return { affiliate: { displayName: account.displayName, email: account.email, affiliateCode: account.affiliateCode }, offers: offers.map((offer) => ({ ...offer, link: `/afiliere/${offer.key}/${account.affiliateCode}`, clicks: Number(clicks.find((item) => item.brandId === offer.id)?.count ?? 0) })), totals, payoutProfile: profile ? { verificationStatus: profile.verificationStatus, payoutCurrency: profile.payoutCurrency } : null, payouts, commissionPolicy: { rateBps: AFFILIATE_COMMISSION_BPS, holdDays: AFFILIATE_HOLD_DAYS, minimumPayoutCents: AFFILIATE_MINIMUM_PAYOUT_CENTS, currency: "ron", payoutSchedule: AFFILIATE_PAYOUT_SCHEDULE } };
 }
 
-export async function submitAffiliatePayoutProfile(sessionToken: string, input: { legalName: string; beneficiaryType: "individual" | "pfa" | "company"; taxResidenceCountry: string; legalAddress: string; taxIdentifier?: string; iban: string; bic?: string; payoutCurrency: "ron" | "eur" }) {
+export async function submitAffiliatePayoutProfile(sessionToken: string, input: { legalName: string; beneficiaryType: "individual" | "pfa" | "company"; taxResidenceCountry: string; legalAddress: string; taxIdentifier?: string; iban: string; bic?: string; payoutCurrency: typeof AFFILIATE_PAYOUT_CURRENCY }) {
   const { db, account } = await accountFromSession(sessionToken);
   const legalName = input.legalName.trim(); const country = input.taxResidenceCountry.trim().toUpperCase(); const iban = input.iban.replace(/\s/g, "").toUpperCase();
   if (legalName.length < 2 || !/^[A-Z]{2}$/.test(country) || input.legalAddress.trim().length < 5 || iban.length < 15) throw new Error("Completează datele de retragere valide.");
-  await db.insert(affiliatePayoutProfiles).values({ affiliateId: account.id, legalName, beneficiaryType: input.beneficiaryType, taxResidenceCountry: country, legalAddress: input.legalAddress.trim(), taxIdentifier: input.taxIdentifier?.trim() || null, iban, bic: input.bic?.trim().toUpperCase() || null, payoutCurrency: input.payoutCurrency, verificationStatus: "submitted" }).onDuplicateKeyUpdate({ set: { legalName, beneficiaryType: input.beneficiaryType, taxResidenceCountry: country, legalAddress: input.legalAddress.trim(), taxIdentifier: input.taxIdentifier?.trim() || null, iban, bic: input.bic?.trim().toUpperCase() || null, payoutCurrency: input.payoutCurrency, verificationStatus: "submitted", verifiedAt: null } });
+  if (input.payoutCurrency !== AFFILIATE_PAYOUT_CURRENCY) throw new Error("În această versiune, profilurile de payout sunt acceptate numai în RON.");
+  await db.insert(affiliatePayoutProfiles).values({ affiliateId: account.id, legalName, beneficiaryType: input.beneficiaryType, taxResidenceCountry: country, legalAddress: input.legalAddress.trim(), taxIdentifier: input.taxIdentifier?.trim() || null, iban, bic: input.bic?.trim().toUpperCase() || null, payoutCurrency: AFFILIATE_PAYOUT_CURRENCY, verificationStatus: "submitted" }).onDuplicateKeyUpdate({ set: { legalName, beneficiaryType: input.beneficiaryType, taxResidenceCountry: country, legalAddress: input.legalAddress.trim(), taxIdentifier: input.taxIdentifier?.trim() || null, iban, bic: input.bic?.trim().toUpperCase() || null, payoutCurrency: AFFILIATE_PAYOUT_CURRENCY, verificationStatus: "submitted", verifiedAt: null } });
   return { submitted: true as const };
 }
 
@@ -208,17 +228,17 @@ export async function requestAffiliatePayout(sessionToken: string) {
   await refreshAffiliateEligibility(db, account.id);
   const profile = (await db.select().from(affiliatePayoutProfiles).where(eq(affiliatePayoutProfiles.affiliateId, account.id)).limit(1))[0];
   if (!profile || profile.verificationStatus !== "approved") throw new Error("Profilul de retragere trebuie verificat înainte de a cere plata.");
-  if (profile.payoutCurrency !== "ron") throw new Error("Retragerile în EUR sunt în verificare administrativă în această versiune.");
+  if (profile.payoutCurrency !== AFFILIATE_PAYOUT_CURRENCY) throw new Error("Profilul de payout nu este eligibil: versiunea actuală acceptă numai retrageri manuale în RON.");
   const entries = await db.select().from(affiliateLedgerEntries).where(and(eq(affiliateLedgerEntries.affiliateId, account.id), eq(affiliateLedgerEntries.status, "eligible"))).orderBy(affiliateLedgerEntries.createdAt);
   const claimed = await db.select({ ledgerEntryId: affiliatePayoutRequestEntries.ledgerEntryId }).from(affiliatePayoutRequestEntries).innerJoin(affiliatePayoutRequests, eq(affiliatePayoutRequestEntries.payoutRequestId, affiliatePayoutRequests.id)).where(inArray(affiliatePayoutRequests.status, ["requested", "reviewing", "approved", "paid"]));
   const claimedIds = new Set(claimed.map((entry) => entry.ledgerEntryId));
-  const available = entries.filter((entry) => entry.currency === "ron" && !claimedIds.has(entry.id));
+  const available = entries.filter((entry) => entry.currency === AFFILIATE_PAYOUT_CURRENCY && !claimedIds.has(entry.id));
   const amount = available.reduce((sum, entry) => sum + entry.netCommissionAmountCents, 0);
   if (amount < AFFILIATE_MINIMUM_PAYOUT_CENTS) throw new Error("Soldul eligibil nu a atins pragul minim de 100 RON.");
-  const inserted = await db.insert(affiliatePayoutRequests).values({ affiliateId: account.id, payoutProfileId: profile.id, requestedAmountCents: amount, currency: "ron" });
+  const inserted = await db.insert(affiliatePayoutRequests).values({ affiliateId: account.id, payoutProfileId: profile.id, requestedAmountCents: amount, currency: AFFILIATE_PAYOUT_CURRENCY });
   const payoutRequestId = Number(inserted[0].insertId);
   await db.insert(affiliatePayoutRequestEntries).values(available.map((entry) => ({ payoutRequestId, ledgerEntryId: entry.id })));
-  return { requested: true as const, payoutRequestId, amountCents: amount, currency: "ron" };
+  return { requested: true as const, payoutRequestId, amountCents: amount, currency: AFFILIATE_PAYOUT_CURRENCY };
 }
 
 export async function affiliateAdminSnapshot() {
@@ -232,6 +252,7 @@ export async function reviewAffiliatePayoutProfile(input: { payoutProfileId: num
   const db = await database();
   const profile = (await db.select().from(affiliatePayoutProfiles).where(eq(affiliatePayoutProfiles.id, input.payoutProfileId)).limit(1))[0];
   if (!profile) throw new Error("Profilul de payout nu există.");
+  if (input.decision === "approved" && profile.payoutCurrency !== AFFILIATE_PAYOUT_CURRENCY) throw new Error("În această versiune pot fi aprobate numai profiluri de payout în RON.");
   await db.update(affiliatePayoutProfiles).set({ verificationStatus: input.decision, verifiedAt: input.decision === "approved" ? new Date() : null }).where(eq(affiliatePayoutProfiles.id, profile.id));
   return { updated: true as const };
 }
@@ -240,9 +261,8 @@ export async function reviewAffiliatePayoutRequest(input: { payoutRequestId: num
   const db = await database();
   const request = (await db.select().from(affiliatePayoutRequests).where(eq(affiliatePayoutRequests.id, input.payoutRequestId)).limit(1))[0];
   if (!request) throw new Error("Cererea de payout nu există.");
-  if (input.decision === "paid" && request.status !== "approved") throw new Error("Poți marca plata finalizată numai după aprobarea administrativă.");
-  if (input.decision === "paid" && !input.payoutReference?.trim()) throw new Error("Adaugă referința transferului bancar înainte de confirmarea plății.");
-  await db.update(affiliatePayoutRequests).set({ status: input.decision, payoutReference: input.payoutReference?.trim() || null, reviewedAt: input.decision === "approved" || input.decision === "rejected" ? new Date() : request.reviewedAt, paidAt: input.decision === "paid" ? new Date() : request.paidAt }).where(eq(affiliatePayoutRequests.id, request.id));
+  assertAffiliatePayoutRequestReview({ status: request.status as AffiliatePayoutRequestStatus, decision: input.decision, payoutReference: input.payoutReference });
+  await db.update(affiliatePayoutRequests).set({ status: input.decision, payoutReference: input.decision === "paid" ? input.payoutReference?.trim() || null : request.payoutReference, reviewedAt: input.decision === "approved" || input.decision === "rejected" ? new Date() : request.reviewedAt, paidAt: input.decision === "paid" ? new Date() : request.paidAt }).where(eq(affiliatePayoutRequests.id, request.id));
   if (input.decision === "paid") {
     const entries = await db.select({ ledgerEntryId: affiliatePayoutRequestEntries.ledgerEntryId }).from(affiliatePayoutRequestEntries).where(eq(affiliatePayoutRequestEntries.payoutRequestId, request.id));
     if (entries.length) await db.update(affiliateLedgerEntries).set({ status: "paid" }).where(inArray(affiliateLedgerEntries.id, entries.map((entry) => entry.ledgerEntryId)));

@@ -1,11 +1,12 @@
 import { describe, expect, it } from "vitest";
-import { AFFILIATE_COMMISSION_BPS, AFFILIATE_HOLD_DAYS, AFFILIATE_MINIMUM_PAYOUT_CENTS, AFFILIATE_PAYOUT_SCHEDULE, calculateAffiliateCommission } from "./affiliateHubService";
+import { AFFILIATE_COMMISSION_BPS, AFFILIATE_HOLD_DAYS, AFFILIATE_MINIMUM_PAYOUT_CENTS, AFFILIATE_PAYOUT_CURRENCY, AFFILIATE_PAYOUT_SCHEDULE, assertAffiliatePayoutRequestReview, assertAffiliatePayoutRequestTransition, calculateAffiliateCommission, canReviewAffiliatePayoutRequest } from "./affiliateHubService";
 
 describe("affiliate hub commission policy", () => {
   it("uses the confirmed commission rate, hold period, and payout threshold", () => {
     expect(AFFILIATE_COMMISSION_BPS).toBe(5_000);
     expect(AFFILIATE_HOLD_DAYS).toBe(30);
     expect(AFFILIATE_MINIMUM_PAYOUT_CENTS).toBe(10_000);
+    expect(AFFILIATE_PAYOUT_CURRENCY).toBe("ron");
     expect(AFFILIATE_PAYOUT_SCHEDULE).toContain("1 și 15");
   });
 
@@ -15,5 +16,32 @@ describe("affiliate hub commission policy", () => {
 
   it("never produces a negative commission when exclusions exceed the sale amount", () => {
     expect(calculateAffiliateCommission({ grossSaleAmountCents: 100, excludedTaxAmountCents: 90, excludedProcessorFeeCents: 30 })).toEqual({ excludedTaxAmountCents: 90, excludedProcessorFeeCents: 30, commissionBaseAmountCents: 0, grossCommissionAmountCents: 0 });
+  });
+});
+
+describe("affiliate hub payout review policy", () => {
+  it("allows the requested → approved → paid path only in that order", () => {
+    expect(canReviewAffiliatePayoutRequest("requested", "approved")).toBe(true);
+    expect(canReviewAffiliatePayoutRequest("approved", "paid")).toBe(true);
+    expect(() => assertAffiliatePayoutRequestTransition("requested", "approved")).not.toThrow();
+    expect(() => assertAffiliatePayoutRequestTransition("approved", "paid")).not.toThrow();
+  });
+
+  it("rejects premature or duplicate payment confirmation", () => {
+    expect(canReviewAffiliatePayoutRequest("requested", "paid")).toBe(false);
+    expect(canReviewAffiliatePayoutRequest("paid", "paid")).toBe(false);
+    expect(canReviewAffiliatePayoutRequest("rejected", "approved")).toBe(false);
+    expect(() => assertAffiliatePayoutRequestTransition("requested", "paid")).toThrow("requested");
+    expect(() => assertAffiliatePayoutRequestTransition("paid", "paid")).toThrow("paid");
+  });
+
+  it("permits administrative rejection before bank-payment confirmation", () => {
+    expect(canReviewAffiliatePayoutRequest("requested", "rejected")).toBe(true);
+    expect(canReviewAffiliatePayoutRequest("approved", "rejected")).toBe(true);
+  });
+
+  it("requires a bank-transfer reference before a request can become paid", () => {
+    expect(() => assertAffiliatePayoutRequestReview({ status: "approved", decision: "paid" })).toThrow("referința transferului bancar");
+    expect(() => assertAffiliatePayoutRequestReview({ status: "approved", decision: "paid", payoutReference: "BT-2026-08-001" })).not.toThrow();
   });
 });
