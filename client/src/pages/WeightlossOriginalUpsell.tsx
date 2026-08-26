@@ -4,9 +4,7 @@ import { useLocation } from "wouter";
 import { ProductArt } from "./WeightlossProductArt";
 import { formatWeightlossPrice as formatPrice, orderedWeightlossUpsells as orderedUpsells, weightlossProducts as products, type WeightlossProductSlug as ProductSlug } from "@/flows/weightlossProducts";
 import { trpc } from "@/lib/trpc";
-import { loadStripe } from "@stripe/stripe-js";
-
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || "");
+import { stripePromise } from "@/lib/stripe";
 const upsellContent: Record<Exclude<ProductSlug, "bucatarie">, { label: string; headline: string; line: string; points: string[]; decline: string }> = {
   retete: { label: "Pasul 1 · continuă cu planul tău", headline: "Păstrează ritmul simplu și ai ideile de masă la îndemână.", line: "Pachetul de rețete este construit pentru momentele în care știi ce principii vrei să urmezi, dar ai nevoie de inspirație concretă pentru mâine.", points: ["82 de rețete organizate pe momente ale zilei", "Liste de ingrediente și combinații care se adaptează ușor", "Acces adăugat automat la comanda ta confirmată"], decline: "Continui fără pachetul de rețete" },
   miscare: { label: "Pasul 2 · construiește o rutină completă", headline: "Adaugă un ritm scurt de mișcare lângă alegerile alimentare.", line: "Materialul video completează ghidul cu idei de sesiuni scurte și un mod mai clar de a construi consecvență.", points: ["Sesiuni video prezentate într-un format compact", "Idei pentru structurarea unui obicei de mișcare", "Se adaugă direct la accesul tău digital"], decline: "Continui fără ghidul de mișcare" },

@@ -1,5 +1,5 @@
 import { CardCvcElement, CardExpiryElement, CardNumberElement, Elements, useElements, useStripe } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
+import { stripePromise } from "@/lib/stripe";
 import { ArrowLeft, Loader2, LockKeyhole, Sparkles } from "lucide-react";
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import { Link, useLocation } from "wouter";
@@ -7,7 +7,6 @@ import { trpc } from "@/lib/trpc";
 import { normalizeLinisteEmail, type LinisteCurrency, type LinisteProductKey } from "@/flows/linisteFunnel";
 import "./liniste-checkout.css";
 
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 const products: Record<LinisteProductKey, { title: string; description: string; price: Record<LinisteCurrency, string> }> = {
   anxietate: { title: "Punct de sprijin", description: "O invitație ghidată de revenire la ce este aici, acum — respirație, spațiu și pași mici.", price: { ron: "67 lei", eur: "13,40 €", usd: "$14,75", gbp: "£11,20" } },
   "dispozitie-joasa": { title: "O clipă mai blândă", description: "Un moment calm pentru a face loc blândeții, fără presiunea de a rezolva totul dintr-odată.", price: { ron: "67 lei", eur: "13,40 €", usd: "$14,75", gbp: "£11,20" } },

@@ -1,12 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ArrowDown, ArrowLeft, ArrowRight, Check, CircleCheck, HeartHandshake, LockKeyhole, MoonStar, ShieldCheck, Sparkles, X } from "lucide-react";
 import { CardCvcElement, CardExpiryElement, CardNumberElement, Elements, useElements, useStripe } from "@stripe/react-stripe-js";
-import { loadStripe, type StripeCardNumberElement } from "@stripe/stripe-js";
+import { type StripeCardNumberElement } from "@stripe/stripe-js";
+import { stripePromise } from "@/lib/stripe";
 import { trpc } from "@/lib/trpc";
 import { iubireCheckoutUrl, iubireSalesUrl, normalizeIubireEmail } from "@/flows/iubireFunnel";
 import "./iubire-original.css";
 
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || "");
 const sourceSearch = () => typeof window === "undefined" ? "" : window.location.search;
 const exitUrl = (email: string, checkout = false) => checkout ? iubireCheckoutUrl(email, "exit20") : iubireSalesUrl(email, "exit20");
 function ExitOffer({ email, checkout = false }: { email: string; checkout?: boolean }) { const [open, setOpen] = useState(() => new URLSearchParams(sourceSearch()).get(checkout ? "checkoutExitPreview" : "popupPreview") === "1"); const [value, setValue] = useState(email); const [error, setError] = useState(""); useEffect(() => { if (typeof window === "undefined" || open || new URLSearchParams(window.location.search).get("offer") === "exit20" || !window.matchMedia("(pointer: fine)").matches) return; const key = checkout ? "love-program-checkout-exit20-shown" : "love-program-exit20-shown"; const leave = (event: MouseEvent) => { if (event.clientY <= 0 && !event.relatedTarget && !sessionStorage.getItem(key)) { sessionStorage.setItem(key, "true"); setOpen(true); } }; document.addEventListener("mouseout", leave); return () => document.removeEventListener("mouseout", leave); }, [checkout, open]); if (!open) return null; return <div className="iubire-exit" role="dialog" aria-modal="true"><div><button aria-label="Închide oferta" onClick={() => setOpen(false)}><X /></button><p>O OFERTĂ PENTRU TINE</p><h2>Ai primit o reducere de 20 de lei</h2><p>Nu vreau să ratezi șansa de a parcurge acest program și de a vedea dacă îți poate fi de folos în situația ta. Poți continua acum cu reducerea de 20 de lei.</p><b><s>97 lei</s> &nbsp;77 lei</b><form onSubmit={e => { e.preventDefault(); const valid = normalizeIubireEmail(value); if (!valid) return setError("Introdu o adresă de e-mail validă pentru a continua."); window.location.assign(exitUrl(valid, checkout)); }}><input value={value} onChange={e => { setValue(e.target.value); setError(""); }} placeholder="numele@exemplu.ro" type="email" />{error && <small>{error}</small>}<button>Vreau reducerea de 20 de lei <ArrowRight size={16} /></button></form></div></div>; }

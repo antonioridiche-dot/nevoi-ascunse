@@ -87,6 +87,7 @@
 - [ ] Auditează toate checkout-urile active: Tarot, Familie protejată, Prieteni cu beneficii, Vrăji, Weightloss și Relații, inclusiv handoff-urile post-plată.
 - [ ] Testează în Stripe sandbox fiecare flux embedded și păstrează separat testul Stripe Checkout extern pentru Prieteni cu beneficii.
 - [ ] Repară orice checkout, webhook, fulfillment, e-mail sau acces client care eșuează în audit înainte de migrarea următorului lot.
+- [x] Reutilizează o singură inițializare Stripe.js în checkouturile portate, păstrând tipul de plată și succesiunea fiecărui flux.
 - [ ] Verifică operațional domeniul `nevoi-ascunse.ro` în Resend pentru a permite e-mailurile tranzacționale per brand; auditul Tarot a primit răspunsul 403 de domeniu neverificat.
 - [x] Restaurează checkout-ul Vrăji din sursă: client Stripe reutilizabil, card-only, metodă salvată și one-click post-cumpărare funcțional.
 - [ ] Inventariază și migrează explicit ofertele muzicale Armonii & Bine, Iubire și Liniște Audio, plus Calendarul norocului, înainte de închiderea proiectului.

@@ -1,10 +1,8 @@
 import { Elements, PaymentElement, useElements, useStripe } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
+import { stripePromise } from "@/lib/stripe";
 import { ArrowDown, Check, Headphones, HeartHandshake, Leaf, LockKeyhole, ShieldCheck } from "lucide-react";
 import { FormEvent, useState } from "react";
 import { trpc } from "@/lib/trpc";
-
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || "");
 
 export default function ArmoniiOriginalHome() {
   const scrollToCheckout = () => document.getElementById("checkout")?.scrollIntoView({ behavior: "smooth", block: "center" });

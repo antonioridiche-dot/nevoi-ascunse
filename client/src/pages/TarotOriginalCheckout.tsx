@@ -1,12 +1,11 @@
 import { Elements, CardCvcElement, CardExpiryElement, CardNumberElement, useElements, useStripe } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
+import { stripePromise } from "@/lib/stripe";
 import { ArrowLeft, Check, ChevronDown, LockKeyhole, Sparkles } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
 import { trpc } from "@/lib/trpc";
 import "./tarot-original.css";
 
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 const emptyToken = "0".repeat(32);
 const currencies = [
   { code: "ron" as const, label: "RON · lei", standard: "100 lei", welcome: "67 lei", exit: "47 lei" },

@@ -1,10 +1,8 @@
-import { loadStripe } from "@stripe/stripe-js";
+import { stripePromise } from "@/lib/stripe";
 import { Check, ChevronLeft, Download, Loader2, LockKeyhole, Sparkles } from "lucide-react";
 import { useState } from "react";
 import { Link } from "wouter";
 import { trpc } from "@/lib/trpc";
-
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
 function ArmoniiUpsell({ access }: { access: string }) {
   const offer = trpc.armonii.postPurchase.context.useQuery({ access }, { retry: false });

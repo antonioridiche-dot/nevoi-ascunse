@@ -1,15 +1,14 @@
 import { SiteFooter } from "./RelatiiSiteFooter";
 import { BOOKS, MAIN_PRODUCT_POST_PAYMENT_ROUTE, type Audience } from "@/flows/relatiiFunnelSource";
 import { trpc } from "@/lib/trpc";
+import { stripePromise } from "@/lib/stripe";
 import { CardCvcElement, CardExpiryElement, CardNumberElement, Elements, useElements, useStripe } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
 import { Check, ChevronDown, CircleHelp, LockKeyhole, MoveDown, ShieldCheck, Tag, X } from "lucide-react";
 import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "wouter";
 import { toast } from "sonner";
 import "./relatii-original.css";
 
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 const CHECKOUT_PRICES = { RON: { reference: 200, promo: 67, exit: 47 } } as const;
 type OfferVariant = "promo67" | "exit20";
 const formatCheckoutPrice = (_currency: "RON", amount: number) =>

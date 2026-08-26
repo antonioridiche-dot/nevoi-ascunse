@@ -1,12 +1,11 @@
 import { Elements, PaymentElement, useElements, useStripe } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
+import { stripePromise } from "@/lib/stripe";
 import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import { ArrowRight, CalendarDays, Compass, Eye, Heart, Sparkles, Star } from "lucide-react";
 import { calculateCalendarZodiac, calendarLifePathNumber, calendarPathFocus } from "@/flows/calendarSource";
 import { trpc } from "@/lib/trpc";
 
 const months = ["Ianuarie", "Februarie", "Martie", "Aprilie", "Mai", "Iunie", "Iulie", "August", "Septembrie", "Octombrie", "Noiembrie", "Decembrie"];
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || "");
 const packages = { oneMonth: { label: "1 lună", eur: "€36" }, twoMonths: { label: "2 luni", eur: "€54" }, threeMonths: { label: "3 luni", eur: "€80" } } as const;
 
 export default function CalendarLuckyPreview() {

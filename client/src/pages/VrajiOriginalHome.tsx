@@ -1,5 +1,5 @@
 import { CardCvcElement, CardExpiryElement, CardNumberElement, Elements, useElements, useStripe } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
+import { stripePromise } from "@/lib/stripe";
 import { AlertCircle, ArrowRight, Check, CheckCircle2, ChevronDown, CreditCard, Download, Gift, LockKeyhole, Mail, Pencil, ShieldCheck, Sparkles, Star, X } from "lucide-react";
 import { type ReactNode, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
@@ -7,7 +7,6 @@ import { useLocation } from "wouter";
 import { trpc } from "@/lib/trpc";
 import "./vraji-original.css";
 
-const stripePromise = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY ? loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY) : null;
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const cardOptions = {
   style: {

@@ -1,5 +1,5 @@
 import { Elements, PaymentElement, useElements, useStripe } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
+import { stripePromise } from "@/lib/stripe";
 import { ArrowLeft, CheckCircle2, Loader2, LockKeyhole, Mail, ShieldCheck } from "lucide-react";
 import { FormEvent, useMemo, useState } from "react";
 import { Link, useLocation } from "wouter";
@@ -7,8 +7,6 @@ import { ProductArt } from "./WeightlossProductArt";
 import { SiteFooter, SiteHeader } from "./WeightlossSiteChrome";
 import { formatWeightlossPrice as formatPrice, isWeightlossProductSlug as isProductSlug, orderedWeightlossUpsells as orderedUpsells, weightlossProducts as products, type WeightlossProductSlug as ProductSlug } from "@/flows/weightlossProducts";
 import { trpc } from "@/lib/trpc";
-
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || "");
 
 export function getNextRoute(slug: ProductSlug, orderToken: string, originalPaymentIntentId: string) {
   const payment = encodeURIComponent(originalPaymentIntentId);
