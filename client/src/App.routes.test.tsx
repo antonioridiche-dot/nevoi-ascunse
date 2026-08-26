@@ -2,10 +2,16 @@ import { describe, expect, it } from "vitest";
 import React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { Router, type SsrContext } from "wouter";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { httpBatchLink } from "@trpc/client";
+import superjson from "superjson";
+import { trpc } from "@/lib/trpc";
 import { AppRouter, CATALOG_ROUTE, directPathFromLegacyOffer, usesDirectOfferFallback } from "./App";
 
+const trpcClient = trpc.createClient({ links: [httpBatchLink({ url: "http://localhost/api/trpc", transformer: superjson })] });
+
 function renderRoute(path: string) {
-  return renderToStaticMarkup(<Router ssrPath={path}><AppRouter /></Router>);
+  return renderToStaticMarkup(<trpc.Provider client={trpcClient} queryClient={new QueryClient()}><QueryClientProvider client={new QueryClient()}><Router ssrPath={path}><AppRouter /></Router></QueryClientProvider></trpc.Provider>);
 }
 
 function redirectedRoute(path: string) {

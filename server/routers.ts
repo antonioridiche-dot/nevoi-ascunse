@@ -12,6 +12,7 @@ import { createPbcCheckout, getPbcCheckoutStatus } from "./commerce/pbcService";
 import { createVrajiPostPurchase, getVrajiPaymentStatus, prepareVrajiPayment } from "./commerce/vrajiService";
 import { getVrajiLibrary, requestVrajiLibraryAccess } from "./access/vrajiAccess";
 import { confirmCalendarIntent, createCalendarIntent, purchaseCalendarOneClick } from "./commerce/calendarService";
+import { calendarLifecycleEvents, trackCalendarLifecycle } from "./commerce/calendarTracking";
 import { createWeightlossIntent, getWeightlossSecureDownloads, isWeightlossProduct, listWeightlossDownloadAssets, listWeightlossOrdersForAdmin, oneClickWeightlossUpsell, setWeightlossDownloadActive, uploadWeightlossDownload } from "./commerce/weightlossService";
 import { confirmRelatiiPayment, decideRelatiiOffer, getRelatiiOrder, prepareRelatiiPayment, recordRelatiiAffiliateOfferDecision, submitRelatiiCoachingApplication } from "./commerce/relatiiService";
 import { redeemRelatiiAccessLink, requestRelatiiRecovery } from "./access/relatiiAccess";
@@ -120,10 +121,11 @@ export const appRouter = router({
   }),
   calendar: router({
     checkout: router({
-      createIntent: publicProcedure.input(z.object({ packageId: z.enum(["oneMonth", "twoMonths", "threeMonths"]), email: z.string().trim().email().max(320), firstName: z.string().trim().min(1).max(120).optional(), currency: z.enum(["usd", "eur", "gbp"]), visitorId: z.string().trim().min(1).max(128).optional(), oneClickConsent: z.boolean().optional() })).mutation(({ input }) => createCalendarIntent(input)),
+      createIntent: publicProcedure.input(z.object({ packageId: z.enum(["oneMonth", "twoMonths", "threeMonths"]), email: z.string().trim().email().max(320), firstName: z.string().trim().min(1).max(120).optional(), currency: z.enum(["usd", "eur", "gbp"]), visitorId: z.string().trim().min(1).max(128).optional(), marketingConsent: z.boolean().default(false), oneClickConsent: z.boolean().default(false) })).mutation(({ input }) => createCalendarIntent(input)),
       confirm: publicProcedure.input(z.object({ checkoutToken: z.string().min(20).max(96), paymentIntentId: z.string().min(10).max(255) })).mutation(({ input }) => confirmCalendarIntent(input)),
       oneClick: publicProcedure.input(z.object({ email: z.string().trim().email().max(320), packageId: z.enum(["oneMonth", "twoMonths", "threeMonths"]) })).mutation(({ input }) => purchaseCalendarOneClick(input)),
     }),
+    lifecycle: router({ track: publicProcedure.input(z.object({ eventType: z.enum(calendarLifecycleEvents), email: z.string().trim().email().max(320).optional(), visitorId: z.string().trim().min(1).max(128).optional(), productId: z.enum(["oneMonth", "twoMonths", "threeMonths"]).optional(), metadata: z.record(z.string(), z.unknown()).optional() })).mutation(({ input }) => trackCalendarLifecycle(input)) }),
   }),
   weightloss: router({
     admin: router({
