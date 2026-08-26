@@ -112,6 +112,7 @@
 - [x] Procesează prin webhook Stripe doar refundurile și disputele integrale confirmate; păstrează refundurile parțiale pentru revizuire contabilă până la modelarea ajustărilor proporționale.
 - [x] Configurează `/api/stripe/webhook` cu body raw compatibil Stripe și testează semnăturile pentru `refund.updated` și `charge.dispute.closed`.
 - [x] Persistă refundurile și disputele parțiale neautomatizate într-un jurnal de review contabil, în loc să fie ignorate.
+- [x] Actualizează endpointul Stripe sandbox către domeniul public și selectează evenimentele necesare pentru confirmare, refund și dispută.
 - [ ] Aplică validare/reguli explicite pentru payout-urile afiliere România/SEPA: țări eligibile, IBAN/BIC compatibile și tratament clar pentru conturi non-SEPA.
 - [x] Aliniază batchul de payout cu moneda/profilul de payout sau limitează explicit v1 la RON în serviciu, UI, reguli și teste pentru requested → approved → paid.
 - [x] Limitează explicit payouturile manuale v1 la RON în contractul API, formularul afiliat și comunicarea publică, fără a pretinde suport SEPA/EUR.
