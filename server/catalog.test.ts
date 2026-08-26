@@ -20,7 +20,7 @@ describe("catalog.listBrands", () => {
       {
         key: "tarot",
         displayName: "Tarot",
-        routeBase: "/oferte/tarot",
+        routeBase: "/tarot",
         category: "Ritualuri",
         senderName: null,
         senderEmail: null,
@@ -35,7 +35,7 @@ describe("catalog.listBrands", () => {
     });
 
     await expect(caller.catalog.listBrands()).resolves.toEqual([
-      expect.objectContaining({ key: "tarot", routeBase: "/oferte/tarot", status: "migrating" }),
+      expect.objectContaining({ key: "tarot", routeBase: "/tarot", status: "migrating" }),
     ]);
   });
 });
