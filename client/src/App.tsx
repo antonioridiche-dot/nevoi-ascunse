@@ -38,6 +38,7 @@ import RelatiiOriginalAffiliate from "./pages/RelatiiOriginalAffiliate";
 import RelatiiOriginalAdmin from "./pages/RelatiiOriginalAdmin";
 import RelatiiOriginalLegal from "./pages/RelatiiOriginalLegal";
 import RelatiiOriginalFunnelMap from "./pages/RelatiiOriginalFunnelMap";
+import CalendarLuckyAdmin from "./pages/CalendarLuckyAdmin";
 import CalendarLuckyPreview from "./pages/CalendarLuckyPreview";
 import { IubireLibrary, IubireThankYou } from "./pages/IubireOriginalAccess";
 import { IubireOriginalCheckout, IubireOriginalHome } from "./pages/IubireOriginalFunnel";
@@ -127,6 +128,7 @@ export function AppRouter() {
       <Route path={"/relatii/legal/rambursari"}>{() => <RelatiiOriginalLegal page="rambursari" />}</Route>
       <Route path={"/relatii/legal/contact"}>{() => <RelatiiOriginalLegal page="contact" />}</Route>
       <Route path={"/relatii/funnel-dictionarul-barbatilor"} component={RelatiiOriginalFunnelMap} />
+      <Route path={"/calendarul-norocului/admin"} component={CalendarLuckyAdmin} />
       <Route path={"/calendarul-norocului"} component={CalendarLuckyPreview} />
       <Route path={"/armonii-bine"} component={ArmoniiOriginalHome} />
       <Route path={"/armonii-bine/multumim"} component={ArmoniiOriginalConfirmation} />

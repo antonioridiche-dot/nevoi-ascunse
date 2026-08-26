@@ -71,6 +71,12 @@ describe("direct catalog routing contract", () => {
     expect(html).toContain("Introdu data ta");
   });
 
+  it("keeps the Calendar manual-segment panel on its protected direct admin route", () => {
+    const html = renderRoute("/calendarul-norocului/admin");
+    expect(html).toContain("Încărcăm segmentele Calendarului");
+    expect(html).not.toContain("Introdu data ta");
+  });
+
   it("renders Iubire thank-you at its direct route", () => {
     expect(renderRoute("/iubire/multumesc")).toContain("Bine ai venit în spațiul tău pentru iubire");
   });

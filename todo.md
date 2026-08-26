@@ -72,6 +72,7 @@
 - [ ] Migrează Iubire cu toate paginile, checkout-ul, biblioteca, e-mailurile și administrarea din sursă.
 - [ ] Migrează Liniște Audio cu toate paginile, quiz-ul, checkout-ul, biblioteca, recovery și administrarea din sursă.
 - [ ] Migrează Calendarul norocului cu toate paginile, personalizarea, checkout-ul, campaniile și administrarea din sursă.
+- [x] Expune la `/calendarul-norocului/admin` segmentele Calendar și exporturile manuale de campanie, fără trimitere automată de e-mail.
 - [ ] Migrează Peste despărțire cu toate paginile, quiz-ul, checkout-ul, pașii post-cumpărare și accesul din sursă.
 - [ ] Migrează Numerologie cu toate paginile, raportul, checkout-ul, afilierea și administrarea din sursă.
 - [ ] Migrează Soulmate Sketch cu toate paginile, quiz-ul, captarea e-mailului, checkout-ul și livrarea din sursă.
