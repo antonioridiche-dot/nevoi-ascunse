@@ -23,6 +23,10 @@
 | Direcția abundenței | `directia-abundentei` | `/directia-abundentei` | Source checkout and optional post-purchase step | Not ported | Copy FunnelHome, Checkout, PostPurchase and ThankYou routes |
 | Slăbiciunea zodiei | `secretul-zodiei` | `/slabiciunea-zodiei` | Source personalized storefront checkout | Not ported | Copy Storefront, affiliate program/dashboard/admin and zodiac step offers |
 
+## Note de fidelitate Liniște Audio
+
+Pagina sursă `Recovery.tsx` definește structura și copy-ul recuperării, însă repository-ul local nu conține reguli CSS pentru clasele `recovery-page`, `recovery-card`, `recovery-success` sau `email-field`; fișierul `funnel.css` este gol. Ramura de comportament `deliveryReady` este portată, iar o restaurare vizuală suplimentară rămâne blocată până devin disponibile stilurile sursă, pentru a nu introduce un design inventat.
+
 ## Program central de afiliere
 
 Portalul central este activ la `/afiliere`, cu reguli publice, materiale marcate explicit **„În lucru”**, înscriere deschisă, dashboard de afiliat și zona administrativă `/afiliere/admin`. Linkul canonic este `/afiliere/<oferta>/<cod>`; acesta validează afiliatul și oferta, persistă atribuirea de 30 de zile în server și redirecționează la ruta directă a brandului.
