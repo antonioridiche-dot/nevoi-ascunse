@@ -193,3 +193,7 @@
 - [x] Repară afișarea butonului de acces admin în `/afiliere/dashboard`; utilizatorul autentificat nu îl vede în prezent.
 - [x] Verifică izolarea: butonul trebuie să apară doar după autentificarea Manus cu rol `admin`.
 - [x] Mută intrarea admin de pe pagina afiliere înaintea conținutului lung, astfel încât administratorul să o vadă fără scroll.
+- [x] Adaugă un cod permanent temporar pentru loginul afiliat al administratorului, limitat server-side la contul admin.
+- [x] Documentează și testează eliminarea codului temporar înainte de lansarea publică.
+- [x] Configurează codul temporar `123456` exclusiv pentru `antonio.ridiche@gmail.com` și respinge-l pentru orice alt e-mail.
+- [x] Acoperă prin teste izolarea codului temporar și notează eliminarea lui înainte de lansarea publică.

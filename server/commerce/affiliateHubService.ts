@@ -35,6 +35,11 @@ const ATTRIBUTION_TTL_MS = AFFILIATE_HOLD_DAYS * 24 * 60 * 60 * 1_000;
 const sha256 = (value: string) => createHash("sha256").update(value).digest("hex");
 const normalizeEmail = (value: string) => value.trim().toLowerCase();
 const canonicalRoute = (brandKey: string) => `/${brandKey}`;
+const AFFILIATE_ADMIN_TEST_EMAIL = "antonio.ridiche@gmail.com";
+
+export function isAffiliateAdminTestCodeValid(input: { email: string; code: string }) {
+  return normalizeEmail(input.email) === AFFILIATE_ADMIN_TEST_EMAIL && Boolean(ENV.affiliateAdminTestCode) && input.code === ENV.affiliateAdminTestCode;
+}
 
 export function isValidRomanianPayoutIban(value: string) {
   const iban = value.replace(/\s/g, "").toUpperCase();
@@ -163,6 +168,14 @@ export async function requestAffiliateLoginCode(emailInput: string) {
 
 export async function verifyAffiliateLoginCode(input: { email: string; code: string }) {
   const db = await database();
+  if (isAffiliateAdminTestCodeValid(input)) {
+    const account = (await db.select().from(affiliateHubAccounts).where(eq(affiliateHubAccounts.email, AFFILIATE_ADMIN_TEST_EMAIL)).limit(1))[0];
+    if (account?.status === "active") {
+      const sessionToken = randomBytes(32).toString("hex");
+      await db.insert(affiliateHubSessions).values({ affiliateId: account.id, tokenHash: sha256(sessionToken), expiresAt: new Date(Date.now() + SESSION_TTL_MS) });
+      return { sessionToken, affiliate: { displayName: account.displayName, affiliateCode: account.affiliateCode, email: account.email } };
+    }
+  }
   const account = (await db.select().from(affiliateHubAccounts).where(eq(affiliateHubAccounts.email, normalizeEmail(input.email))).limit(1))[0];
   if (!account || account.status !== "active" || !/^\d{6}$/.test(input.code)) throw new Error("Codul de acces este invalid sau expirat.");
   const record = (await db.select().from(affiliateHubLoginCodes).where(and(eq(affiliateHubLoginCodes.affiliateId, account.id), isNull(affiliateHubLoginCodes.consumedAt), gt(affiliateHubLoginCodes.expiresAt, new Date()))).orderBy(sql`${affiliateHubLoginCodes.createdAt} desc`).limit(1))[0];
