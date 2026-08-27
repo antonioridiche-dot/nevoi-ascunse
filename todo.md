@@ -77,6 +77,7 @@
 - [ ] Migrează Iubire cu toate paginile, checkout-ul, biblioteca, e-mailurile și administrarea din sursă.
 - [x] Restaurează în biblioteca Iubire textul sursă despre pregătirea structurii resurselor reale, fără a inventa active.
 - [x] Restaurează secțiunile editoriale Iubire disponibile în sursă (final problem, metodă detaliată, bonusuri și FAQ), fără active substituite.
+- [x] Restaurează stilurile Iubire din `client/src/index.css` al sursei pentru structura publică disponibilă, fără a adăuga active inexistente.
 - [ ] Migrează Liniște Audio cu toate paginile, quiz-ul, checkout-ul, biblioteca, recovery și administrarea din sursă.
 - [x] Păstrează în recuperarea Liniște Audio ramura sursă `deliveryReady`, fără a pretinde disponibilitatea e-mailului cât timp expeditorul este neverificat.
 - [ ] Restaurează structura și stilurile sursă ale formularului de recuperare Liniște Audio, eliminate de reutilizarea stilului checkout.

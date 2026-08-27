@@ -16,4 +16,12 @@ describe("Iubire protected library", () => {
     expect(source).toContain("Va atrage programul o persoană anume?");
     expect(source).not.toContain("deschide-spatiu-pentru-iubire-cover_e131dc1b.png");
   });
+
+  it("uses the source Iubire visual tokens without substituting the unavailable cover", () => {
+    const styles = fs.readFileSync(path.join(import.meta.dirname, "iubire-original.css"), "utf8");
+    expect(styles).toContain("--plum:#25182c");
+    expect(styles).toContain("--gold:#d6a653");
+    expect(styles).toContain(".iubire-page>.iubire-hero");
+    expect(styles).not.toContain("deschide-spatiu-pentru-iubire-cover_e131dc1b.png");
+  });
 });
