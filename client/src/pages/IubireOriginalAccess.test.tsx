@@ -24,4 +24,12 @@ describe("Iubire protected library", () => {
     expect(styles).toContain(".iubire-page>.iubire-hero");
     expect(styles).not.toContain("deschide-spatiu-pentru-iubire-cover_e131dc1b.png");
   });
+
+  it("preserves the source checkout feedback while keeping the unified direct thank-you route", () => {
+    const source = fs.readFileSync(path.join(import.meta.dirname, "IubireOriginalFunnel.tsx"), "utf8");
+    expect(source).toContain("Se încarcă plata securizată…");
+    expect(source).toContain("stripe-element-focused");
+    expect(source).toContain("/iubire/multumesc?");
+    expect(source).not.toContain("deschide-spatiu-pentru-iubire-cover_e131dc1b.png");
+  });
 });
