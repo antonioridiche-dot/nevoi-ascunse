@@ -32,6 +32,7 @@
 - [x] Aplică allowlistul independent direct la registrul public de branduri, cu test pentru excluderea surselor neaprobate.
 - [x] Decide și documentează dacă weight-los-manifest și romanian-weightloss-funnel sunt două branduri distincte sau o singură ofertă consolidată.
 - [ ] Migrează fluxul Familie protejată: pagină FE, checkout, downsell-uri, thank-you și bibliotecă privată.
+- [ ] Recuperează repository-ul sursă `survival` pentru auditul copy-first al rutelelor Familie protejată; nu este prezent în sursele locale disponibile.
 - [x] Corectează recuperarea Familie protejată pentru a nu promite link prin e-mail cât timp fluxul de expediere nu este verificat.
 - [ ] Înlocuiește reinterpretarea Tarot cu paginile, copy-ul, CSS-ul și checkout-ul embedded identice cu repository-ul sursă.
 - [ ] Păstrează fidel pentru fiecare ofertă designul, copy-ul, pașii, checkout-ul și funcționalitățile din GitHub; schimbă numai prefixul de rută și integrarea comună necesară.
@@ -66,6 +67,8 @@
 - [x] Portează pagina principală și cele trei pagini post-ofertă Prieteni cu beneficii cu designul, copy-ul și tranzițiile sursă.
 - [ ] Portează checkout-ul, thank-you-ul și paginile legale Prieteni cu beneficii cu mecanismul Stripe Checkout din sursă.
 - [x] Portează și verifică checkout-ul Stripe Checkout și pagina de confirmare Prieteni cu beneficii.
+- [x] Corectează landingul PBC pentru a nu promite instrucțiuni sau acces livrate prin e-mail cât timp expeditorul este neverificat.
+- [x] Auditează checkoutul și returnarea PBC pentru promisiuni despre confirmare, instrucțiuni ori acces prin e-mail cât timp expeditorul este neverificat.
 - [ ] Portează paginile legale și mecanismul de livrare/bibliotecă Prieteni cu beneficii din sursă.
 - [x] Direcționează linkurile legale Prieteni cu beneficii către rute directe cu stare explicită de document sursă indisponibil, fără copy legal inventat.
 - [x] Adaptează contractul de plată embedded Vrăji pentru oferta principală, bump-uri și post-cumpărare one-click.
