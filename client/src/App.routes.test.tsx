@@ -113,6 +113,20 @@ describe("direct catalog routing contract", () => {
     expect(renderRoute("/liniste-audio")).toContain("Un spațiu sonor");
   });
 
+  it("renders the available Armonii source sections without inventing a preview or testimonial", () => {
+    const html = renderRoute("/armonii-bine");
+    expect(html).toContain("Un minut pentru tine.");
+    expect(html).toContain("Preview-ul audio va apărea aici după ce administratorul încarcă fragmentul real.");
+    expect(html).toContain("Fă loc pentru ceea ce îți prinde bine.");
+    expect(html).toContain("Primele experiențe reale vor apărea aici după ce sunt transmise și aprobate.");
+    expect(html).toContain("Nu publicăm recenzii inventate sau testimoniale fără acordul autorului.");
+    expect(html).toContain("Pachetul va deveni disponibil imediat ce administratorul adaugă resursele audio și PDF");
+  });
+
+  it("keeps the linked Armonii administration route explicit when its source markup is unavailable", () => {
+    expect(renderRoute("/armonii-bine/admin")).toContain("PAGINĂ SURSĂ INDISPONIBILĂ");
+  });
+
   it("keeps Liniște legal pages on direct routes before the generic fallback", () => {
     expect(renderRoute("/liniste-audio/termeni")).toContain("Termeni și condiții");
     expect(renderRoute("/liniste-audio/confidentialitate")).toContain("Politica de confidențialitate");

@@ -51,6 +51,10 @@
 - [x] Prefixează toate tranzițiile Relații din sursă cu ruta directă `/relatii`, fără modificarea ordinii sau a copy-ului funnelului.
 - [ ] Migrează fidel ofertele audio din Music Tracks, inclusiv livrarea și biblioteca lor client.
 - [ ] Portează Armonii & Bine cu pagina, checkout-ul embedded, accesul audio/PDF și administrarea din sursă.
+- [x] Restaurează pe Armonii previewul audio, blocurile editoriale, starea fără testimoniale și footerul disponibile în sursă, fără a substitui hero-ul indisponibil.
+- [x] Expune în catalogul Armonii exclusiv previewul audio aprobat și redă playerul sursă, cu fallback când previewul lipsește.
+- [x] Restaurează comportamentul linkului „Administrare” din footerul Armonii prin rută disponibilă sau stare explicită, fără link inert.
+- [x] Păstrează checkoutul Armonii indisponibil când există numai un preview audio, până sunt încărcate resursele reale de livrare.
 - [ ] Transferă în storage-ul unificat toate resursele vizuale sau audio care lipsesc din repository-uri, fără înlocuiri creative.
 - [ ] Păstrează pentru fiecare pagină numai resursele disponibile în repository-ul sursă și documentează referințele externe indisponibile fără a le înlocui creativ.
 - [x] Documentează hărțile de rute și contractele de fidelitate pentru lotul Relații, Prieteni cu beneficii, Vrăji, Weightloss și proiectele audio.

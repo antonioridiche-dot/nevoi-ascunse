@@ -18,7 +18,7 @@ import { confirmRelatiiPayment, decideRelatiiOffer, getRelatiiOrder, prepareRela
 import { redeemRelatiiAccessLink, requestRelatiiRecovery } from "./access/relatiiAccess";
 import { authenticateRelatiiAffiliate, createRelatiiAffiliate, getRelatiiAffiliateStats, trackRelatiiAffiliateClick } from "./commerce/relatiiAffiliateService";
 import { getRelatiiAdminSnapshot } from "./commerce/relatiiAdminService";
-import { chargeArmoniiUpsell, confirmArmoniiIntent, createArmoniiIntent, finalizeArmoniiUpsell, getArmoniiDownloads, getArmoniiUpsellOffer } from "./commerce/armoniiService";
+import { chargeArmoniiUpsell, confirmArmoniiIntent, createArmoniiIntent, finalizeArmoniiUpsell, getArmoniiCatalogProduct, getArmoniiDownloads, getArmoniiUpsellOffer } from "./commerce/armoniiService";
 import { authorizeIubireLibrary, confirmIubireIntent, createIubireIntent } from "./commerce/iubireService";
 import { authorizeLinisteAccess, chargeLinisteEveningPause, confirmLinisteIntent, createLinisteIntent, finalizeLinisteEveningPause, getLinisteEveningPauseOffer } from "./commerce/linisteService";
 import { linisteLifecycleEvents, trackLinisteLifecycle } from "./commerce/linisteTracking";
@@ -120,6 +120,7 @@ export const appRouter = router({
     }),
   }),
   armonii: router({
+    catalog: publicProcedure.query(() => getArmoniiCatalogProduct()),
     checkout: router({
       createIntent: publicProcedure.input(z.object({ email: z.string().trim().email().max(320), name: z.string().trim().max(160).optional() })).mutation(({ input, ctx }) => createArmoniiIntent({ ...input, affiliateVisitorToken: affiliateVisitorFromRequest(ctx.req.headers.cookie) })),
       confirm: publicProcedure.input(z.object({ checkoutToken: z.string().min(20).max(96), paymentIntentId: z.string().startsWith("pi_") })).mutation(({ input }) => confirmArmoniiIntent(input)),
