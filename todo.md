@@ -49,6 +49,8 @@
 - [x] Portează pagina de mulțumire Relații și formularul de coaching 1:1 cu persistarea cererii din sursă.
 - [x] Portează înscrierea, autentificarea, dashboardul și trackingul programului de afiliere Relații din sursă.
 - [x] Prefixează toate tranzițiile Relații din sursă cu ruta directă `/relatii`, fără modificarea ordinii sau a copy-ului funnelului.
+- [x] Corectează confirmarea aplicației de coaching Relații astfel încât să nu promită contact prin e-mail cât timp expeditorul nu este verificat.
+- [x] Corectează recuperarea bibliotecii Relații astfel încât să nu promită livrarea unui magic link prin e-mail cât timp expeditorul nu este verificat.
 - [ ] Migrează fidel ofertele audio din Music Tracks, inclusiv livrarea și biblioteca lor client.
 - [ ] Portează Armonii & Bine cu pagina, checkout-ul embedded, accesul audio/PDF și administrarea din sursă.
 - [x] Restaurează pe Armonii previewul audio, blocurile editoriale, starea fără testimoniale și footerul disponibile în sursă, fără a substitui hero-ul indisponibil.

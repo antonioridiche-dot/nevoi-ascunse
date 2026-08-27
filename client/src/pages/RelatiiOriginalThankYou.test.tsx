@@ -14,5 +14,6 @@ describe("Relații thank-you coaching application", () => {
     expect(html).toContain("Aplică pentru coaching relațional");
     expect(html).toContain('name="context"');
     expect(html).toContain("exclusiv pentru a analiza cererea ta de coaching");
+    expect(html).not.toContain("Vei fi contactat(ă)");
   });
 });
