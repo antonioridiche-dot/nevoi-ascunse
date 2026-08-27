@@ -91,6 +91,8 @@
 - [x] Păstrează în recuperarea Liniște Audio ramura sursă `deliveryReady`, fără a pretinde disponibilitatea e-mailului cât timp expeditorul este neverificat.
 - [ ] Restaurează structura și stilurile sursă ale formularului de recuperare Liniște Audio, eliminate de reutilizarea stilului checkout.
 - [ ] Migrează Calendarul norocului cu toate paginile, personalizarea, checkout-ul, campaniile și administrarea din sursă.
+- [ ] Compară și aliniază pagina principală Calendarul norocului la sursa locală înainte de alte ajustări de funnel.
+- [x] Propagă identificatorul anonim Calendar în evenimentele active de funnel și în crearea checkoutului, ca în sursa locală.
 - [x] Expune la `/calendarul-norocului/admin` segmentele Calendar și exporturile manuale de campanie, fără trimitere automată de e-mail.
 - [ ] Migrează Peste despărțire cu toate paginile, quiz-ul, checkout-ul, pașii post-cumpărare și accesul din sursă.
 - [ ] Migrează Numerologie cu toate paginile, raportul, checkout-ul, afilierea și administrarea din sursă.
