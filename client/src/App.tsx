@@ -72,7 +72,7 @@ export function AppRouter() {
       <Route path={"/afiliere"}>{() => <AffiliateHubPublic section="home" />}</Route>
       <Route path={"/afiliere/materiale"}>{() => <AffiliateHubPublic section="materials" />}</Route>
       <Route path={"/afiliere/reguli"}>{() => <AffiliateHubPublic section="rules" />}</Route>
-      <Route path={"/afiliere/termeni"}>{() => <AffiliateHubPublic section="rules" />}</Route>
+      <Route path={"/afiliere/termeni"}>{() => <AffiliateHubPublic section="terms" />}</Route>
       <Route path={"/afiliere/dashboard"} component={AffiliateHubDashboard} />
       <Route path={"/afiliere/admin"} component={AffiliateHubAdmin} />
       <Route path={"/afiliere/:offer/:code"} component={AffiliateReferral} />
