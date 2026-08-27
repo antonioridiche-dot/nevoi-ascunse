@@ -32,4 +32,12 @@ describe("Iubire protected library", () => {
     expect(source).toContain("/iubire/multumesc?");
     expect(source).not.toContain("deschide-spatiu-pentru-iubire-cover_e131dc1b.png");
   });
+
+  it("uses the source post-purchase class contract without turning placeholders into files", () => {
+    const source = fs.readFileSync(path.join(import.meta.dirname, "IubireOriginalAccess.tsx"), "utf8");
+    expect(source).toContain('className="iubire-access thank-you-page"');
+    expect(source).toContain('className="iubire-access library-page"');
+    expect(source).toContain("audio-card audio-placeholder");
+    expect(source).not.toContain('href="/manus-storage/');
+  });
 });
