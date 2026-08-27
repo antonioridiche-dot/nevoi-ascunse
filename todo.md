@@ -192,3 +192,4 @@
 - [x] Păstrează codul de login obligatoriu pentru afiliații publici și acoperă prin test că bypassul admin nu este public.
 - [x] Repară afișarea butonului de acces admin în `/afiliere/dashboard`; utilizatorul autentificat nu îl vede în prezent.
 - [x] Verifică izolarea: butonul trebuie să apară doar după autentificarea Manus cu rol `admin`.
+- [x] Mută intrarea admin de pe pagina afiliere înaintea conținutului lung, astfel încât administratorul să o vadă fără scroll.
