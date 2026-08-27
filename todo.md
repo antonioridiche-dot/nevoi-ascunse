@@ -32,6 +32,7 @@
 - [x] Aplică allowlistul independent direct la registrul public de branduri, cu test pentru excluderea surselor neaprobate.
 - [x] Decide și documentează dacă weight-los-manifest și romanian-weightloss-funnel sunt două branduri distincte sau o singură ofertă consolidată.
 - [ ] Migrează fluxul Familie protejată: pagină FE, checkout, downsell-uri, thank-you și bibliotecă privată.
+- [x] Corectează recuperarea Familie protejată pentru a nu promite link prin e-mail cât timp fluxul de expediere nu este verificat.
 - [ ] Înlocuiește reinterpretarea Tarot cu paginile, copy-ul, CSS-ul și checkout-ul embedded identice cu repository-ul sursă.
 - [ ] Păstrează fidel pentru fiecare ofertă designul, copy-ul, pașii, checkout-ul și funcționalitățile din GitHub; schimbă numai prefixul de rută și integrarea comună necesară.
 - [ ] Configurează o singură ofertă Weightloss consolidată din weight-los-manifest și romanian-weightloss-funnel.
@@ -98,8 +99,11 @@
 - [x] Verifică prețurile Liniște Audio față de sursa de checkout: 67 lei standard, 47 lei oferta `exit20` și 69 lei pachet; catalogul intern de 29 lei nu este prețul folosit de funnelul sursă.
 - [x] Aliniază Thank You Liniște Audio la structura sursă fără a expune linkuri către fișiere audio complete indisponibile.
 - [x] Aliniază quizul Liniște Audio la întrebările, scoringul și structura sursă, păstrând rutele directe.
+- [x] Elimină câmpul de nume din înscrierea publică de afiliere; contul trebuie creat numai cu e-mail și acord.
+- [x] Corectează stilul formularului central de afiliere astfel încât e-mailul să rămână vizibil după eliminarea câmpului de nume.
 - [x] Înregistrează server-side finalizarea quizului Liniște Audio în jurnalul comun de funnel, fără consimțământ de marketing implicit.
 - [x] Păstrează în recuperarea Liniște Audio ramura sursă `deliveryReady`, fără a pretinde disponibilitatea e-mailului cât timp expeditorul este neverificat.
+- [x] Elimină din recuperarea Liniște Audio promisiunile de activare sau livrare viitoare prin e-mail, cât timp expeditorul este neverificat.
 - [ ] Restaurează structura și stilurile sursă ale formularului de recuperare Liniște Audio, eliminate de reutilizarea stilului checkout.
 - [ ] Migrează Calendarul norocului cu toate paginile, personalizarea, checkout-ul, campaniile și administrarea din sursă.
 - [ ] Compară și aliniază pagina principală Calendarul norocului la sursa locală înainte de alte ajustări de funnel.

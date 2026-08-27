@@ -8,5 +8,8 @@ describe("Liniște Audio recovery", () => {
     expect(source).toContain("setDeliveryReady(data.deliveryReady)");
     expect(source).toContain("Dacă există o comandă asociată");
     expect(source).toContain("răspunsul nu confirmă dacă există o comandă asociată");
+    expect(source).toContain("Nu trimitem linkuri prin e-mail cât timp expeditorul nu este verificat.");
+    expect(source).not.toContain("în curs de activare");
+    expect(source).not.toContain("După configurarea expeditorului verificat");
   });
 });
