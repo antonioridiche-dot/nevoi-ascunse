@@ -28,7 +28,7 @@
 - [x] Conectează serverul la cheia Resend deja configurată pentru expedierea per brand.
 - [x] Creează o allowlist unică a repository-urilor aprobate și rezolvă versiunile duplicate înainte de migrarea următoarelor fluxuri.
 - [ ] Aplică allowlist-ul în instrumentul de inventariere/migrare, astfel încât repository-urile neaprobate să fie blocate tehnic.
-- [ ] Adaugă un selector verificabil al repository-urilor de migrare care păstrează doar sursele aprobate și raportează respingerile.
+- [x] Adaugă un selector verificabil al repository-urilor de migrare care păstrează doar sursele aprobate și raportează respingerile.
 - [x] Aplică allowlistul independent direct la registrul public de branduri, cu test pentru excluderea surselor neaprobate.
 - [x] Decide și documentează dacă weight-los-manifest și romanian-weightloss-funnel sunt două branduri distincte sau o singură ofertă consolidată.
 - [ ] Migrează fluxul Familie protejată: pagină FE, checkout, downsell-uri, thank-you și bibliotecă privată.
@@ -124,6 +124,7 @@
 - [x] Construiește portalul central `/afiliere` cu înscriere deschisă, cod de acces pe e-mail, reguli publice, materiale marcate „În lucru” și dashboard securizat.
 - [x] Simplifică înscrierea programului central de afiliere la e-mail, fără câmp de nume obligatoriu.
 - [x] Elimină cerința de nume și din contractul backend al înscrierii centrale de afiliere, nu doar din interfață.
+- [x] Testează serviciul de înscriere afiliat cu e-mail și acord, fără un câmp de nume furnizat de utilizator.
 - [x] Păstrează un singur dashboard central de afiliere și adaugă un selector de ofertă pentru generarea linkului promovat.
 - [x] Adaugă în footer, în dreapta jos, un buton vizibil către Programul de afiliere.
 - [ ] Implementează atribuirea server-side pentru linkurile `/afiliere/<oferta>/<cod>`, cu retenție de 30 de zile prin checkouturile și pașii post-cumpărare eligibili.

@@ -5,7 +5,7 @@ const { getDbMock } = vi.hoisted(() => ({ getDbMock: vi.fn() }));
 
 vi.mock("../db", () => ({ getDb: getDbMock }));
 
-import { AFFILIATE_COMMISSION_BPS, AFFILIATE_HOLD_DAYS, AFFILIATE_MINIMUM_PAYOUT_CENTS, AFFILIATE_PAYOUT_CURRENCY, AFFILIATE_PAYOUT_SCHEDULE, affiliateCommissionReversalRecoveryPolicy, assertAffiliatePayoutRequestReview, assertAffiliatePayoutRequestTransition, calculateAffiliateCommission, canReviewAffiliatePayoutRequest, isValidRomanianPayoutIban, reverseAffiliateCommissionsForOrder, shouldQueueAffiliateCommissionReviewForLostPartialDispute, shouldQueueAffiliateCommissionReviewForPartialRefund, shouldReverseAffiliateCommissionForFullRefund, shouldReverseAffiliateCommissionForLostFullDispute } from "./affiliateHubService";
+import { AFFILIATE_COMMISSION_BPS, AFFILIATE_HOLD_DAYS, AFFILIATE_MINIMUM_PAYOUT_CENTS, AFFILIATE_PAYOUT_CURRENCY, AFFILIATE_PAYOUT_SCHEDULE, affiliateCommissionReversalRecoveryPolicy, assertAffiliatePayoutRequestReview, assertAffiliatePayoutRequestTransition, calculateAffiliateCommission, canReviewAffiliatePayoutRequest, isValidRomanianPayoutIban, registerAffiliate, reverseAffiliateCommissionsForOrder, shouldQueueAffiliateCommissionReviewForLostPartialDispute, shouldQueueAffiliateCommissionReviewForPartialRefund, shouldReverseAffiliateCommissionForFullRefund, shouldReverseAffiliateCommissionForLostFullDispute } from "./affiliateHubService";
 
 describe("affiliate hub commission policy", () => {
   it("uses the confirmed commission rate, hold period, and payout threshold", () => {
@@ -55,6 +55,21 @@ describe("affiliate hub payout review policy", () => {
   it("requires a bank-transfer reference before a request can become paid", () => {
     expect(() => assertAffiliatePayoutRequestReview({ status: "approved", decision: "paid" })).toThrow("referința transferului bancar");
     expect(() => assertAffiliatePayoutRequestReview({ status: "approved", decision: "paid", payoutReference: "BT-2026-08-001" })).not.toThrow();
+  });
+});
+
+describe("affiliate hub email-only registration", () => {
+  it("creates an account using only email and terms acceptance", async () => {
+    const values = vi.fn();
+    const db = {
+      select: vi.fn(() => ({ from: vi.fn(() => ({ where: vi.fn(() => ({ limit: vi.fn(async () => []) })) })) })),
+      insert: vi.fn(() => ({ values })),
+    };
+    getDbMock.mockResolvedValue(db);
+
+    await expect(registerAffiliate({ email: "  afiliat@example.ro ", acceptedTerms: true })).resolves.toMatchObject({ created: true, email: "afiliat@example.ro", affiliateCode: expect.stringMatching(/^NA-/) });
+    expect(values).toHaveBeenCalledWith(expect.objectContaining({ email: "afiliat@example.ro", displayName: "Afiliat" }));
+    await expect(registerAffiliate({ email: "afiliat@example.ro", acceptedTerms: false })).rejects.toThrow("Acceptarea termenilor");
   });
 });
 
