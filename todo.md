@@ -52,6 +52,8 @@
 - [x] Corectează confirmarea aplicației de coaching Relații astfel încât să nu promită contact prin e-mail cât timp expeditorul nu este verificat.
 - [x] Corectează recuperarea bibliotecii Relații astfel încât să nu promită livrarea unui magic link prin e-mail cât timp expeditorul nu este verificat.
 - [ ] Migrează fidel ofertele audio din Music Tracks, inclusiv livrarea și biblioteca lor client.
+- [x] Corectează Weightloss pentru a nu promite confirmare ori acces prin e-mail cât timp nu există flux de expediere verificat.
+- [x] Elimină recomandarea din footerul Weightloss de a păstra e-mailul de confirmare, deoarece acel e-mail nu este disponibil încă.
 - [ ] Portează Armonii & Bine cu pagina, checkout-ul embedded, accesul audio/PDF și administrarea din sursă.
 - [x] Restaurează pe Armonii previewul audio, blocurile editoriale, starea fără testimoniale și footerul disponibile în sursă, fără a substitui hero-ul indisponibil.
 - [x] Expune în catalogul Armonii exclusiv previewul audio aprobat și redă playerul sursă, cu fallback când previewul lipsește.

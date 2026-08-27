@@ -33,7 +33,7 @@ export function SiteFooter() {
       <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:px-6 md:grid-cols-[1.3fr_1fr_1fr]">
         <div><Wordmark inverted /><p className="mt-4 max-w-sm text-sm leading-6 text-slate-400">Resurse digitale pentru organizarea alimentației și a mișcării. Materialele educaționale nu înlocuiesc recomandarea personalizată a unui profesionist medical.</p></div>
         <div><h2 className="text-sm font-bold uppercase tracking-[0.18em] text-[#f7cf78]">Informații</h2><div className="mt-4 grid gap-2 text-sm"><Link href="/weightloss/afiliati">Program de afiliere</Link><Link href="/weightloss/confidentialitate">Confidențialitate</Link><Link href="/weightloss/termeni">Termeni și condiții</Link><Link href="/weightloss/declaratie">Declarație privind veniturile</Link></div></div>
-        <div><h2 className="text-sm font-bold uppercase tracking-[0.18em] text-[#f7cf78]">Ajutor</h2><p className="mt-4 text-sm leading-6">Ai o întrebare despre accesul la produse? Păstrează e-mailul de confirmare și codul comenzii pentru a-ți putea accesa descărcările.</p></div>
+        <div><h2 className="text-sm font-bold uppercase tracking-[0.18em] text-[#f7cf78]">Ajutor</h2><p className="mt-4 text-sm leading-6">Ai o întrebare despre accesul la produse? Păstrează pagina finală deschisă după plată și codul comenzii pentru a-ți putea accesa descărcările.</p></div>
       </div>
       <div className="border-t border-white/10 py-5 text-center text-xs text-slate-500">© {new Date().getFullYear()} Bucătăria Vie. Toate drepturile rezervate.</div>
     </footer>
