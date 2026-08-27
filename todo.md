@@ -105,6 +105,8 @@
 - [x] Propagă identificatorul anonim Calendar în evenimentele active de funnel și în crearea checkoutului, ca în sursa locală.
 - [x] Restaurează footerul compact Calendarul norocului din sursă, inclusiv limitele de divertisment și reflecție personală.
 - [x] Restaurează Calendar încărcarea de după formular și rezultatul personal cu cele trei repere, cardurile sigilate și handofful către pachete.
+- [x] Restaurează Calendar pachetele multi-monedă, checkoutul embedded și feedbackul Stripe din fluxul sursă efectiv.
+- [x] Restaurează Calendar pașii post-plată: prețul afișat, acceptarea, refuzul urmărit server-side și thank-you-ul sursă.
 - [x] Expune la `/calendarul-norocului/admin` segmentele Calendar și exporturile manuale de campanie, fără trimitere automată de e-mail.
 - [ ] Migrează Peste despărțire cu toate paginile, quiz-ul, checkout-ul, pașii post-cumpărare și accesul din sursă.
 - [ ] Migrează Numerologie cu toate paginile, raportul, checkout-ul, afilierea și administrarea din sursă.

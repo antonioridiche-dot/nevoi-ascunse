@@ -31,4 +31,12 @@ describe("Calendarul norocului source contract", () => {
     expect(result).toContain("RESTUL CALENDARULUI — SIGILAT");
     expect(result).toContain("Material pentru divertisment și reflecție personală");
   });
+
+  it("păstrează succesiunea sursă post-plată și evenimentul de refuz urmărit", () => {
+    const source = fs.readFileSync(path.join(import.meta.dirname, "../pages/CalendarLuckyPreview.tsx"), "utf8");
+    expect(source).toContain("USD · plată unică");
+    expect(source).toContain("DA, ADAUGĂ CU UN CLIC");
+    expect(source).toContain("next_step_skipped");
+    expect(source).toContain("Calendarul tău este pregătit.");
+  });
 });

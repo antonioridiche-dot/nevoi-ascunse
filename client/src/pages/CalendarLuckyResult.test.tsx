@@ -16,6 +16,11 @@ describe("CalendarLuckyResult", () => {
     expect(html).toContain("♈ Berbec · NUMĂR PERSONAL 8");
     expect(html).toContain("FERSTRELE TALE DE TIMING — URMĂTOARELE 90 DE ZILE");
     expect(html).toContain("RESTUL CALENDARULUI — SIGILAT");
-    expect(html).toContain("DESCHIDE CALENDARUL COMPLET");
+    expect(html).toContain("Deschide calendarul complet.");
+    expect(html).toContain("EUR (€)");
+    expect(html).toContain("€80");
+    expect(html).toContain("USD ($)");
+    expect(html).toContain("GBP (£)");
+    expect(html).toContain("Data exactă și nota aferentă sunt disponibile în calendarul complet.");
   });
 });
