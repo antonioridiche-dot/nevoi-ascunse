@@ -72,6 +72,7 @@ export function AppRouter() {
       <Route path={"/afiliere"}>{() => <AffiliateHubPublic section="home" />}</Route>
       <Route path={"/afiliere/materiale"}>{() => <AffiliateHubPublic section="materials" />}</Route>
       <Route path={"/afiliere/reguli"}>{() => <AffiliateHubPublic section="rules" />}</Route>
+      <Route path={"/afiliere/termeni"}>{() => <AffiliateHubPublic section="rules" />}</Route>
       <Route path={"/afiliere/dashboard"} component={AffiliateHubDashboard} />
       <Route path={"/afiliere/admin"} component={AffiliateHubAdmin} />
       <Route path={"/afiliere/:offer/:code"} component={AffiliateReferral} />
@@ -159,6 +160,7 @@ export function AppRouter() {
       <Route path={"/iubire/biblioteca"} component={IubireLibrary} />
       <Route path={"/oferte/*"} component={LegacyOfferRedirect} />
       <Route path={"/oferte/:brand"} component={LegacyOfferRedirect} />
+      <Route path={"/:offer/:code"} component={AffiliateReferral} />
       <Route path={"/:slug"} component={OfferMigrating} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
