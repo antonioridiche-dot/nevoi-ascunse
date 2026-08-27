@@ -84,6 +84,8 @@ describe("direct catalog routing contract", () => {
     expect(html).toContain("FERSTRELE TALE DE TIMING · PREVIZUALIZARE");
     expect(html).toContain("Sensul complet al acestei date rămâne sigilat");
     expect(html).toContain("RESTUL CALENDARULUI · SIGILAT");
+    expect(html).toContain("Trei tipuri de zile. O hartă mai clară.");
+    expect(html).toContain("restul au context suplimentar");
     expect(html).toContain("Material pentru divertisment și reflecție personală");
   });
 
