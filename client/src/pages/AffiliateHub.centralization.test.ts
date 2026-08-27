@@ -18,6 +18,12 @@ describe("portalul central de afiliere", () => {
     expect(page).toContain("trpc.affiliateHub.adminSession.useMutation");
     expect(page).toContain('auth.user?.role === "admin"');
     expect(page).toContain("requestLoginCode");
+    expect(page).toContain('id="affiliate-destination-selector"');
+    expect(page).toContain("selectedOffer.destinations");
+    expect(page).toContain("Linkurile au formatul direct");
+    const service = fs.readFileSync(path.join(import.meta.dirname, "../../../server/commerce/affiliateHubService.ts"), "utf8");
+    expect(service).toContain("link: `/${offer.key}/${account.affiliateCode}`");
+    expect(service).toContain("affiliateDestinationOptions");
   });
 
   it("expune programul de afiliere ca acțiune în dreapta footerului catalogului", () => {
