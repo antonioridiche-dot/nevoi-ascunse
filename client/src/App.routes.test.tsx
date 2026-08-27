@@ -77,6 +77,10 @@ describe("direct catalog routing contract", () => {
     expect(html).toContain("Introdu data ta");
     expect(html).toContain("Ai trimis vreodată un mesaj când era mai bine să aștepți?");
     expect(html).toContain("ARATĂ-MI ÎN CE ZILE VOI AVEA NOROC LUNA ASTA");
+    expect(html).toContain("Nu este mereu despre noroc.");
+    expect(html).toContain("Nu „vede” norocul. Îți arată un tip de moment.");
+    expect(html).toContain("Ce primești. Ce nu promitem.");
+    expect(html).toContain("Nu promitem bani, relații, rezultate sau decizii perfecte.");
     expect(html).toContain("Material pentru divertisment și reflecție personală");
   });
 

@@ -94,6 +94,10 @@
 - [ ] Compară și aliniază pagina principală Calendarul norocului la sursa locală înainte de alte ajustări de funnel.
 - [x] Restaurează hero-ul activ Calendar cu copy-ul, CTA-ul și ierarhia `chart-*` din sursa locală.
 - [ ] Restaurează secțiunile sursă Calendar despre repere, metodă și limite înainte de formularul personal.
+- [x] Restaurează secțiunile sursă Calendar despre repere și metodă înainte de formularul personal.
+- [ ] Portează demonstrația Calendar cu preview-ul vizual și CTA-ul `chart-calendar-section` din sursa locală.
+- [ ] Portează lista cu trei ferestre și cardurile sigilate `source-window-section` din sursa locală.
+- [x] Portează secțiunea Calendar „Ce primești. Ce nu promitem.”, cu limitele sursă și teste copy-first.
 - [x] Propagă identificatorul anonim Calendar în evenimentele active de funnel și în crearea checkoutului, ca în sursa locală.
 - [x] Restaurează footerul compact Calendarul norocului din sursă, inclusiv limitele de divertisment și reflecție personală.
 - [x] Expune la `/calendarul-norocului/admin` segmentele Calendar și exporturile manuale de campanie, fără trimitere automată de e-mail.
