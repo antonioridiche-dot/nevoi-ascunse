@@ -204,3 +204,4 @@
 - [x] Explică payoutul manual în RON, pragul, hold-ul, verificarea IBAN și faptul că administratorul inițiază plata manual; nu implementa retragere automată.
 - [x] Extinde dashboardul cu statistici reale disponibile și păstrează administrarea la `/afiliere/admin`.
 - [x] Recuperează și portează punctual Quiz-ul sursă Familie protejată pe `/familieprotejata/quiz`, păstrând copy-ul, opțiunile și logica sursă; acoperă-l prin test de regresie.
+- [x] Conectează ruta sursă `/familieprotejata/affiliate` la portalul central `/afiliere`, pentru a evita dead-end-ul din footer.
