@@ -73,6 +73,9 @@
 - [x] Portează pagina principală și cei trei pași post-cumpărare Vrăji cu checkout Stripe embedded din sursă.
 - [ ] Portează thank-you-ul, biblioteca, magic link-ul, afilierea și administrarea Vrăji cu contractele sursă.
 - [x] Aliniază exact mesajul accesului magic Vrăji la sursă, fără a promite livrare e-mail până la verificarea expeditorului.
+- [x] Elimină din thank-you-ul Vrăji promisiunea condițională de confirmare și link automat pe e-mail, cât timp expeditorul este neverificat.
+- [x] Elimină din biblioteca Vrăji promisiunea că e-mailul tranzacțional va deveni activ, cât timp expeditorul este neverificat.
+- [x] Verifică ruta directă Vrăji de thank-you: adresa sursă activă `/vraji/multumim` randază corect; `/vraji/multumesc` nu este o rută sursă.
 - [x] Corectează ruta publică din catalog pentru Vrăji astfel încât să deschidă pagina sursă activă, nu ecranul de consolidare.
 - [x] Aliniază denumirea catalogului Vrăji cu identitatea din pagina sursă portată.
 - [ ] Finalizează Tarot până la paritate sursă, inclusiv activele livrabile, e-mailul per brand și testul Stripe sandbox complet.
