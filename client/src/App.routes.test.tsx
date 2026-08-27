@@ -75,6 +75,7 @@ describe("direct catalog routing contract", () => {
     const html = renderRoute("/calendarul-norocului");
     expect(html).toContain("CALENDARUL");
     expect(html).toContain("Introdu data ta");
+    expect(html).toContain("Material pentru divertisment și reflecție personală");
   });
 
   it("keeps the Calendar manual-segment panel on its protected direct admin route", () => {
