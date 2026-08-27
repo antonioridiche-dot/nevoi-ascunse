@@ -82,6 +82,9 @@
 - [x] Aliniază pagina Iubire de mulțumire la structura sursă, păstrând onest starea `delivery` cât timp expeditorul e-mail nu este verificat.
 - [x] Restaurează clasele și stilurile sursă Iubire pentru Thank You și biblioteca protejată, fără a expune resurse placeholder ca fișiere reale.
 - [ ] Migrează Liniște Audio cu toate paginile, quiz-ul, checkout-ul, biblioteca, recovery și administrarea din sursă.
+- [x] Restaurează pagina principală Liniște Audio cu structura și stilurile disponibile în sursă, păstrând probele audio și checkouturile directe existente.
+- [x] Restaurează markupul footerului sursă și controlul de preview al pachetului complet pe pagina principală Liniște Audio; CSS-ul specific footerului lipsește din sursă și rămâne documentat separat.
+- [x] Verifică prețurile Liniște Audio față de sursa de checkout: 67 lei standard, 47 lei oferta `exit20` și 69 lei pachet; catalogul intern de 29 lei nu este prețul folosit de funnelul sursă.
 - [x] Păstrează în recuperarea Liniște Audio ramura sursă `deliveryReady`, fără a pretinde disponibilitatea e-mailului cât timp expeditorul este neverificat.
 - [ ] Restaurează structura și stilurile sursă ale formularului de recuperare Liniște Audio, eliminate de reutilizarea stilului checkout.
 - [ ] Migrează Calendarul norocului cu toate paginile, personalizarea, checkout-ul, campaniile și administrarea din sursă.

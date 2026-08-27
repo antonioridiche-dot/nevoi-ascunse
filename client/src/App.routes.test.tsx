@@ -101,6 +101,11 @@ describe("direct catalog routing contract", () => {
     expect(renderRoute("/liniste-audio")).toContain("Un spațiu sonor");
   });
 
+  it("keeps Liniște legal pages on direct routes before the generic fallback", () => {
+    expect(renderRoute("/liniste-audio/termeni")).toContain("Termeni și condiții");
+    expect(renderRoute("/liniste-audio/confidentialitate")).toContain("Politica de confidențialitate");
+  });
+
   it("declares direct post-purchase routes before the generic direct-route fallback", () => {
     const appSource = fs.readFileSync(path.join(import.meta.dirname, "App.tsx"), "utf8");
     for (const route of ["/vraji/multumim", "/vraji/biblioteca", "/weightloss/multumim", "/relatii/multumesc", "/liniste-audio/recuperare"]) {

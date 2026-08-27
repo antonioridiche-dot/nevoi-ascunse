@@ -50,6 +50,7 @@ import LinisteOriginalQuiz from "./pages/LinisteOriginalQuiz";
 import LinisteOriginalTheme from "./pages/LinisteOriginalTheme";
 import LinisteOriginalCheckout, { LinisteOriginalOffer, LinisteOriginalThankYou } from "./pages/LinisteOriginalCheckout";
 import LinisteOriginalRecovery from "./pages/LinisteOriginalRecovery";
+import LinisteOriginalLegal from "./pages/LinisteOriginalLegal";
 import { AffiliateHubAdmin, AffiliateHubDashboard, AffiliateHubPublic, AffiliateReferral } from "./pages/AffiliateHub";
 
 export const CATALOG_ROUTE = "/oferte";
@@ -148,6 +149,8 @@ export function AppRouter() {
       <Route path={"/liniste-audio/oferta"} component={LinisteOriginalOffer} />
       <Route path={"/liniste-audio/multumesc"} component={LinisteOriginalThankYou} />
       <Route path={"/liniste-audio/recuperare"} component={LinisteOriginalRecovery} />
+      <Route path={"/liniste-audio/termeni"}>{() => <LinisteOriginalLegal type="terms" />}</Route>
+      <Route path={"/liniste-audio/confidentialitate"}>{() => <LinisteOriginalLegal type="privacy" />}</Route>
       <Route path={"/iubire"} component={IubireOriginalHome} />
       <Route path={"/iubire/checkout"} component={IubireOriginalCheckout} />
       <Route path={"/iubire/multumesc"} component={IubireThankYou} />
