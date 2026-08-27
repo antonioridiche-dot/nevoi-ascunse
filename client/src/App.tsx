@@ -16,6 +16,7 @@ import FamilyOriginalHome from "./pages/FamilyOriginalHome";
 import { FamilyOfferPage } from "./pages/FamilyOriginalPost";
 import { FamilyThankYouPage } from "./pages/FamilyOriginalPost";
 import FamilyOriginalDashboard from "./pages/FamilyOriginalDashboard";
+import FamilyOriginalQuiz from "./pages/FamilyOriginalQuiz";
 import { PbcHome, PbcOffer } from "./pages/PbcOriginalPages";
 import { PbcCheckout, PbcThankYou } from "./pages/PbcOriginalCheckout";
 import PbcLegalUnavailable from "./pages/PbcLegalUnavailable";
@@ -84,6 +85,7 @@ export function AppRouter() {
       <Route path={"/tarot/multumesc"} component={TarotOriginalThankYou} />
       <Route path={"/tarot/acces"} component={TarotAccess} />
       <Route path={"/tarot/dashboard"} component={TarotOriginalDashboard} />
+      <Route path={"/familieprotejata/quiz"} component={FamilyOriginalQuiz} />
       <Route path={"/familieprotejata"} component={FamilyOriginalHome} />
       <Route path={"/familieprotejata/oto1"}>{() => <FamilyOfferPage step="oto1" />}</Route>
       <Route path={"/familieprotejata/ds1"}>{() => <FamilyOfferPage step="ds1" />}</Route>
