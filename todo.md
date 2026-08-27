@@ -198,7 +198,7 @@
 - [x] Configurează codul temporar `123456` exclusiv pentru `antonio.ridiche@gmail.com` și respinge-l pentru orice alt e-mail.
 - [x] Acoperă prin teste izolarea codului temporar și notează eliminarea lui înainte de lansarea publică.
 - [x] Corectează linkurile de afiliere la forma directă `/nume-oferta/cod` și elimină prefixul `/afiliere` din URL-ul destinației.
-- [ ] Adaugă destinații promoționale distincte pentru quiz, oferta principală/carte și bump numai unde există în sursa aprobată.
+- [x] Adaugă destinații promoționale distincte pentru quiz, oferta principală/carte și bump numai unde există în sursa aprobată.
 - [x] Adaugă în portal explicația procesului afiliatului, datele colectate, upsell/downsell și accesul către landingurile publice.
 - [x] Adaugă pagina `/afiliere/termeni` cu draft și placeholder-e juridice marcate clar, fără a-l prezenta ca document final.
 - [x] Explică payoutul manual în RON, pragul, hold-ul, verificarea IBAN și faptul că administratorul inițiază plata manual; nu implementa retragere automată.

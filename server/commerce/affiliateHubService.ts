@@ -35,6 +35,14 @@ const ATTRIBUTION_TTL_MS = AFFILIATE_HOLD_DAYS * 24 * 60 * 60 * 1_000;
 const sha256 = (value: string) => createHash("sha256").update(value).digest("hex");
 const normalizeEmail = (value: string) => value.trim().toLowerCase();
 const canonicalRoute = (brandKey: string) => `/${brandKey}`;
+const affiliateDestinationOptions: Record<string, Array<{ key: string; label: string; path: string }>> = {
+  tarot: [{ key: "landing", label: "Landing Tarot", path: "/tarot" }, { key: "citire", label: "Checkout citire", path: "/tarot/citire" }],
+  "liniste-audio": [{ key: "landing", label: "Landing Liniște Audio", path: "/liniste-audio" }, { key: "quiz", label: "Quiz", path: "/liniste-audio/quiz" }, { key: "oferta", label: "Oferta", path: "/liniste-audio/oferta" }],
+  weightloss: [{ key: "landing", label: "Landing Weightloss", path: "/weightloss" }, { key: "checkout", label: "Comandă", path: "/weightloss/comanda" }],
+  "prieteni-cu-beneficii": [{ key: "landing", label: "Landing Prieteni cu beneficii", path: "/prieteni-cu-beneficii" }, { key: "checkout", label: "Checkout", path: "/prieteni-cu-beneficii/checkout" }],
+  vraji: [{ key: "landing", label: "Landing Vrăji", path: "/vraji" }, { key: "quiz", label: "Quiz / pasul 1", path: "/vraji/pas/1" }],
+  relatii: [{ key: "landing", label: "Landing Relații", path: "/relatii" }, { key: "barbati", label: "Pentru el", path: "/relatii/pentru-el" }, { key: "femei", label: "Pentru ea", path: "/relatii/pentru-ea" }],
+};
 const AFFILIATE_ADMIN_TEST_EMAIL = "antonio.ridiche@gmail.com";
 
 export function isAffiliateAdminTestCodeValid(input: { email: string; code: string }) {
@@ -291,7 +299,7 @@ export async function affiliateDashboard(sessionToken: string) {
   }, { pending: 0, eligible: 0, paid: 0, reversed: 0 });
   const profile = (await db.select().from(affiliatePayoutProfiles).where(eq(affiliatePayoutProfiles.affiliateId, account.id)).limit(1))[0];
   const payouts = await db.select().from(affiliatePayoutRequests).where(eq(affiliatePayoutRequests.affiliateId, account.id)).orderBy(sql`${affiliatePayoutRequests.requestedAt} desc`);
-  return { affiliate: { displayName: account.displayName, email: account.email, affiliateCode: account.affiliateCode }, offers: offers.map((offer) => ({ ...offer, link: `/${offer.key}/${account.affiliateCode}`, clicks: Number(clicks.find((item) => item.brandId === offer.id)?.count ?? 0) })), totals, payoutProfile: profile ? { verificationStatus: profile.verificationStatus, payoutCurrency: profile.payoutCurrency } : null, payouts, commissionPolicy: { rateBps: AFFILIATE_COMMISSION_BPS, holdDays: AFFILIATE_HOLD_DAYS, minimumPayoutCents: AFFILIATE_MINIMUM_PAYOUT_CENTS, currency: "ron", payoutSchedule: AFFILIATE_PAYOUT_SCHEDULE } };
+  return { affiliate: { displayName: account.displayName, email: account.email, affiliateCode: account.affiliateCode }, offers: offers.map((offer) => ({ ...offer, link: `/${offer.key}/${account.affiliateCode}`, destinations: (affiliateDestinationOptions[offer.key] ?? [{ key: "landing", label: `Landing ${offer.displayName}`, path: `/${offer.key}` }]).map((destination) => ({ ...destination, link: `${destination.path}?ref=${account.affiliateCode}` })), clicks: Number(clicks.find((item) => item.brandId === offer.id)?.count ?? 0) })), totals, payoutProfile: profile ? { verificationStatus: profile.verificationStatus, payoutCurrency: profile.payoutCurrency } : null, payouts, commissionPolicy: { rateBps: AFFILIATE_COMMISSION_BPS, holdDays: AFFILIATE_HOLD_DAYS, minimumPayoutCents: AFFILIATE_MINIMUM_PAYOUT_CENTS, currency: "ron", payoutSchedule: AFFILIATE_PAYOUT_SCHEDULE } };
 }
 
 export async function submitAffiliatePayoutProfile(sessionToken: string, input: { legalName: string; beneficiaryType: "individual" | "pfa" | "company"; taxResidenceCountry: string; legalAddress: string; taxIdentifier?: string; iban: string; bic?: string; payoutCurrency: typeof AFFILIATE_PAYOUT_CURRENCY }) {
