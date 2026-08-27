@@ -8,11 +8,14 @@ describe("Weightloss e-mail honesty", () => {
     const thankYou = fs.readFileSync(path.join(import.meta.dirname, "WeightlossOriginalThankYou.tsx"), "utf8");
     const upsell = fs.readFileSync(path.join(import.meta.dirname, "WeightlossOriginalUpsell.tsx"), "utf8");
     const chrome = fs.readFileSync(path.join(import.meta.dirname, "WeightlossSiteChrome.tsx"), "utf8");
+    const sales = fs.readFileSync(path.join(import.meta.dirname, "WeightlossOriginalSales.tsx"), "utf8");
     expect(checkout).toContain("Nu trimitem confirmare prin e-mail până când expeditorul nu este verificat.");
     expect(thankYou).toContain("Nu oferim acces prin e-mail până când expeditorul nu este verificat.");
     expect(thankYou).not.toContain("linkul de acces din e-mailul de confirmare");
     expect(upsell).not.toContain("confirmarea comenzii din e-mail");
     expect(chrome).toContain("Păstrează pagina finală deschisă după plată");
     expect(chrome).not.toContain("Păstrează e-mailul de confirmare");
+    expect(sales).toContain("Nu trimitem confirmare prin e-mail până când expeditorul nu este verificat.");
+    expect(sales).not.toContain("un e-mail cu confirmarea comenzii");
   });
 });

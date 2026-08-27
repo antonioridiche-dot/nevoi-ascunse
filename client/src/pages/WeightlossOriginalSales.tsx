@@ -18,7 +18,7 @@ const reasons = [
 ];
 
 const faq = [
-  ["Cum primesc produsul?", "După confirmarea plății, primești acces la pagina securizată de descărcare și un e-mail cu confirmarea comenzii."],
+  ["Cum primesc produsul?", "După confirmarea plății, accesul este verificat în pagina securizată de descărcare. Nu trimitem confirmare prin e-mail până când expeditorul nu este verificat."],
   ["Este un program medical?", "Nu. Materialele sunt educaționale și generale. Ele nu oferă diagnostic, tratament sau recomandare medicală personalizată."],
   ["Pot reveni mai târziu la produse?", "Da. Pagina de acces îți permite să verifici descărcările cu e-mailul utilizat la plată și codul comenzii."],
 ];
