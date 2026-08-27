@@ -190,3 +190,5 @@
 - [ ] Remediază numai configurația sau feedbackul necesar pentru e-mailurile de afiliere, fără modificări la celelalte oferte.
 - [x] Permite acces fără cod la dashboardul central de afiliere doar pentru administratorul autentificat al platformei.
 - [x] Păstrează codul de login obligatoriu pentru afiliații publici și acoperă prin test că bypassul admin nu este public.
+- [x] Repară afișarea butonului de acces admin în `/afiliere/dashboard`; utilizatorul autentificat nu îl vede în prezent.
+- [x] Verifică izolarea: butonul trebuie să apară doar după autentificarea Manus cu rol `admin`.
