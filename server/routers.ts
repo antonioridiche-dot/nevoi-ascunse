@@ -6,6 +6,7 @@ import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { adminProcedure, publicProcedure, router } from "./_core/trpc";
 import { z } from "zod";
+import { TRPCError } from "@trpc/server";
 import { confirmFamilyPayment, createFamilyPaymentIntent, decideFamilyOffer, guardFamilyStep } from "./commerce/familyService";
 import { familyDashboard, issueFamilyAccessForSession, requestFamilyRecovery } from "./access/familyAccess";
 import { createPbcCheckout, getPbcCheckoutStatus } from "./commerce/pbcService";
@@ -23,7 +24,7 @@ import { authorizeIubireLibrary, confirmIubireIntent, createIubireIntent } from 
 import { authorizeLinisteAccess, chargeLinisteEveningPause, confirmLinisteIntent, createLinisteIntent, finalizeLinisteEveningPause, getLinisteEveningPauseOffer } from "./commerce/linisteService";
 import { linisteLifecycleEvents, trackLinisteLifecycle } from "./commerce/linisteTracking";
 import { requestLinisteRecovery } from "./access/linisteRecovery";
-import { affiliateAdminSnapshot, affiliateDashboard, listAffiliateOffers, logoutAffiliate, registerAffiliate, requestAffiliateLoginCode, requestAffiliatePayout, reverseAffiliateCommissionsForOrder, reviewAffiliatePayoutProfile, reviewAffiliatePayoutRequest, submitAffiliatePayoutProfile, trackAffiliateReferral, verifyAffiliateLoginCode } from "./commerce/affiliateHubService";
+import { affiliateAdminSnapshot, affiliateDashboard, issueAffiliateAdminSession, listAffiliateOffers, logoutAffiliate, registerAffiliate, requestAffiliateLoginCode, requestAffiliatePayout, reverseAffiliateCommissionsForOrder, reviewAffiliatePayoutProfile, reviewAffiliatePayoutRequest, submitAffiliatePayoutProfile, trackAffiliateReferral, verifyAffiliateLoginCode } from "./commerce/affiliateHubService";
 
 function affiliateVisitorFromRequest(cookieHeader?: string) {
   const value = cookieHeader?.match(/(?:^|;\s*)na_affiliate_visitor=([a-f0-9]{64})(?:;|$)/i)?.[1];
@@ -48,6 +49,10 @@ export const appRouter = router({
   }),
   affiliateHub: router({
     offers: publicProcedure.query(() => listAffiliateOffers()),
+    adminSession: adminProcedure.mutation(({ ctx }) => {
+      if (!ctx.user.email) throw new TRPCError({ code: "BAD_REQUEST", message: "Contul admin nu are e-mail configurat." });
+      return issueAffiliateAdminSession({ email: ctx.user.email });
+    }),
     register: publicProcedure.input(z.object({ email: z.string().trim().email().max(320), acceptedTerms: z.literal(true) })).mutation(({ input }) => registerAffiliate(input)),
     requestLoginCode: publicProcedure.input(z.object({ email: z.string().trim().email().max(320) })).mutation(({ input }) => requestAffiliateLoginCode(input.email)),
     verifyLoginCode: publicProcedure.input(z.object({ email: z.string().trim().email().max(320), code: z.string().regex(/^\d{6}$/) })).mutation(({ input }) => verifyAffiliateLoginCode(input)),

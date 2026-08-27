@@ -15,6 +15,9 @@ describe("portalul central de afiliere", () => {
     expect(page).toContain('id="affiliate-offer-selector"');
     expect(page).toContain("const selectedOffer = data.offers.find");
     expect(page).toContain('href="/afiliere/dashboard"');
+    expect(page).toContain("trpc.affiliateHub.adminSession.useMutation");
+    expect(page).toContain('auth.user?.role === "admin"');
+    expect(page).toContain("requestLoginCode");
   });
 
   it("expune programul de afiliere ca acțiune în dreapta footerului catalogului", () => {

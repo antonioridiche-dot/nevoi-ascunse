@@ -173,6 +173,15 @@ export async function verifyAffiliateLoginCode(input: { email: string; code: str
   return { sessionToken, affiliate: { displayName: account.displayName, affiliateCode: account.affiliateCode, email: account.email } };
 }
 
+export async function issueAffiliateAdminSession(input: { email: string }) {
+  const db = await database();
+  const account = (await db.select().from(affiliateHubAccounts).where(eq(affiliateHubAccounts.email, normalizeEmail(input.email))).limit(1))[0];
+  if (!account || account.status !== "active") throw new Error("Nu există un cont de afiliat activ pentru administrator.");
+  const sessionToken = randomBytes(32).toString("hex");
+  await db.insert(affiliateHubSessions).values({ affiliateId: account.id, tokenHash: sha256(sessionToken), expiresAt: new Date(Date.now() + SESSION_TTL_MS) });
+  return { sessionToken, affiliate: { displayName: account.displayName, affiliateCode: account.affiliateCode, email: account.email } };
+}
+
 export async function logoutAffiliate(sessionToken: string) {
   const db = await database();
   await db.update(affiliateHubSessions).set({ revokedAt: new Date() }).where(eq(affiliateHubSessions.tokenHash, sha256(sessionToken)));

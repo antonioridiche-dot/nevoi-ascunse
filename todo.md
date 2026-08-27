@@ -35,6 +35,7 @@
 - [ ] Recuperează repository-ul sursă `survival` pentru auditul copy-first al rutelelor Familie protejată; nu este prezent în sursele locale disponibile.
 - [x] Corectează recuperarea Familie protejată pentru a nu promite link prin e-mail cât timp fluxul de expediere nu este verificat.
 - [ ] Înlocuiește reinterpretarea Tarot cu paginile, copy-ul, CSS-ul și checkout-ul embedded identice cu repository-ul sursă.
+- [ ] Restaurează checkoutul Tarot embedded din `Citire.tsx`, cu monedele și reducerile sursă; nu păstra handofful Stripe Checkout extern.
 - [ ] Păstrează fidel pentru fiecare ofertă designul, copy-ul, pașii, checkout-ul și funcționalitățile din GitHub; schimbă numai prefixul de rută și integrarea comună necesară.
 - [ ] Configurează o singură ofertă Weightloss consolidată din weight-los-manifest și romanian-weightloss-funnel.
 - [x] Portează pagina principală Weightloss din romanian-weightloss-funnel cu designul, copy-ul și prețurile sursă.
@@ -184,3 +185,8 @@
 - [x] Restrânge payouturile v1 la RON cu IBAN românesc valid și review fiscal manual, fără a pretinde suport SEPA.
 - [x] Aliniază batchul de payout cu moneda/profilul de payout sau limitează explicit v1 la RON în serviciu, UI, reguli și teste pentru requested → approved → paid.
 - [x] Limitează explicit payouturile manuale v1 la RON în contractul API, formularul afiliat și comunicarea publică, fără a pretinde suport SEPA/EUR.
+- [ ] Diagnostichează de ce codul de login afiliere nu este primit, verificând expeditorul Resend și răspunsul API fără a schimba ofertele.
+- [ ] Inventariază fluxurile de e-mail pentru marketing, comenzi și notificări cont și separă ce este configurat de ce este blocat de domeniu neverificat.
+- [ ] Remediază numai configurația sau feedbackul necesar pentru e-mailurile de afiliere, fără modificări la celelalte oferte.
+- [x] Permite acces fără cod la dashboardul central de afiliere doar pentru administratorul autentificat al platformei.
+- [x] Păstrează codul de login obligatoriu pentru afiliații publici și acoperă prin test că bypassul admin nu este public.
