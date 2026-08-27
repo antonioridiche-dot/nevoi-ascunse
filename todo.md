@@ -86,6 +86,8 @@
 - [x] Restaurează markupul footerului sursă și controlul de preview al pachetului complet pe pagina principală Liniște Audio; CSS-ul specific footerului lipsește din sursă și rămâne documentat separat.
 - [x] Verifică prețurile Liniște Audio față de sursa de checkout: 67 lei standard, 47 lei oferta `exit20` și 69 lei pachet; catalogul intern de 29 lei nu este prețul folosit de funnelul sursă.
 - [x] Aliniază Thank You Liniște Audio la structura sursă fără a expune linkuri către fișiere audio complete indisponibile.
+- [x] Aliniază quizul Liniște Audio la întrebările, scoringul și structura sursă, păstrând rutele directe.
+- [x] Înregistrează server-side finalizarea quizului Liniște Audio în jurnalul comun de funnel, fără consimțământ de marketing implicit.
 - [x] Păstrează în recuperarea Liniște Audio ramura sursă `deliveryReady`, fără a pretinde disponibilitatea e-mailului cât timp expeditorul este neverificat.
 - [ ] Restaurează structura și stilurile sursă ale formularului de recuperare Liniște Audio, eliminate de reutilizarea stilului checkout.
 - [ ] Migrează Calendarul norocului cu toate paginile, personalizarea, checkout-ul, campaniile și administrarea din sursă.

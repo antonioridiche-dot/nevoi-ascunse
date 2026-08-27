@@ -21,6 +21,7 @@ import { getRelatiiAdminSnapshot } from "./commerce/relatiiAdminService";
 import { chargeArmoniiUpsell, confirmArmoniiIntent, createArmoniiIntent, finalizeArmoniiUpsell, getArmoniiDownloads, getArmoniiUpsellOffer } from "./commerce/armoniiService";
 import { authorizeIubireLibrary, confirmIubireIntent, createIubireIntent } from "./commerce/iubireService";
 import { authorizeLinisteAccess, chargeLinisteEveningPause, confirmLinisteIntent, createLinisteIntent, finalizeLinisteEveningPause, getLinisteEveningPauseOffer } from "./commerce/linisteService";
+import { linisteLifecycleEvents, trackLinisteLifecycle } from "./commerce/linisteTracking";
 import { requestLinisteRecovery } from "./access/linisteRecovery";
 import { affiliateAdminSnapshot, affiliateDashboard, listAffiliateOffers, logoutAffiliate, registerAffiliate, requestAffiliateLoginCode, requestAffiliatePayout, reverseAffiliateCommissionsForOrder, reviewAffiliatePayoutProfile, reviewAffiliatePayoutRequest, submitAffiliatePayoutProfile, trackAffiliateReferral, verifyAffiliateLoginCode } from "./commerce/affiliateHubService";
 
@@ -141,6 +142,7 @@ export const appRouter = router({
     recovery: router({ request: publicProcedure.input(z.object({ email: z.string().trim().email().max(320) })).mutation(({ input }) => requestLinisteRecovery(input.email)) }),
     library: router({ authorize: publicProcedure.input(z.object({ access: z.string().length(64) })).query(({ input }) => authorizeLinisteAccess(input.access)) }),
     postPurchase: router({ context: publicProcedure.input(z.object({ access: z.string().length(64) })).query(({ input }) => getLinisteEveningPauseOffer(input.access)), chargeEveningPause: publicProcedure.input(z.object({ access: z.string().length(64) })).mutation(({ input }) => chargeLinisteEveningPause(input.access)), finalizeEveningPause: publicProcedure.input(z.object({ access: z.string().length(64), paymentIntentId: z.string().startsWith("pi_") })).mutation(({ input }) => finalizeLinisteEveningPause(input.access, input.paymentIntentId)) }),
+    lifecycle: router({ track: publicProcedure.input(z.object({ eventType: z.enum(linisteLifecycleEvents), quizResult: z.enum(["bani", "sanatate", "anxietate", "eliberare", "iubire"]), visitorId: z.string().trim().min(16).max(128) })).mutation(({ input }) => trackLinisteLifecycle(input)) }),
   }),
   calendar: router({
     checkout: router({

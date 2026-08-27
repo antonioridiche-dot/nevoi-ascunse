@@ -16,4 +16,11 @@ describe("pagina principală Liniște Audio", () => {
     expect(source).toContain('price: "69 lei"');
     expect(source).not.toContain("-full.wav");
   });
+
+  it("persists quiz completion without marketing consent", () => {
+    const quiz = fs.readFileSync(path.join(import.meta.dirname, "LinisteOriginalQuiz.tsx"), "utf8");
+    expect(quiz).toContain('eventType: "quiz_completed"');
+    expect(quiz).toContain("trpc.liniste.lifecycle.track");
+    expect(quiz).toContain("marketingConsent:false");
+  });
 });
