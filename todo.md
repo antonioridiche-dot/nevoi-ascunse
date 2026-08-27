@@ -93,6 +93,7 @@
 - [ ] Migrează Calendarul norocului cu toate paginile, personalizarea, checkout-ul, campaniile și administrarea din sursă.
 - [ ] Compară și aliniază pagina principală Calendarul norocului la sursa locală înainte de alte ajustări de funnel.
 - [x] Restaurează hero-ul activ Calendar cu copy-ul, CTA-ul și ierarhia `chart-*` din sursa locală.
+- [ ] Restaurează secțiunile sursă Calendar despre repere, metodă și limite înainte de formularul personal.
 - [x] Propagă identificatorul anonim Calendar în evenimentele active de funnel și în crearea checkoutului, ca în sursa locală.
 - [x] Restaurează footerul compact Calendarul norocului din sursă, inclusiv limitele de divertisment și reflecție personală.
 - [x] Expune la `/calendarul-norocului/admin` segmentele Calendar și exporturile manuale de campanie, fără trimitere automată de e-mail.
