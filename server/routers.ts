@@ -47,7 +47,7 @@ export const appRouter = router({
   }),
   affiliateHub: router({
     offers: publicProcedure.query(() => listAffiliateOffers()),
-    register: publicProcedure.input(z.object({ displayName: z.string().trim().min(2).max(160), email: z.string().trim().email().max(320), acceptedTerms: z.literal(true) })).mutation(({ input }) => registerAffiliate(input)),
+    register: publicProcedure.input(z.object({ email: z.string().trim().email().max(320), acceptedTerms: z.literal(true) })).mutation(({ input }) => registerAffiliate(input)),
     requestLoginCode: publicProcedure.input(z.object({ email: z.string().trim().email().max(320) })).mutation(({ input }) => requestAffiliateLoginCode(input.email)),
     verifyLoginCode: publicProcedure.input(z.object({ email: z.string().trim().email().max(320), code: z.string().regex(/^\d{6}$/) })).mutation(({ input }) => verifyAffiliateLoginCode(input)),
     logout: publicProcedure.input(z.object({ sessionToken: z.string().length(64) })).mutation(({ input }) => logoutAffiliate(input.sessionToken)),

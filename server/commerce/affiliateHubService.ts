@@ -130,11 +130,11 @@ export async function listAffiliateOffers() {
   return records.map((brand) => ({ id: brand.id, key: brand.key, displayName: brand.displayName, route: canonicalRoute(brand.key), sourceStatus: brand.status }));
 }
 
-export async function registerAffiliate(input: { displayName: string; email: string; acceptedTerms: boolean }) {
+export async function registerAffiliate(input: { email: string; acceptedTerms: boolean }) {
   if (!input.acceptedTerms) throw new Error("Acceptarea termenilor programului este obligatorie.");
-  const displayName = input.displayName.trim();
   const email = normalizeEmail(input.email);
-  if (displayName.length < 2 || displayName.length > 160 || !/^\S+@\S+\.\S+$/.test(email)) throw new Error("Completează numele și adresa de e-mail validă.");
+  if (!/^\S+@\S+\.\S+$/.test(email)) throw new Error("Completează adresa de e-mail validă.");
+  const displayName = "Afiliat";
   const db = await database();
   const existing = (await db.select().from(affiliateHubAccounts).where(eq(affiliateHubAccounts.email, email)).limit(1))[0];
   if (existing) return { created: false as const, affiliateCode: existing.affiliateCode, email: existing.email };

@@ -123,6 +123,7 @@
 - [ ] Modelează ledger-ul de comisioane cu stări pending, eligibil, plătit, reversat și ajustare pentru chargeback.
 - [x] Construiește portalul central `/afiliere` cu înscriere deschisă, cod de acces pe e-mail, reguli publice, materiale marcate „În lucru” și dashboard securizat.
 - [x] Simplifică înscrierea programului central de afiliere la e-mail, fără câmp de nume obligatoriu.
+- [x] Elimină cerința de nume și din contractul backend al înscrierii centrale de afiliere, nu doar din interfață.
 - [x] Păstrează un singur dashboard central de afiliere și adaugă un selector de ofertă pentru generarea linkului promovat.
 - [x] Adaugă în footer, în dreapta jos, un buton vizibil către Programul de afiliere.
 - [ ] Implementează atribuirea server-side pentru linkurile `/afiliere/<oferta>/<cod>`, cu retenție de 30 de zile prin checkouturile și pașii post-cumpărare eligibili.
