@@ -21,4 +21,14 @@ describe("Calendarul norocului source contract", () => {
     expect(source).toContain("visitorId });");
     expect(source).toContain("oneClickConsent: false, visitorId");
   });
+
+  it("păstrează tranziția sursă de la formular la încărcare și rezultat personal", () => {
+    const source = fs.readFileSync(path.join(import.meta.dirname, "../pages/CalendarLuckyPreview.tsx"), "utf8");
+    const result = fs.readFileSync(path.join(import.meta.dirname, "../pages/CalendarLuckyResult.tsx"), "utf8");
+    expect(source).toContain("setStage(\"loading\")");
+    expect(source).toContain("window.setTimeout(() => setStage(\"calendar\"), 1900)");
+    expect(result).toContain("harta ta are 3 repere pentru tine");
+    expect(result).toContain("RESTUL CALENDARULUI — SIGILAT");
+    expect(result).toContain("Material pentru divertisment și reflecție personală");
+  });
 });
