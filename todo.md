@@ -32,7 +32,7 @@
 - [x] Aplică allowlistul independent direct la registrul public de branduri, cu test pentru excluderea surselor neaprobate.
 - [x] Decide și documentează dacă weight-los-manifest și romanian-weightloss-funnel sunt două branduri distincte sau o singură ofertă consolidată.
 - [ ] Migrează fluxul Familie protejată: pagină FE, checkout, downsell-uri, thank-you și bibliotecă privată.
-- [ ] Recuperează repository-ul sursă `survival` pentru auditul copy-first al rutelelor Familie protejată; nu este prezent în sursele locale disponibile.
+- [x] Recuperează repository-ul sursă `survival` pentru auditul copy-first al rutele Familie protejată; sursa este disponibilă local pentru comparație.
 - [x] Corectează recuperarea Familie protejată pentru a nu promite link prin e-mail cât timp fluxul de expediere nu este verificat.
 - [ ] Înlocuiește reinterpretarea Tarot cu paginile, copy-ul, CSS-ul și checkout-ul embedded identice cu repository-ul sursă.
 - [ ] Restaurează checkoutul Tarot embedded din `Citire.tsx`, cu monedele și reducerile sursă; nu păstra handofful Stripe Checkout extern.
