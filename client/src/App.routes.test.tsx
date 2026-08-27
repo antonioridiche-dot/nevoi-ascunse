@@ -75,6 +75,8 @@ describe("direct catalog routing contract", () => {
     const html = renderRoute("/calendarul-norocului");
     expect(html).toContain("CALENDARUL");
     expect(html).toContain("Introdu data ta");
+    expect(html).toContain("Ai trimis vreodată un mesaj când era mai bine să aștepți?");
+    expect(html).toContain("ARATĂ-MI ÎN CE ZILE VOI AVEA NOROC LUNA ASTA");
     expect(html).toContain("Material pentru divertisment și reflecție personală");
   });
 
