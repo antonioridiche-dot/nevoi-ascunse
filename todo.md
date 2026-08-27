@@ -47,6 +47,7 @@
 - [x] Portează pagina principală Relații cu alegerea de audiență, copy-ul și stilul sursă.
 - [ ] Portează cele două trasee Relații, checkout-ul, șapte oferte post-cumpărare, thank-you-ul, biblioteca, afilierea și administrarea sursă.
 - [ ] Activează complet cele șapte pagini Relații post-cumpărare cu verificarea comenzii, deciziile și trackingul afiliatului din sursă.
+- [x] Acoperă prin test paritatea celor șapte rute Relații post-cumpărare: prețuri, succesiune accept/refuz și prefixul direct.
 - [ ] Testează Relații cu o comandă validă: verificarea accesului, acceptarea/refuzul fiecărei oferte și navigarea prefixată între pași.
 - [x] Portează pagina de mulțumire Relații și formularul de coaching 1:1 cu persistarea cererii din sursă.
 - [x] Portează înscrierea, autentificarea, dashboardul și trackingul programului de afiliere Relații din sursă.

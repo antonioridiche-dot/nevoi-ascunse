@@ -10,4 +10,16 @@ describe("Relații funnel routes", () => {
       expect(offer.declineTo).toMatch(/^\/relatii\//);
     });
   });
+
+  it("păstrează cele șapte etape, prețurile și succesiunea din harta sursă", () => {
+    expect(Object.entries(OFFERS).map(([route, offer]) => ({ route, price: offer.price, acceptTo: offer.acceptTo, declineTo: offer.declineTo }))).toEqual([
+      { route: "conversatii-jucause", price: "97 RON", acceptTo: "/relatii/oferta/friendzone", declineTo: "/relatii/oferta/downsell-conversatii" },
+      { route: "downsell-conversatii", price: "37 RON", acceptTo: "/relatii/oferta/friendzone", declineTo: "/relatii/oferta/downsell-claritate" },
+      { route: "downsell-claritate", price: "49 RON", acceptTo: "/relatii/oferta/conexiune-incredere", declineTo: "/relatii/oferta/downsell-mesaj" },
+      { route: "downsell-mesaj", price: "27 RON", acceptTo: "/relatii/oferta/conexiune-incredere", declineTo: "/relatii/multumesc" },
+      { route: "friendzone", price: "67 RON", acceptTo: "/relatii/oferta/conexiune-incredere", declineTo: "/relatii/oferta/downsell-friendzone" },
+      { route: "downsell-friendzone", price: "37 RON", acceptTo: "/relatii/oferta/conexiune-incredere", declineTo: "/relatii/oferta/conexiune-incredere" },
+      { route: "conexiune-incredere", price: "29,95 RON", acceptTo: "/relatii/multumesc", declineTo: "/relatii/multumesc" },
+    ]);
+  });
 });
