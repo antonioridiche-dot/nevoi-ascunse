@@ -157,9 +157,12 @@ export default function Home() {
         </div>
       </section>
 
-      <footer className="mx-auto flex max-w-[1440px] flex-col gap-4 px-5 py-10 text-xs font-semibold tracking-[.1em] text-[#81776b] sm:flex-row sm:items-center sm:justify-between sm:px-8 lg:px-12">
+      <footer className="mx-auto flex max-w-[1440px] flex-col gap-4 px-5 py-10 text-xs font-semibold tracking-[.1em] text-[#81776b] sm:flex-row sm:items-center sm:px-8 lg:px-12">
         <p>NEVOI ASCUNSE / CATALOG DIGITAL</p>
-        <p>UN LOC PENTRU DIRECȚII DIFERITE</p>
+        <div className="flex items-center gap-5 self-end sm:ml-auto">
+          <p>UN LOC PENTRU DIRECȚII DIFERITE</p>
+          <Link href="/afiliere" className="rounded-full border border-[#b64a32] bg-[#fffaf3] px-4 py-2 text-[10px] font-bold tracking-[.12em] text-[#9f3f2d] transition hover:bg-[#b64a32] hover:text-[#fffaf3]">PROGRAM DE AFILIERE</Link>
+        </div>
       </footer>
     </main>
   );
