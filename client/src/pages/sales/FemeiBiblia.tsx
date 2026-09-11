@@ -140,24 +140,32 @@ export default function FemeiBiblia() {
         </h1>
 
         <div className="space-y-4">
-          <p>Bună, sunt <strong>Cristina Munteanu</strong> și știu cum e să treci printr-o despărțire.</p>
-          <p>Într-o clipă îți planifici viitorul, iar în următoarea te uiți lung la telefon întrebându-te cum cineva care a fost totul pentru tine poate deveni brusc un străin.</p>
-          <p>Știu exact cum e, pentru că fericirea mea a fost smulsă de sub picioarele mele și am crezut că e imposibil să-l mai aduc înapoi.</p>
-          <p>Probabil și tu ai primit tot felul de sfaturi bine intenționate, dar inutile, de la prieteni… cum ar fi „mergi mai departe" sau „lasă timpul să vindece".</p>
-          <p>Dar ce-ar fi dacă ți-aș spune că există o strategie de a-l face să se întoarcă la tine și să te implore să-l primești înapoi, mai îndrăgostit ca niciodată.</p>
-          <p>Această strategie este gândită să funcționeze chiar dacă:</p>
-          <ul className="list-disc pl-6 space-y-1.5 marker:text-[#cc0000]">
-            <li>Te-a înșelat sau l-ai înșelat</li>
-            <li>Vorbiți dar nu mai sunteți împreună</li>
-            <li>Încă sunteți împreună dar nu te mai iubește ca înainte</li>
-            <li>A trecut mult timp de când v-ați despărțit</li>
-            <li>Sunteți într-o perioadă de „pauză"</li>
-            <li>Nu ați mai vorbit de săptămâni sau luni de zile</li>
-            <li>Locuiți departe unul de celălalt</li>
-            <li>El este deja cu altcineva</li>
-            <li>Te urăște de moarte în acest moment</li>
-          </ul>
-          <p>Sună imposibil, dar îți spun asta pentru că am trăit-o pe pielea mea.</p>
+          <p>Dacă citești asta, înseamnă că în inima ta ceva doare.</p>
+          <p>Poate tocmai v-ați despărțit și te simți rănită.</p>
+          <p>Poate au trecut luni sau ani de zile și încă te gândești la el.</p>
+          <p>Și poate ai încercat deja să treci peste, dar nu ai reușit.</p>
+          <p>Indiferent de situația ta, vreau să știi un lucru:</p>
+        </div>
+
+        <RedH>Poți să faci să nu mai doară și să-ți găsești pe cineva mai bun</RedH>
+
+        <div className="space-y-4">
+          <p>Chiar dacă crezi că a fost iubirea vieții tale și că nu vei mai simți niciodată ce ai simțit cu el.</p>
+          <p>Chiar dacă o parte din tine încă nu vrea să renunțe și să meargă mai departe.</p>
+          <p>Și chiar dacă nu te simți încă pregătită să o faci.</p>
+          <p>Există o metodă care poate face orice femeie să treacă peste o despărțire — și nu a fost inventată de mine.</p>
+        </div>
+
+        <Img src="story1.png" alt="Metoda creată pentru soldați" />
+        <RedH>A fost creată de cercetători care au folosit-o inițial pentru a ajuta soldații întorși din război să se vindece de traume cumplite, fără psiholog, fără pastile și fără droguri</RedH>
+
+        <div className="space-y-4">
+          <p>Aceștia erau soldați care au pierdut tot ce aveau.</p>
+          <p>Care și-au văzut prietenii murind lângă ei.</p>
+          <p>Cărora li s-au amputat brațe sau picioare.</p>
+          <p>Oameni care au văzut lucruri de nedescris și care nu mai puteau trăi normal.</p>
+          <p>Nu a fost ușor, dar după mulți ani de încercare, acei cercetători au reușit.</p>
+          <p>Au descoperit o metodă simplă și practică, pe care oricine o poate face acasă — o metodă care ajută creierul și inima să proceseze durerea și să meargă mai departe, fără ani de chin.</p>
         </div>
 
         <Img src="story1.png" alt="Strategia hormonul iubirii" />
