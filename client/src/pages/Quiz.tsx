@@ -142,10 +142,11 @@ export default function Quiz() {
           <div className="qz-card">
             <div className="qz-tag">Test gratuit • 1 minut</div>
             <h1 className="qz-h1">
-              Mai sunt șanse să vă împăcați și să vă reparați relația? <em>Sau E Prea Târziu?</em> Află șansele completând testul de mai jos.
+              Ai trecut peste despărțire sau încă o porți în tine? <em>Află în 1 minut.</em>
             </h1>
             <p className="qz-sub">
-              Completează acest test gratuit și află care sunt șansele tale reale de împăcare, pe baza situației tale exacte. Algoritmul nostru analizează răspunsurile tale și îți oferă imediat un procentaj personalizat.
+              Răspunde sincer la câteva întrebări și afli imediat <strong>cât la sută te-ai vindecat</strong> după despărțire.
+              Nu e un test de personalitate — e o radiografie a stării în care ești acum, ca să știi exact de unde pornești.
             </p>
             <button className="qz-btn" onClick={() => { setScreen("quiz"); setCurrentQ(0); }}>
               ÎNCEPE TESTUL GRATUIT →
@@ -157,7 +158,7 @@ export default function Quiz() {
             </div>
           </div>
           <div className="qz-faq">
-            <FaqItem q="Cum funcționează acest test?" a="Testul folosește o serie de întrebări care identifică mai mulți factori despre situația ta — mulți dintre ei dovediți că influențează șansele de împăcare. Un algoritm analizează răspunsurile tale și calculează un procentaj personalizat bazat pe situația ta concretă." />
+            <FaqItem q="Cum funcționează acest test?" a="Testul folosește o serie de întrebări care identifică mai mulți factori despre situația ta — mulți dintre ei dovediți că influențează nivelul tău de vindecare. Un algoritm analizează răspunsurile tale și calculează un procentaj personalizat bazat pe situația ta concretă." />
             <FaqItem q="Cât de precise sunt rezultatele?" a="Testul a fost dezvoltat și calibrat cu atenție, astfel încât rezultatele să fie cât mai relevante. Cu cât răspunzi mai sincer la fiecare întrebare, cu atât procentajul tău va reflecta mai fidel situația ta reală." />
             <FaqItem q="Cine a creat acest test?" a="Întrebările testului și algoritmul de calcul au fost create de Cristina Munteanu, autoare și coach de relații din București." />
           </div>
@@ -303,10 +304,10 @@ function ResultsScreen({ score, animatedScore, answers, gender }: { score: numbe
         <div style={{ textAlign: "center", marginBottom: 8 }}>
           <div className="qz-tag">REZULTATUL TĂU PERSONALIZAT</div>
         </div>
-        <h2 className="qz-h2" style={{ textAlign: "center" }}>Ce Șanse De Împăcare Mai Ai</h2>
+        <h2 className="qz-h2" style={{ textAlign: "center" }}>Cât Te-Ai Vindecat După Despărțire</h2>
         <div className="qz-pct-display">{animatedScore}</div>
         <div style={{ textAlign: "center", fontSize: 32, color: "var(--acc)", marginTop: -4, fontWeight: 800 }}>%</div>
-        <div className="qz-pct-label">șanse de împăcare</div>
+        <div className="qz-pct-label">vindecat</div>
         <div className="qz-bar-bg">
           <div className="qz-bar-fill" style={{ width: `${score}%`, background: barColor }} />
         </div>
@@ -322,10 +323,10 @@ function ResultsScreen({ score, animatedScore, answers, gender }: { score: numbe
 
         {/* Bridge */}
         <div className="qz-bridge">
-          În cazul tău, cea mai bună variantă este să începi să faci și să-i spui lucruri care îi activează în mintea {Pei} hormonul iubirii.
-          Fără să-și dea seama ce i se întâmplă, va începe să-ți uite greșelile, să simtă un dor apăsător pentru tine și să se gândească cum ar fi să fiți din nou împreună.
-          Dacă faci toate lucrurile corect, sunt șanse mari chiar {propuna} să vă împăcați.
-          <div className="qz-bridge-q">Cum îi activezi hormonul iubirii? (citește mai jos)</div>
+          Procentul de mai sus nu spune cât de puternic ești. Spune doar cât de mult timp ai petrecut procesând durerea —
+          și, cel mai probabil, nu ai petrecut deloc, pentru că nimeni nu te-a învățat cum se face.
+          Durerea de despărțire nu trece cu timpul. Trece când creierul procesează amintirile care o țin vie.
+          <div className="qz-bridge-q">Cum se procesează, concret? (citește mai jos)</div>
         </div>
 
         {/* Book card */}
@@ -333,18 +334,20 @@ function ResultsScreen({ score, animatedScore, answers, gender }: { score: numbe
           <span className="qz-book-label">📖 Pasul tău următor</span>
           <div className="qz-book-title">Există o carte numită <em>Cum să Oprești Durerea unei Despărțiri</em> care te învață exact cum să faci asta.</div>
           <p className="qz-book-text">
-            Această carte te învață ce să faci și ce să spui ca să îi activezi SUBTIL în mintea {Pei} hormonul iubirii. Ceea ce {vaFace} să lupte din nou pentru relație și să creadă că ideea de a vă împăca e de fapt {ideea}.
+            Metoda din carte nu a fost inventată de autoare. A fost creată de cercetători care au folosit-o inițial pentru a-i ajuta pe soldații întorși din război
+            să se vindece de traume cumplite — fără psiholog, fără pastile, fără ani de chin.
           </p>
           <div className="qz-book-secret">
-            Îi vei activa frica de a te pierde care {fricaQ} să vrea să se întoarcă la tine din propria sa dorință.
+            Cartea are 165 de pagini și îți arată pas cu pas cum să-ți oprești durerea, nu doar cum să o amâni.
           </div>
           <p className="qz-book-text">
-            <em>Cum să Oprești Durerea unei Despărțiri</em> a ajutat foarte mulți <strong style={{ color: "var(--acc2)" }}>{persoane} din România</strong> — inclusiv {pronCei} care aveau mai puține șanse de împăcare decât tine — să reobțină persoana pe care o iubeau. Chiar și din situații care păreau imposibile.
+            Cristina Munteanu a trecut ea însăși prin asta: doi ani în care timpul nu a vindecat nimic, până când a descoperit metoda.
+            Apoi a scris-o într-o carte pe care au folosit-o mii de oameni din România.
             <br /><br />
             Dacă vrei să afli cum poți face rost de această carte, apasă butonul de mai jos.
           </p>
           <a href={link} className="qz-btn qz-btn-gold" style={{ textDecoration: "none", display: "block", marginTop: 10 }}>
-            VREAU SĂ AFLU MAI MULTE DESPRE BIBLIA ÎMPĂCĂRII →
+            VREAU SĂ VĂD CARTEA CARE OPREȘTE DUREREA →
           </a>
           <p style={{ textAlign: "center", fontSize: 13, color: "rgba(255,255,255,.55)", marginTop: 12 }}>
             🔒 Garanție 30 de zile · Acces imediat
