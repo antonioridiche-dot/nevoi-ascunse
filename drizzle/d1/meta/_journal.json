@@ -1,0 +1,41 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1788786129536,
+      "tag": "0000_brave_lyja",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1788788784243,
+      "tag": "0001_cultured_kronos",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1789048031883,
+      "tag": "0002_yellow_mole_man",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1789121240593,
+      "tag": "0003_fuzzy_cerebro",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1789122179406,
+      "tag": "0004_bent_red_hulk",
+      "breakpoints": true
+    }
+  ]
+}

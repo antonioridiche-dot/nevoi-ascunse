@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,600;1,700&display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; padding: 0; width: 1000px; height: 1500px; overflow: hidden; }
+  body {
+    background: linear-gradient(180deg, #fffdf6 0%, #fbf3e2 42%, #f4e6ca 78%, #eeddb9 100%);
+    font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+    position: relative;
+  }
+  .frame { position: absolute; inset: 34px; border: 2px solid rgba(177,138,62,.5); border-radius: 20px; }
+  .frame2 { position: absolute; inset: 44px; border: 1px solid rgba(177,138,62,.3); border-radius: 14px; }
+  .inner { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+  .kicker {
+    font-size: 30px; font-weight: 700; letter-spacing: .52em; margin-right: -.52em;
+    color: #a8813a; text-transform: uppercase;
+  }
+  .kicker-sub { margin-top: 14px; font-size: 22px; font-weight: 600; letter-spacing: .3em; margin-right: -.3em; color: #c3a25c; text-transform: uppercase; }
+  .heart { margin: 40px 0 10px; filter: drop-shadow(0 10px 26px rgba(190,60,88,.35)); }
+  .title1 { margin: 0; font-size: 84px; font-weight: 900; color: #1b2d4f; line-height: 1.05; }
+  .title2 { margin: 10px 0 0; font-size: 64px; font-weight: 800; font-style: italic; color: #1b2d4f; line-height: 1.05; }
+  .title2 em { color: #b0842f; font-style: italic; }
+  .rule { margin: 40px 0 30px; width: 250px; height: 1px; background: linear-gradient(90deg, transparent, #b89a55, transparent); position: relative; }
+  .rule::after { content: "✦"; position: absolute; left: 50%; top: -17px; transform: translateX(-50%); color: #b0842f; font-size: 28px; background: #faf1de; padding: 0 12px; }
+  .author { font-size: 40px; font-weight: 700; color: #4a5a7a; letter-spacing: .06em; }
+  .author span { color: #b0842f; }
+  .pill {
+    margin-top: 56px; border: 2px solid #1b2d4f; color: #1b2d4f; border-radius: 999px;
+    padding: 20px 44px; font-size: 23px; font-weight: 700; letter-spacing: .22em; margin-right: -.22em;
+    text-transform: uppercase; background: rgba(255,255,255,.4);
+  }
+  .spark { position: absolute; color: #c9a44a; font-size: 42px; }
+  .s1 { top: 118px; right: 122px; } .s2 { bottom: 122px; left: 122px; } .s3 { top: 470px; left: 88px; font-size: 28px; } .s4 { bottom: 480px; right: 88px; font-size: 28px; }
+</style>
+</head>
+<body>
+  <div class="frame"></div>
+  <div class="frame2"></div>
+  <div class="spark s1">✦</div><div class="spark s2">✦</div><div class="spark s3">✦</div><div class="spark s4">✦</div>
+  <div class="inner">
+    <div class="kicker">Te Vreau Inapoi</div>
+    <div class="kicker-sub">Anca Ștefănescu</div>
+    <svg class="heart" width="250" height="226" viewBox="0 0 250 226" fill="none">
+      <defs>
+        <linearGradient id="hg" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#e75d78"/><stop offset="100%" stop-color="#c03355"/>
+        </linearGradient>
+      </defs>
+      <path fill-rule="evenodd" fill="url(#hg)"
+        d="M125 220 C 88 190 18 145 18 82 C 18 36 58 10 90 10 C 108 10 119 22 125 36 C 131 22 142 10 160 10 C 192 10 232 36 232 82 C 232 145 162 190 125 220 Z
+           M125 186 C 148 166 198 130 198 88 C 198 62 178 46 158 46 C 144 46 132 56 125 72 C 118 56 106 46 92 46 C 72 46 52 62 52 88 C 52 130 102 166 125 186 Z"/>
+    </svg>
+    <div class="title1">Mesajele EXTRA</div>
+    <div class="title2">de <em>Împăcare</em></div>
+    <div class="rule"></div>
+    <div class="author">Anca <span>Ștefănescu</span></div>
+    <div class="pill">PDF &nbsp;•&nbsp; se deschide direct într-un browser</div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,15 @@
+node_modules
+dist
+client/dist
+.wrangler
+.dev.vars
+.env
+.env.*
+!.env.example
+wrangler.jsonc.bak
+*.log
+.manus-logs
+data/app.db
+data/app.db-*
+data/books
+.secrets-generated.txt
