@@ -169,12 +169,29 @@ export default function FemeiBiblia() {
         </div>
 
         <Img src="story1.png" alt="Strategia hormonul iubirii" />
-        <RedH>Am descoperit o strategie psihologică șocantă care poate reaprinde iubirea în inima oricărui bărbat, indiferent de cât de rece și distant a devenit</RedH>
+        <RedH>Când am aflat prima dată de ea, eram distrusă</RedH>
 
         <div className="space-y-4">
-          <p>Eram genul de fată care făcea TOTUL pentru iubitul ei. Eram împreună de trei ani și eram convinsă că ne vom căsători. Eram loială, iubitoare și complet dedicată lui. Aș fi făcut orice ca să-l fac fericit.</p>
-          <p>Dar oricât de mult am încercat să fiu iubita perfectă, el mi-a frânt inima oricum. Într-o seară, din senin, mi-a spus cele patru cuvinte de care mă temeam cel mai mult: <em>„Vreau să ne despărțim."</em></p>
-          <p>Am fost distrusă. Zile întregi, i-am trimis mesaje implorându-l să se întoarcă și rugându-l să ne mai dăm o șansă. Mi-am cerut scuze pentru toate momentele în care am fost dificilă. Făceam tot ce-mi stătea în putere ca să-i arăt că îl iubesc… dar fiecare încercare nu făcea decât să-l îndepărteze și mai mult.</p>
+          <p>Mă numesc <strong>Cristina Munteanu</strong>. Pe vremea aceea trăiam o poveste de dragoste cu un bărbat pe care îl credeam alesul.</p>
+          <p>Eram căsătoriți și aveam 2 copii împreună.</p>
+          <p>Numai că într-o zi l-am găsit în pat cu altă femeie.</p>
+          <p>Nu știu cum să descriu în cuvinte ce am simțit în acel moment. A fost un amestec de furie, rușine, trădare și o durere atât de mare încât parcă mi se rupea ceva pe dinăuntru.</p>
+          <p>În fața prietenilor și familiei mă prefăceam că sunt bine. Zâmbeam. Spuneam „trece, sunt ok". Dar în inima mea era haos.</p>
+          <p>Cât plângeam și cât sufeream, numai eu știam. Și partea cea mai ciudată? La cât rău mi-a făcut, o parte din mine încă ținea la el și nu voia să treacă peste.</p>
+          <p>Încă mai speram, undeva adânc, că o să se întoarcă și o să fie bine. Mă agățam de o speranță care mă ținea blocată și nu mă lăsa să mă vindec.</p>
+          <p>Îl iubeam, deși mă distrusese.</p>
+        </div>
+
+        <Img src="story1.png" alt="Timpul care nu vindecă nimic" />
+        <RedH>Timpul trecea, dar nu vindeca nimic</RedH>
+
+        <div className="space-y-4">
+          <p>Trecuseră deja doi ani de la despărțire și eu tot acolo eram.</p>
+          <p>Alcoolul nu mă ajuta. Alte relații nu ajutau, pentru că îl comparam constant pe orice bărbat nou cu el. Și, ce-i drept, îmi pierdusem și încrederea în bărbați.</p>
+          <p>Nu credeam vreodată că voi mai putea să iubesc. De fapt, nici nu mai voiam iubire.</p>
+          <p>Eram blocată. Până când o prietenă psiholog mi-a vorbit despre metoda aceea simplă, creată pentru soldați.</p>
+          <p>La început mi s-a părut prea simplă ca să funcționeze. Nu credeam în ea. Dar mi-am zis: ce am de pierdut? Mai rău de atât nu se poate.</p>
+          <p>Așa că am încercat-o.</p>
         </div>
 
         <Img src="story2.png" alt="Despărțirea" />
