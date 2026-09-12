@@ -132,11 +132,11 @@ export default function FemeiBiblia() {
       <div className="max-w-2xl mx-auto px-4 py-8 text-[17px] leading-relaxed text-[#1a1a2e]">
         <div className="text-center text-[#c9a44a] font-bold tracking-widest text-sm mb-3">✦ pestedespartire.ro</div>
         <div className="text-center mb-2">
-          <span className="inline-block bg-[#1b2d4f] text-[#e8c96a] text-xs font-bold tracking-widest px-4 py-1.5 rounded-full">CARTE INCLUSĂ</span>
+          <span className="inline-block bg-[#1b2d4f] text-[#e8c96a] text-xs font-bold tracking-widest px-4 py-1.5 rounded-full">GHID PDF · 165 DE PAGINI</span>
         </div>
 
         <h1 className="text-center text-[26px] sm:text-[32px] font-extrabold leading-tight font-['Playfair_Display'] mb-6" style={{ color: RED }}>
-          Cum M-am Împăcat Cu El Folosind Hormonul Iubirii — Și Cum Poți Folosi Aceeași Strategie <span className="whitespace-nowrap">(Funcționează în 2026)</span>
+          Cum reușesc unele femei să treacă complet peste o despărțire, să meargă mai departe și să găsească pe cineva mai bun — chiar și atunci când credeau că e imposibil să mai simtă o așa iubire <span className="whitespace-nowrap">(Funcționează în 2026)</span>
         </h1>
 
         <div className="space-y-4">
@@ -194,84 +194,98 @@ export default function FemeiBiblia() {
           <p>Așa că am încercat-o.</p>
         </div>
 
-        <Img src="story2.png" alt="Despărțirea" />
+        <Img src="story2.png" alt="Rezultatele, săptămână cu săptămână" />
 
         <div className="space-y-4">
-          <p>Apoi într-o zi... s-a întâmplat ceva de necrezut, ceva care mi-a întors stomacul pe dos. Era la două săptămâni după despărțire, la ziua de naștere a unui prieten comun. M-am dus sperând că l-aș putea vedea și că și-ar da seama ce greșeală a făcut.</p>
-          <p>M-am îmbrăcat cu rochia lui roșie preferată, m-am aranjat perfect și am intrat cu un zâmbet plin de speranță. Numai că atunci când l-am găsit, nu era singur...</p>
-          <p>L-am văzut râzând pe canapea cu brațul înfășurat strâns în jurul unei alte fete... O blondă mai tânără și mai frumoasă... Se uita la ea cu aceeași privire cu care se uita la mine odată. Și într-un moment care a părut o veșnicie, s-au sărutat.</p>
-          <p>Fără să vreau… mi-am scăpat paharul din mână și s-a făcut țăndări pe podea... ceea ce i-a atras atenția.</p>
+          <p>La început nu am văzut cine știe ce schimbare. Dar după o săptămână am observat ceva ciudat.</p>
+          <p>Nu m-am mai trezit cu gândul la el primul lucru dimineața. Mă trezeam, îmi beam cafeaua și abia după o oră îmi aminteam: „uite, nu m-am gândit la el".</p>
+          <p><strong>După două săptămâni</strong>, am observat că nu mai simțeam nevoia să spionez ce mai postează pe Facebook. Nu mai voiam să știu ce face, cu cine e.</p>
+          <p>Iar după o lună întreagă, eram de nerecunoscut.</p>
         </div>
 
-        <Img src="story3.png" alt="Momentul de cotitură" />
+        <RedH>Nu uitasem cât de mult l-am iubit, dar nu mai simțeam nimic când mă gândeam la el</RedH>
+
+        <Img src="story3.png" alt="După o lună" />
 
         <div className="space-y-4">
-          <p><em>„Ce naiba faci aici?"</em> mi-a zis el, apărând-o pe noua lui iubită de parcă eu aș fi fost un fel de monstru.</p>
-          <p>Am fugit de la petrecere și în zilele ce au urmat, am dispărut. Nu m-am dus la muncă... Nu am răspuns la niciun mesaj... Eram convinsă că am o cădere nervoasă. Mă simțeam în cel mai jos punct al vieții mele. Plângeam toată ziua și toată noaptea după un prost… Dar prost cum era, îl iubeam și îl voiam înapoi.</p>
-          <p>Așa că am decis să nu-mi mai plâng de milă și să învăț cum alte femei au reușit să-și aducă foștii înapoi. Fiind foarte tocilară, am citit toate cărțile și articolele științifice pe care le-am putut găsi despre psihologia relațiilor și cum funcționează creierul bărbaților…</p>
+          <p>Nu-mi mai făcea inima să bată mai tare. Nu-mi mai venea să plâng. Eram indiferentă.</p>
+          <p>Și, cel mai important, eram cu adevărat împăcată cu ideea că s-a terminat.</p>
+          <p>Fostul nu mai avea nicio putere în viața mea. Era ca un film pe care l-am văzut demult și care a trecut.</p>
+          <p>Nu mai simțeam nevoia să-i scriu. Nu-l mai comparam pe noul partener cu el. Nu-mi mai păsa de el. Nici măcar curioasă nu mai eram ce se întâmplă în viața lui.</p>
         </div>
 
-        <RedH>Și atunci am descoperit: o strategie care îi declanșează <u>Hormonul Iubirii</u> în creierul și inima unui bărbat și care îl face să simtă o dorință irezistibilă să fie înapoi cu tine.</RedH>
+        <RedH>Și nu doar că am trecut peste</RedH>
 
-        <Img src="strategy.png" alt="Hormonul iubirii" />
+        <Img src="strategy.png" alt="O viață nouă" />
 
         <div className="space-y-4">
-          <p>O strategie care îl va face să uite orice altă fată, să-și șteargă sentimentele negative față de tine și să te vadă ca fiind <strong>„Aleasa"</strong> cu care trebuia să fie mereu.</p>
-          <p>Când folosești această strategie, accesezi direct partea din creierul lui animalic care controlează frica de a te pierde.</p>
-          <p>Așa că după săptămâni întregi în care am stat închisă în apartamentul meu, plângând în pijamale, am decis să încerc strategia. I-am trimis un mesaj de 7 cuvinte... un mesaj special la care <strong>bărbații nu pot rezista</strong>.</p>
-          <p>În 10 minute, mi-a răspuns pentru prima dată în săptămâni. A doua zi, l-am făcut să mă invite la o întâlnire și să-mi recunoască că îi era dor de mine. În următoarea săptămână, l-am făcut să creadă că ideea de a se împăca cu mine e de fapt ideea lui. La scurt timp a apărut la ușa mea cu flori implorându-mă pentru o a doua șansă.</p>
+          <p>Am prins curajul să-mi dau voie să cunosc alți bărbați și să mă îndrăgostesc din nou.</p>
+          <p>Am ajuns la concluzia că meritam un bărbat mai bun. Și l-am găsit.</p>
+          <p>Un bărbat care îmi este cu adevărat fidel, care mă iubește, care nu e toxic, care e implicat și care m-a cerut de nevastă. Un bărbat lângă care mă simt în siguranță, lângă care pot să fiu vulnerabilă și lângă care am putut să-mi fac o familie.</p>
+          <p>Nu doar că îl iubesc. Îl iubesc mai mult decât pe fostul.</p>
         </div>
 
-        <Img src="flowers.png" alt="A revenit cu flori" />
+        <Img src="flowers.png" alt="O relație nouă, sănătoasă" />
 
         <div className="space-y-4">
-          <p>Entuziasmată de succesul meu, am început să le spun despre această strategie și prietenelor mele care treceau prin despărțiri similare. Au aplicat-o și rezultatele lor m-au șocat chiar și pe mine: <strong>funcționa de fiecare dată</strong>.</p>
-          <p>Vestea s-a răspândit și în scurt timp am ajuns să primesc mesaje de la foarte multe femei care mă rugau să le învăț cum să-l facă pe fostul lor să-și dorească să se împace cu ele. Neavând suficient timp pentru a le ajuta pe toate, am decis să scriu întreaga strategie într-o carte. Îți prezint:</p>
+          <p>La început am crezut că am avut noroc.</p>
+          <p>Dar într-o zi prietenele mele m-au întrebat ce anume am făcut. Le-am povestit despre metodă, le-am explicat cum funcționează și, la insistențele lor, le-am explicat pașii.</p>
+          <p>Din nou, am rămas uimită: <strong>funcționa de fiecare dată</strong>.</p>
+          <p>Zvonul s-a răspândit și în scurt timp primeam mesaje de la femei pe care nici nu le cunoșteam. Femei care voiau și ele să știe cum să scape de durerea unei despărțiri, cum să treacă peste și cum să-și găsească un bărbat care să le iubească cu adevărat.</p>
+          <p>Văzând cât de mare este nevoia și cât de mult poate ajuta această metodă, am decis să o scriu într-o carte.</p>
         </div>
 
-        <RedH sm>Cartea virtuală în format PDF numită<br /><span className="text-[28px] sm:text-[34px]">„Cum să Oprești Durerea unei Despărțiri"</span><br />(207 pagini)</RedH>
+        <RedH sm>Am numit-o<br /><span className="text-[28px] sm:text-[34px]">„Oprește Durerea Despărțirii"</span><br /><span className="text-[15px] font-normal">Cum Să Treci Peste Despărțire, Să-Ți Recapeți Încrederea Și Să Găsești O Nouă Iubire</span></RedH>
 
-        <Img src="book.png" alt="Cum să Oprești Durerea unei Despărțiri — 207 pagini" max="max-w-md sm:max-w-lg" />
+        <Img src="book.png" alt="Oprește Durerea Despărțirii — 165 de pagini" max="max-w-md sm:max-w-lg" />
 
         <div className="space-y-4">
-          <p>Am ales acest nume deoarece este cea mai avansată și puternică carte din România de acest gen (și crede-mă, le-am citit pe toate).</p>
-          <p>Această carte te învață tot ce trebuie să <strong>FACI</strong> (și ce să <strong>NU faci</strong>) pentru a-i declanșa hormonul iubirii și a-l face pe acel bărbat să se întoarcă din nou în viața ta, total îndrăgostit de tine.</p>
-          <p>Nu contează dacă este cu altcineva... dacă ți-a spus să nu-l mai contactezi niciodată... sau dacă crezi că situația ta este fără speranță. Strategia a fost șlefuită pe durerea și succesul a sute de femei. Va funcționa pentru aproape orice femeie, chiar și dacă:</p>
-          <ul className="list-disc pl-6 space-y-1.5 marker:text-[#cc0000]">
-            <li>Te consideri un caz pierdut, au trecut luni de la despărțire sau el deja este îndrăgostit de altcineva</li>
-            <li>Tu te-ai despărțit de el și acum îl vrei înapoi</li>
-            <li>Te-ai rugat deja de el de o mie de ori să vă împăcați</li>
-            <li>Crezi că e imposibil să te mai iubească vreodată</li>
-          </ul>
+          <p>Cartea are <strong>165 de pagini</strong>, este în format <strong>PDF</strong> și o primești imediat după comandă. Nu trebuie să aștepți livrarea, nu trebuie să ieși din casă. O citești direct pe telefon.</p>
+          <p>Nu-ți promit miracole peste noapte. Dar îți promit că, dacă faci exact ce scrie acolo, durerea o să înceapă să se stingă.</p>
+          <p>Pentru că știu cum e. Știu cum e să plângi în fiecare seară. Știu cum e să te prefaci că ești bine când tu ești moartă pe dinăuntru. Știu cum e să crezi că nu vei mai iubi niciodată pe cineva la fel.</p>
+          <p>Și mai știu și că se poate ieși din starea asta. Nu cu vorbe goale. Nu așteptând. Ci cu o metodă reală, pe care oricine o poate aplica.</p>
         </div>
 
         <CTA onClick={scrollToOffer} />
 
-        <RedH sm>Iată o mică parte din ce vei găsi în carte…</RedH>
+        <RedH sm>Uite o parte din ce vei descoperi în carte…</RedH>
         <ul className="list-disc pl-6 space-y-3">
-          <li>Cum să apeși <strong>„Butonul de Resetare"</strong> — o metodă simplă de a repara instantaneu greșelile care îl fac să se îndepărteze, forțându-l să te vadă din nou ca pe femeia de care s-a îndrăgostit. <em>(pagina 54)</em></li>
-          <li>De ce nu ar trebui să-i spui aproape niciodată <strong>„îmi pare rău"</strong> — și ce să faci în schimb atunci când el te va contacta (și crede-mă, o va face). <em>(pagina 20)</em></li>
-          <li><strong>Cum să-l faci gelos</strong> (fără să pari patetică). O simplă poză sau story care îi declanșează un junghi de gelozie și regret. <em>(pagina 112)</em></li>
-          <li>Replici speciale care îl fac să simtă o dorință profundă pentru tine — genul care îl face să se gândească obsesiv la tine zi și noapte. <em>(pagina 101)</em></li>
-          <li>Cum să reiei contactul, ce mesaj exact să-i trimiți, când să accepți o întâlnire și cum să escaladezi totul.</li>
-          <li>Cum să-i ștergi complet amintirile negative și să le înlocuiești cu gânduri plăcute despre viitorul vostru. <em>(pagina 159)</em></li>
-          <li>O tehnică subtilă care reaprinde „magia" și „scânteia" pe care ați avut-o când v-ați sărutat prima dată. <em>(pagina 148)</em></li>
-          <li><strong>Singura greșeală fatală</strong> care îți garantează că îl vei pierde pentru totdeauna — aproape toate femeile o fac din disperare. Tu vei fi cea care o evită. <em>(pagina 102)</em></li>
+          <li>De ce creierul tău se agață de fostul partener <strong>ca de un drog</strong> — și cum să rupi această dependență, pas cu pas. <em>(pagina 12)</em></li>
+          <li>Un exercițiu simplu de <strong>2 minute</strong> care oprește imediat gândurile obsesive la el. <em>(pagina 26)</em></li>
+          <li>Ce să faci exact când simți nevoia bruscă de a-i verifica rețelele sociale sau ultima conectare — și cum să scapi de impulsul ăsta fără să te chinui. <em>(pagina 41)</em></li>
+          <li>O tehnică pe care o poți folosi oriunde (chiar și la serviciu) și care calmează anxietatea în <strong>mai puțin de 90 de secunde</strong>. <em>(pagina 58)</em></li>
+          <li>Cum să-ți transformi tristețea într-o forță care te face <strong>mai atrăgătoare</strong>, nu mai fragilă — fără să te prefaci. <em>(pagina 73)</em></li>
+          <li>Greșelile pe care le fac majoritatea femeilor după o despărțire și care le țin blocate <strong>ani întregi</strong>. <em>(pagina 89)</em></li>
+          <li>Cum să nu mai aștepți mesajul lui, fără să-ți impui forțat „să-l uiți" — o soluție blândă care funcționează chiar dacă încă mai ai sentimente pentru el. <em>(pagina 102)</em></li>
+          <li>Ce să faci când o amintire cu el te lovește din senin și simți că te sufoci. <em>(pagina 115)</em></li>
+          <li>Cum să-ți refaci stima de sine după o relație toxică sau după un divorț, chiar dacă ai fost umilită. <em>(pagina 130)</em></li>
+          <li>Pașii concreți prin care îți recapeți pofta de viață și te pregătești pentru o nouă iubire, una mai sănătoasă și mai frumoasă. <em>(pagina 148)</em></li>
+          <li>Cum să te vindeci chiar dacă încă mai vorbești cu el sau o parte din tine nu vrea să treacă peste.</li>
         </ul>
 
         <Img src="bullets.png" alt="Ce vei învăța" />
 
         <div className="space-y-4">
-          <p>Cât ai fi dispusă să plătești ca să fiți din nou împreună și să te iubească mai mult ca oricând? Ai plăti 1.000 de euro? Dar €500? Dar €100?</p>
-          <p>Stai liniștită, nu îți voi cere atât. De obicei cartea mea se vinde cu <span className="line-through">149 lei</span>. Dar astăzi derulez o ofertă specială.</p>
+          <p>… și multe, multe altele. Cartea e plină de astfel de „secrete" mici, dar extrem de puternice.</p>
+          <p>Important e că toate duc către același loc: <strong>liniștea ta</strong>.</p>
+        </div>
+
+        <RedH sm>Cât valorează liniștea ta?</RedH>
+
+        <div className="space-y-4">
+          <p>La terapie, o singură ședință costă între <strong>150 și 250 de lei</strong>, iar pentru rezultate vizibile ai nevoie de luni sau ani.</p>
+          <p>Medicamentele? Ameliorări temporare și efecte secundare.</p>
+          <p>Lunile pierdute suferind? Alea nu mai vin înapoi niciodată.</p>
+          <p>Cartea mea, cu toate metodele și exercițiile, am vândut-o inițial la prețul de <span className="line-through">197 de lei</span>. O sumă corectă dacă ne gândim la densitatea informației și la potențialul ei de a-ți schimba viața.</p>
+          <p>Cu toate acestea, mi-am dorit ca ea să fie accesibilă oricărei femei care suferă, indiferent de buzunarul ei. De aceea, astăzi și doar de pe această pagină, prețul este:</p>
         </div>
 
         {/* ===== OFFER ===== */}
         <div id="oferta" className="bg-white border-2 border-[#c9a44a] rounded-2xl p-6 my-6 text-center shadow-lg">
           <img src="/img/femei-biblia/book.png" alt="Cum să Oprești Durerea unei Despărțiri" className="block w-full max-w-md sm:max-w-lg mx-auto my-4 rounded-2xl shadow-md" />
-          <p className="font-bold text-[#1b2d4f] mb-3">Următoarele <strong>100 de cărți</strong> le voi vinde pentru <strong>DOAR 67 lei</strong> <span style={{ color: "#15803d" }}>(reducere primele 100 de cărți: 149 lei → 67 lei)</span>.</p>
+          <p className="font-bold text-[#1b2d4f] mb-3">Următoarele <strong>100 de cărți</strong> le voi vinde pentru <strong>DOAR 67 lei</strong> <span style={{ color: "#15803d" }}>(reducere primele 100 de cărți: 197 lei → 67 lei)</span>.</p>
           <div className="flex items-center justify-center gap-3 mb-1">
-            <span className="text-[#94a3b8] line-through text-xl">149 lei</span>
+            <span className="text-[#94a3b8] line-through text-xl">197 lei</span>
             <span className="text-[44px] font-extrabold leading-none" style={{ color: RED }}>67 <span className="text-2xl">RON</span></span>
           </div>
           <p className="text-[#15803d] font-bold text-sm mb-2">o singură plată de doar 67 RON</p>
@@ -311,20 +325,27 @@ export default function FemeiBiblia() {
             <span className="text-[10px] font-semibold text-[#64748b] tracking-widest mt-0.5">GARANȚIE</span>
           </div>
           <p>
-            Îți ofer o perioadă de încercare de <strong>30 de zile</strong> în care poți primi banii înapoi dacă nu ești mulțumită, fără întrebări. <strong>Tot riscul este de partea mea!</strong> Scrie-mi la <a href="mailto:anca@pestedespartire.ro" className="text-[#1155cc] underline">anca@pestedespartire.ro</a> pentru o rambursare rapidă.
+            Vreau să te simți complet în siguranță atunci când faci această alegere pentru tine.
+          </p>
+          <p className="mt-3">
+            Citește cartea cap-coadă, aplică exercițiile și lasă-ți timp să vezi cum reacționezi. Dacă, din orice motiv, în următoarele <strong>30 de zile</strong> simți că nu te-a ajutat,
+            îmi poți trimite un email la <a href="mailto:cristina@pestedespartire.ro" className="text-[#1155cc] underline">cristina@pestedespartire.ro</a>, iar eu îți voi returna personal fiecare leu,
+            fără să-ți cer explicații și fără să te pun să completezi formulare.
+          </p>
+          <p className="mt-3 font-bold">
+            Asta înseamnă că nu ai absolut nimic de pierdut — nici măcar durerea, pentru că ea va începe oricum să se retragă.
           </p>
         </div>
 
         <p className="my-6">
           <strong>Cu drag, Cristina.</strong><br /><br />
-          <strong>P.S.</strong> Tot ce trebuie să faci pentru a accepta oferta și a primi cartea este să dai click pe butonul „Vezi dacă mai poți achiziționa Cum să Oprești Durerea unei Despărțiri la 67 de lei" de mai sus. Dar grăbește-te — fiecare secundă pe care o pierzi așteptând este o altă secundă în care fostul tău s-ar putea îndrăgosti de altcineva.
+          <strong>P.S.</strong> Tot ce trebuie să faci ca să primești cartea este să dai click pe butonul de mai sus. Dar grăbește-te — fiecare zi în care rămâi blocată în durere este o zi pe care nu ți-o mai dă nimeni înapoi.
         </p>
 
         {/* ===== TESTIMONIALS ===== */}
-        <Testimonial name="Andreea C. (București)" text={`Prietenele mele îmi ziceau să ies cu alții ca să-l fac gelos sau să renunț la iubirea noastră. Noroc că am dat de această carte înainte să fac vreo prostie.\nCartea și ajutorul ei personalizat m-au ajutat enorm să-l fac pe iubitul meu să-și recapete interesul în relație și acum suntem din nou fericiți împreună.`} />
-        <Testimonial name="Bianca R. (Cluj-Napoca)" text={`Dacă ești în faza în care plângi și îți vine să-l suni non-stop să-i ceri explicații, trebuie să citești cartea asta.\nModul în care te învață să-i scrii este genial. Abordarea e super matură și bazată pe psihologie. Nu doar că nu m-am mai milogit de el, dar el a cerut să ne împăcăm.`} />
-        <Testimonial name="Elena M. (Pitești)" text={`Situația mea era groaznică, eu și soțul meu pur și simplu nu ne mai înțelegeam, parcă vorbeam limbi diferite.\nCartea asta mi-a arătat unde greșeam fără să-mi dau seama. Am aplicat pașii și, pentru prima dată după luni de zile, suntem din nou împreună.`} />
-        <Testimonial name="Ioana E. (București)" text={`Când și-a luat lucrurile și mi-a zis că are nevoie de spațiu, am crezut că s-a terminat definitiv. Eram praf.\nO prietenă mi-a recomandat Cum să Oprești Durerea unei Despărțiri și într-un final am înțeles cum funcționează mintea bărbaților. Am urmat pașii, am schimbat total placa, iar acum o lună ne-am împăcat. Trage el de relația asta mai mult decât mine acum!`} />
+        <Testimonial name="Ioana, 29 de ani, București" text={`După 5 ani de relație, m-a înșelat și a plecat cu alta. Am rămas distrusă. Am cumpărat cartea într-o seară, am citit-o până târziu și am început să aplic. În a 3-a zi m-am trezit fără durerea din piept. Am crezut că e întâmplare. Am continuat. Acum, după o lună, sunt un om nou. Nu mai plâng, nu-l mai caut, și am ieșit la o cafea cu un bărbat foarte drăguț. Nu m-aș fi crezut capabilă de asta.`} />
+        <Testimonial name="Gabriela, 46 de ani, Iași" text={`Divorț după 18 ani de căsnicie. Am crezut că mor. Copiii mă țineau pe linia de plutire. Cartea Cristinei m-a ajutat mai mult decât 6 luni de terapie. Exercițiile sunt atât de simple, dar atât de bune! Acum mă simt din nou femeie, nu doar mamă.`} />
+        <Testimonial name="Andreea, 33 de ani, Cluj" text={`Relație toxică, cu certuri și umilințe. Deși știam că e mai bine fără el, tot mă întorceam cu gândul la el. Cartea m-a făcut să înțeleg de ce. Am făcut exercițiile și, pe bune, parcă mi s-a luat o piatră de pe inimă. Mă respect pentru prima dată după mult timp.`} />
 
         <Img src="testimonials.png" alt="Recenzii clienți" />
 
