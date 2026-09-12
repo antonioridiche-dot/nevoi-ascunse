@@ -349,6 +349,42 @@ export default function FemeiBiblia() {
 
         <Img src="testimonials.png" alt="Recenzii clienți" />
 
+        {/* ===== ÎNTREBĂRI FRECVENTE ===== */}
+        <RedH sm>Întrebări frecvente despre carte</RedH>
+        <div className="space-y-3 my-4">
+          {[
+            {
+              q: "Am avut o relație scurtă. Cartea mă ajută?",
+              a: "Da. Durerea nu ține cont de cât a durat relația. Metoda funcționează indiferent de situație.",
+            },
+            {
+              q: "Sunt după divorț, am copii. E pentru mine?",
+              a: "Da. Sunt capitole dedicate exact femeilor care își refac viața după o căsnicie lungă. Vei găsi sprijin real.",
+            },
+            {
+              q: "Cartea mă ajută să-l recuperez pe fostul?",
+              a: "NU. Această carte NU te învață cum să-l aduci înapoi. Te învață cum să fii tu bine, indiferent de ce face el.",
+            },
+            {
+              q: "Am peste 50 de ani. Mai are rost?",
+              a: "Are. Am primit mesaje de la femei de 50+ care și-au regăsit bucuria de a trăi. Nu există vârstă pentru vindecare.",
+            },
+            {
+              q: "Dacă nu funcționează pentru mine?",
+              a: "Îmi scrii în 30 de zile și primești banii înapoi. Garanția este totală. Nu pierzi nimic.",
+            },
+            {
+              q: "În cât timp văd primele schimbări?",
+              a: "Multe cititoare spun că simt o diferență încă din primele zile, mai ales când aplică exercițiile de procesat emoții atunci când se gândesc la el.",
+            },
+          ].map((item) => (
+            <details key={item.q} className="bg-[#fffdf7] border border-[#e8d9a0] rounded-xl p-4">
+              <summary className="cursor-pointer font-bold text-[#1b2d4f] text-[16px]">{item.q}</summary>
+              <p className="mt-2 text-[#334155] leading-relaxed">{item.a}</p>
+            </details>
+          ))}
+        </div>
+
         {/* BIG ARROW IMAGE + FINAL CTA */}
         <div className="text-center my-6">
           <img src="/img/arrow-down.png" alt="⬇" className="w-32 mx-auto mb-2" />
