@@ -166,18 +166,18 @@
 
 
 /* ===== Pagina principala — selector barbat/femeie (identic cu site-ul Manus) ===== */
-.audience-choice-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: #f0f0f0; padding: 2rem; font-family: "Times New Roman", Times, serif; }
+.audience-choice-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(145deg,#fbf6f0,#edf3f8); padding: 2rem; font-family: Arial, sans-serif; }
 .audience-choice-container { max-width: 1100px; width: 100%; display: flex; flex-direction: column; align-items: center; gap: 3rem; }
 .audience-choice-quiz-teaser { margin: 0; text-align: center; font-size: 1.15rem; line-height: 1.5; }
 .audience-choice-quiz-teaser a { color: #a10b24; text-decoration: underline; text-underline-offset: 4px; font-weight: 700; }
 .audience-choice-quiz-teaser a:hover { opacity: 0.8; }
 .audience-choice-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 2.5rem; width: 100%; }
 .audience-choice-card { display: flex; flex-direction: column; align-items: center; gap: 1rem; width: 100%; max-width: 480px; }
-.audience-choice-heading { font-size: 1.6rem; text-decoration: underline; text-underline-offset: 4px; font-weight: 400; transition: opacity 0.2s; }
+.audience-choice-heading { font-size: 1.6rem; text-decoration: none; font-weight: 800; transition: opacity 0.2s; }
 .audience-choice-women .audience-choice-heading { color: #a10b24; }
 .audience-choice-men .audience-choice-heading { color: #0044cc; }
 .audience-choice-heading:hover { opacity: 0.8; }
-.audience-choice-image { display: block; width: 100%; border: 1px solid #888; border-radius: 4px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.2); transition: transform 0.2s; }
+.audience-choice-image { display: block; width: 100%; border: 1px solid #d6dbe5; border-radius: 18px; overflow: hidden; box-shadow: 0 10px 28px rgba(27,45,79,0.14); transition: transform 0.2s; }
 .audience-choice-image:hover { transform: translateY(-2px); }
 .audience-choice-image img { width: 100%; height: auto; display: block; }
 .audience-choice-footer-simple { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem 1rem; color: #666; font-size: 0.9rem; margin-top: 1rem; }

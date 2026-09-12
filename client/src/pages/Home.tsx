@@ -17,25 +17,24 @@ export default function Home() {
       <div className="quiz-banner-wrap">
       {/* Îndemn deasupra bannerului, cu săgeată în jos */}
       <p className="quiz-banner-intro">
-        Dacă vrei să afli șansele de împăcare cu fostul / fosta, apasă aici
+        Începe cu testul gratuit de vindecare după despărțire
         <span className="quiz-banner-intro-arrow" aria-hidden="true">↓</span>
       </p>
-      {/* Test de șanse — banner frumos, clickabil */}
-      <a href="/test-impacare" className="quiz-banner" aria-label="Test șanse împăcare">
+      <a href="/test-impacare" className="quiz-banner" aria-label="Test de vindecare">
         <span className="quiz-banner-badge">📊 TEST GRATUIT | DUREAZĂ 1 MINUT</span>
-        <span className="quiz-banner-title">CALCULEAZĂ-ȚI ȘANSELE DE ÎMPĂCARE</span>
-        <span className="quiz-banner-text"><u>TEST ȘANSE ÎMPĂCARE:</u> Află dacă mai are rost să încerci să te împaci cu <em>fostul / fosta</em>.</span>
+        <span className="quiz-banner-title">VEZI UNDE EȘTI ÎN PROCESUL DE VINDECARE</span>
+        <span className="quiz-banner-text"><u>TEST DE VINDECARE:</u> Află ce te ține blocat{`ă`} și care poate fi următorul pas pentru tine.</span>
         <span className="quiz-banner-arrow">→</span>
         <span className="quiz-banner-chips">
           <span>🔒 100% confidențial</span>
           <span>⚡ Rezultat imediat</span>
-          <span>❤️ Procentaj personalizat</span>
+          <span>❤️ Recomandare personalizată</span>
         </span>
       </a>
       </div>
       <section className="audience-choice-grid" aria-label="Alege experiența potrivită pentru tine">
-        <AudienceCard href={WOMEN_FUNNEL_URL} heading="Dacă Ești Femeie Apasă Aici" image={WOMEN_CARD_IMAGE} className="audience-choice-women" />
-        <AudienceCard href="/barbati/biblie" heading="Dacă Ești Bărbat Apasă Aici" image={MEN_CARD_IMAGE} className="audience-choice-men" />
+        <AudienceCard href={WOMEN_FUNNEL_URL} heading="Sunt femeie" image={WOMEN_CARD_IMAGE} className="audience-choice-women" />
+        <AudienceCard href="/barbati/biblie" heading="Sunt bărbat" image={MEN_CARD_IMAGE} className="audience-choice-men" />
       </section>
     </div>
   </main>;
