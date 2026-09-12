@@ -17,7 +17,6 @@ export default function JurnalRedus() {
 
   const paymentIntentId = localStorage.getItem("tvii_pi") || "";
   const acceptPath = isMen ? "/barbati/multumesc" : "/femei/multumesc";
-  const Pei = isMen ? "ei" : "lui";
 
   const handleAccept = async () => {
     setLoading(true); setError("");
@@ -55,34 +54,34 @@ export default function JurnalRedus() {
         <div className="text-center font-bold tracking-widest text-sm mb-3" style={{ color: "#8b95a5" }}>✦ pestedespartire.ro</div>
 
         <div className="text-center text-[13px] font-bold text-white bg-[#7a1115] border border-[#c8102e] rounded-md px-4 py-2 mb-5">
-          Stai! Nu vrei să ratezi această oportunitate...
+          Înainte să pleci, îți las această variantă redusă.
         </div>
 
         <h1 className="text-center text-[26px] sm:text-[31px] font-extrabold leading-tight mb-4" style={{ color: RED }}>
-          Ce Zici Dacă Îți Dau Zero Despărțiri Pentru 19.95 lei?
+          Ultima ofertă: Zero Despărțiri la 19,95 lei
         </h1>
-        <p className="text-center text-[#64748b] mb-2">(REDUCERE DE 92% — ultima ta șansă)</p>
+        <p className="text-center text-[#64748b] mb-2">O singură plată · acces imediat la jurnalul digital</p>
 
         <img src="/img/barbati-jurnal/copertajurnal.png" alt="Zero Despărțiri" className="block w-full max-w-md sm:max-w-xl mx-auto my-6 rounded-lg shadow-lg" />
         <p className="text-center text-sm text-[#64748b] -mt-3">Zero Despărțiri (149 pagini)</p>
 
         <div className="space-y-4">
-          <p>Nu vreau să ratezi această oportunitate... Ce zici dacă îți ofer Jurnalul la un preț mult mai mic?</p>
-          <p>Acest Jurnal este plin cu <strong>cele mai potente și avansate metode</strong> care o fac pe acea femeie să simtă că înnebunește fără tine.</p>
-          <p>De fapt, în momentul în care aplici aceste tactici avansate, va începe să creadă că despărțirea a fost <strong>cea mai mare greșeală din viața ei</strong>.</p>
+          <p>Nu trebuie să rezolvi totul astăzi. Dar poți începe să înțelegi ce îți dorești și ce nu mai vrei să cari cu tine.</p>
+          <p><strong>Zero Despărțiri</strong> este jurnalul cu exerciții practice pentru limite, claritate și relații în care nu te mai abandonezi pe tine.</p>
+          <p>Este un ajutor simplu, pe care îl poți parcurge în ritmul tău.</p>
         </div>
 
         {/* 30-day guarantee — NOT 60 */}
         <div className="text-center my-6">
           <img src="/img/barbati-biblia/guarantee.png" alt="Garanție 30 de zile — banii înapoi fără întrebări" className="w-64 sm:w-80 mx-auto mb-4 rounded-full" />
-          <p><strong>Și Acest Jurnal Este Protejat De Garanția Mea De 30 De Zile.</strong></p>
-          <p className="text-sm text-[#64748b]">Dacă nu vezi cum comportamentul ei se schimbă radical, primești fiecare banuț înapoi.</p>
+          <p><strong>Este protejat de garanția de 30 de zile.</strong></p>
+          <p className="text-sm text-[#64748b]">Dacă nu îți este util, primești banii înapoi.</p>
         </div>
 
         <div className="bg-[#ffffff] border-2 border-[#c8102e] rounded-lg p-6 my-6 text-center">
-          <p className="mb-2 text-[#64748b]">În mod normal, am vândut Zero Despărțiri pentru <span className="line-through text-[#94a3b8]">250 de lei</span>.</p>
-          <p className="font-bold text-[#1a1a2e] mb-2">...dar acum îl poți primi pe email pentru încă <span style={{ color: RED }}>19.95 de lei</span> (o singură plată)</p>
-          <p className="text-[#22c55e] font-bold text-sm mb-4">O reducere de 92% (cea mai mare de până acum). Fără costuri ascunse.</p>
+          <p className="mb-2 text-[#64748b]">Preț normal: <span className="line-through text-[#94a3b8]">47 lei</span>.</p>
+          <p className="font-bold text-[#1a1a2e] mb-2">Acum îl poți primi pentru <span style={{ color: RED }}>19,95 lei</span> (o singură plată).</p>
+          <p className="text-[#22c55e] font-bold text-sm mb-4">Fără costuri ascunse. Îl primești imediat pe email.</p>
 
           {error && <div className="bg-red-50 border border-red-200 rounded-lg p-3 mb-4 text-sm text-red-700">{error}</div>}
 
@@ -91,7 +90,7 @@ export default function JurnalRedus() {
             disabled={loading}
             className="w-full max-w-md mx-auto block text-center bg-gradient-to-r from-[#c8102e] to-[#a50d23] text-white font-extrabold py-4 px-6 rounded-md shadow-lg hover:shadow-xl transition-all text-lg disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98] uppercase tracking-wide"
           >
-            {loading ? "Se procesează..." : "Păstrează în comanda mea Zero Despărțiri Pentru 19.95 lei →"}
+            {loading ? "Se procesează..." : "Da, vreau Zero Despărțiri la 19,95 lei →"}
           </button>
         </div>
 
