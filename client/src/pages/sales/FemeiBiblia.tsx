@@ -156,7 +156,7 @@ export default function FemeiBiblia() {
           <p>Există o metodă care poate face orice femeie să treacă peste o despărțire — și nu a fost inventată de mine.</p>
         </div>
 
-        <Img src="story1.png" alt="Metoda creată pentru soldați" />
+        <Img src="vindecare-femei-v2.png" alt="Un nou început după despărțire" />
         <RedH>A fost creată de cercetători care au folosit-o inițial pentru a ajuta soldații întorși din război să se vindece de traume cumplite, fără psiholog, fără pastile și fără droguri</RedH>
 
         <div className="space-y-4">
@@ -168,7 +168,7 @@ export default function FemeiBiblia() {
           <p>Au descoperit o metodă simplă și practică, pe care oricine o poate face acasă — o metodă care ajută creierul și inima să proceseze durerea și să meargă mai departe, fără ani de chin.</p>
         </div>
 
-        <Img src="story1.png" alt="Strategia hormonul iubirii" />
+        <div className="my-8 rounded-2xl border border-[#ead9d2] bg-[#fff8f5] p-6 text-center"><p className="text-3xl mb-2">01 · 02 · 03</p><p className="font-bold">Înțelegi ce simți. Te desprinzi de ce te ține blocată. Începi să te alegi pe tine.</p></div>
         <RedH>Când am aflat prima dată de ea, eram distrusă</RedH>
 
         <div className="space-y-4">
@@ -182,7 +182,7 @@ export default function FemeiBiblia() {
           <p>Îl iubeam, deși mă distrusese.</p>
         </div>
 
-        <Img src="story1.png" alt="Timpul care nu vindecă nimic" />
+        <div className="my-8 rounded-2xl bg-[#f9eef0] p-6 text-center"><p className="text-lg font-semibold">Nu trebuie să te grăbești. Ai nevoie doar de pașii potriviți.</p></div>
         <RedH>Timpul trecea, dar nu vindeca nimic</RedH>
 
         <div className="space-y-4">
@@ -194,7 +194,6 @@ export default function FemeiBiblia() {
           <p>Așa că am încercat-o.</p>
         </div>
 
-        <Img src="story2.png" alt="Rezultatele, săptămână cu săptămână" />
 
         <div className="space-y-4">
           <p>La început nu am văzut cine știe ce schimbare. Dar după o săptămână am observat ceva ciudat.</p>
@@ -205,7 +204,6 @@ export default function FemeiBiblia() {
 
         <RedH>Nu uitasem cât de mult l-am iubit, dar nu mai simțeam nimic când mă gândeam la el</RedH>
 
-        <Img src="story3.png" alt="După o lună" />
 
         <div className="space-y-4">
           <p>Nu-mi mai făcea inima să bată mai tare. Nu-mi mai venea să plâng. Eram indiferentă.</p>
@@ -216,7 +214,6 @@ export default function FemeiBiblia() {
 
         <RedH>Și nu doar că am trecut peste</RedH>
 
-        <Img src="strategy.png" alt="O viață nouă" />
 
         <div className="space-y-4">
           <p>Am prins curajul să-mi dau voie să cunosc alți bărbați și să mă îndrăgostesc din nou.</p>
@@ -225,7 +222,6 @@ export default function FemeiBiblia() {
           <p>Nu doar că îl iubesc. Îl iubesc mai mult decât pe fostul.</p>
         </div>
 
-        <Img src="flowers.png" alt="O relație nouă, sănătoasă" />
 
         <div className="space-y-4">
           <p>La început am crezut că am avut noroc.</p>
@@ -237,7 +233,7 @@ export default function FemeiBiblia() {
 
         <RedH sm>Am numit-o<br /><span className="text-[28px] sm:text-[34px]">„Oprește Durerea Despărțirii"</span><br /><span className="text-[15px] font-normal">Cum Să Treci Peste Despărțire, Să-Ți Recapeți Încrederea Și Să Găsești O Nouă Iubire</span></RedH>
 
-        <Img src="book.png" alt="Oprește Durerea Despărțirii — 165 de pagini" max="max-w-md sm:max-w-lg" />
+        <Img src="coperta-pdf.png" alt="Coperta reală a cărții" max="max-w-md sm:max-w-lg" />
 
         <div className="space-y-4">
           <p>Cartea are <strong>165 de pagini</strong>, este în format <strong>PDF</strong> și o primești imediat după comandă. Nu trebuie să aștepți livrarea, nu trebuie să ieși din casă. O citești direct pe telefon.</p>
@@ -263,7 +259,6 @@ export default function FemeiBiblia() {
           <li>Cum să te vindeci chiar dacă încă mai vorbești cu el sau o parte din tine nu vrea să treacă peste.</li>
         </ul>
 
-        <Img src="bullets.png" alt="Ce vei învăța" />
 
         <div className="space-y-4">
           <p>… și multe, multe altele. Cartea e plină de astfel de „secrete" mici, dar extrem de puternice.</p>
@@ -282,7 +277,7 @@ export default function FemeiBiblia() {
 
         {/* ===== OFFER ===== */}
         <div id="oferta" className="bg-white border-2 border-[#c9a44a] rounded-2xl p-6 my-6 text-center shadow-lg">
-          <img src="/img/femei-biblia/book.png" alt="Cum să Oprești Durerea unei Despărțiri" className="block w-full max-w-md sm:max-w-lg mx-auto my-4 rounded-2xl shadow-md" />
+          <img src="/img/femei-biblia/coperta-pdf.png" alt="Coperta reală a cărții" className="block w-full max-w-md sm:max-w-lg mx-auto my-4 rounded-2xl shadow-md" />
           <p className="font-bold text-[#1b2d4f] mb-3">Următoarele <strong>100 de cărți</strong> le voi vinde pentru <strong>DOAR 67 lei</strong> <span style={{ color: "#15803d" }}>(reducere primele 100 de cărți: 197 lei → 67 lei)</span>.</p>
           <div className="flex items-center justify-center gap-3 mb-1">
             <span className="text-[#94a3b8] line-through text-xl">197 lei</span>
@@ -347,7 +342,6 @@ export default function FemeiBiblia() {
         <Testimonial name="Gabriela, 46 de ani, Iași" text={`Divorț după 18 ani de căsnicie. Am crezut că mor. Copiii mă țineau pe linia de plutire. Cartea Cristinei m-a ajutat mai mult decât 6 luni de terapie. Exercițiile sunt atât de simple, dar atât de bune! Acum mă simt din nou femeie, nu doar mamă.`} />
         <Testimonial name="Andreea, 33 de ani, Cluj" text={`Relație toxică, cu certuri și umilințe. Deși știam că e mai bine fără el, tot mă întorceam cu gândul la el. Cartea m-a făcut să înțeleg de ce. Am făcut exercițiile și, pe bune, parcă mi s-a luat o piatră de pe inimă. Mă respect pentru prima dată după mult timp.`} />
 
-        <Img src="testimonials.png" alt="Recenzii clienți" />
 
         {/* ===== ÎNTREBĂRI FRECVENTE ===== */}
         <RedH sm>Întrebări frecvente despre carte</RedH>
@@ -399,7 +393,7 @@ export default function FemeiBiblia() {
           <Link href="/contact" className="hover:text-[#1b2d4f]">Contact</Link>
           <Link href="/affiliate/register" className="hover:text-[#1b2d4f]">Afiliere</Link>
           <p className="mt-3"><Link href="/femei/achizitii" className="font-semibold text-[#1b2d4f] underline hover:text-[#cc0000]">Ai cumpărat deja? Apasă aici</Link></p>
-          <p className="mt-3">© 2026 TeVreauInapoi</p>
+          <p className="mt-3">© 2026 pestedespartire.ro</p>
         </footer>
       </div>
 
@@ -411,7 +405,7 @@ export default function FemeiBiblia() {
               className="absolute top-2 right-3 text-[#94a3b8] hover:text-[#1a1a2e] text-xl"
               aria-label="Închide"
             >✕</button>
-            <img src="/img/femei-biblia/book.png" alt="Cum să Oprești Durerea unei Despărțiri" className="w-32 mx-auto mb-3 rounded-lg shadow-lg" />
+            <img src="/img/femei-biblia/coperta-pdf.png" alt="Coperta reală a cărții" className="w-32 mx-auto mb-3 rounded-lg shadow-lg" />
             <h3 className="font-extrabold text-xl mb-2" style={{ color: RED }}>Așteaptă! Nu pleca încă…</h3>
             <p className="text-sm text-[#64748b] mb-3">
               Îți ofer <strong>Cum să Oprești Durerea unei Despărțiri</strong> (207 pagini) cu o reducere specială, doar pentru tine, chiar acum.
