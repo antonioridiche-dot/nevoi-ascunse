@@ -294,7 +294,7 @@ export default function Biblioteca() {
               <Link href="/rambursare" className="hover:text-[#1b2d4f]">Politica de Rambursare</Link>
               <Link href="/contact" className="hover:text-[#1b2d4f]">Contact</Link>
               <Link href="/affiliate/register" className="hover:text-[#1b2d4f]">Afiliere</Link>
-              <p className="mt-3">© 2026 TeVreauInapoi</p>
+              <p className="mt-3">© 2026 Peste Despărțire</p>
             </footer>
           </>
         )}

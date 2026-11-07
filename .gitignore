@@ -13,3 +13,4 @@ data/app.db
 data/app.db-*
 data/books
 .secrets-generated.txt
+tmp/

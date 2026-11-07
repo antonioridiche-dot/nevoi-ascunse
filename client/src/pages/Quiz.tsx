@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from "react";
-import { trpc } from "@/lib/trpc";
+
 import { QUIZ_QUESTIONS, resolveQuestion, calculateScore, getUrgencyText, getBarColor, type Gender } from "../../../shared/quizData";
 
 type Screen = "intro" | "quiz" | "email" | "loading" | "results";
@@ -9,12 +9,12 @@ export default function Quiz() {
   const [currentQ, setCurrentQ] = useState(0);
   const [answers, setAnswers] = useState<Record<number, number[]>>({});
   const [gender, setGender] = useState<Gender>("F");
-  const [email, setEmail] = useState("");
+
   const [score, setScore] = useState(0);
   const [animatedScore, setAnimatedScore] = useState(0);
-  const [emailError, setEmailError] = useState(false);
 
-  const submitMutation = trpc.quiz.submit.useMutation();
+
+
 
   // Get affiliate code from URL
   const [affiliateCode] = useState(() => {
@@ -50,7 +50,7 @@ export default function Quiz() {
       setTimeout(() => {
         setCurrentQ((q) => {
           const next = questionIndex + 1;
-          if (next >= totalQuestions) { setScreen("email"); return q; }
+          if (next >= totalQuestions) { finishQuiz(); return q; }
           window.scrollTo({ top: 0, behavior: "smooth" });
           return next;
         });
@@ -64,7 +64,7 @@ export default function Quiz() {
     if (!a || a.length === 0) return;
     const next = q + 1;
     if (next >= totalQuestions) {
-      setScreen("email");
+      finishQuiz();
     } else {
       setCurrentQ(next);
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -78,46 +78,30 @@ export default function Quiz() {
     }
   }, [currentQ]);
 
-  const handleSubmit = async () => {
-    if (!email || !email.includes("@") || !email.includes(".")) {
-      setEmailError(true);
-      return;
-    }
-    setEmailError(false);
+  /**
+   * Trecerea directă la rezultat, fără email.
+   *
+   * Owner-ul a scos cererea de adresă înainte de rezultat: omul răspunde la tot
+   * testul și trebuie să vadă imediat ce a ieșit. Adresa se cere abia la
+   * checkout, când chiar are ceva de cumpărat.
+   */
+  const finishQuiz = useCallback(() => {
     const sc = calculateScore(answers);
     setScore(sc);
     setScreen("loading");
-
-    // Persist identity for the rest of the funnel (checkout, upsells, book delivery).
-    // Without this, checkout has no email and buyers can't download their book.
-    localStorage.setItem("tvii_email", email);
     if (affiliateCode) localStorage.setItem("tvii_affiliate", affiliateCode);
-
-    // Submit to backend
-    submitMutation.mutate({
-      email,
-      gender: gender === "F" ? "female" : "male",
-      answers: Object.fromEntries(Object.entries(answers).map(([k, v]) => [k, v])),
-      affiliateCode,
-    }, {
-      onSuccess: (data) => {
-        if (data?.contactId) localStorage.setItem("tvii_contact_id", String(data.contactId));
-      },
-    });
-
-    // Show loading animation then results
     setTimeout(() => {
       setScreen("results");
       window.scrollTo({ top: 0, behavior: "smooth" });
-      // Animate score counter
       let c = 0;
       const interval = setInterval(() => {
         c++;
         setAnimatedScore(c);
         if (c >= sc) clearInterval(interval);
       }, 30);
-    }, 3900);
-  };
+    }, 1400);
+  }, [answers, affiliateCode]);
+
 
   // Fire Facebook Pixel events
   useEffect(() => {
@@ -218,35 +202,6 @@ export default function Quiz() {
         </div>
       )}
 
-      {/* EMAIL */}
-      {screen === "email" && (
-        <div className="qz-screen active">
-          <div className="qz-brand">✦ pestedespartire.ro</div>
-          <div className="qz-card" style={{ textAlign: "center" }}>
-            <h2 className="qz-h2">Ai terminat testul!</h2>
-            <p className="qz-sub">
-              Algoritmul nostru îți va analiza situația și îți va explica ce e de făcut în continuare. Nu te costă nimic să vezi rezultatele.
-              <br /><br />
-              Introdu adresa de email mai jos și apasă butonul pentru a-ți vedea imediat rezultatul.
-            </p>
-            <div style={{ textAlign: "left" }}>
-              <label className="qz-label">Adresa ta de email</label>
-              <input
-                className="qz-input"
-                type="email"
-                placeholder="adresa@email.com"
-                value={email}
-                onChange={(e) => { setEmail(e.target.value); setEmailError(false); }}
-                style={emailError ? { borderColor: "#b91c1c" } : {}}
-              />
-            </div>
-            <button className="qz-btn" onClick={handleSubmit}>
-              ARATĂ-MI CE ȘANSE DE ÎMPĂCARE MAI AM →
-            </button>
-          </div>
-        </div>
-      )}
-
       {/* LOADING */}
       {screen === "loading" && <LoadingScreen />}
 
@@ -288,7 +243,7 @@ function ResultsScreen({ score, animatedScore, answers, gender }: { score: numbe
   const urgency = getUrgencyText(score);
   const observations = buildObservations(answers, gender);
   const isMale = gender === "M";
-  const link = isMale ? "/barbati/biblie" : "/femei/biblie";
+  const link = isMale ? "/barbati/opreste-durerea" : "/femei/opreste-durerea";
   const Pei = isMale ? "ei" : "lui";
   const vaFace = isMale ? "o va face" : "îl va face";
   const ideea = isMale ? "ideea ei" : "ideea lui";

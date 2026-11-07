@@ -77,7 +77,7 @@ export default function AdminDashboard() {
               <CardTitle className="text-base">Linkuri Funnel</CardTitle>
             </CardHeader>
             <CardContent className="space-y-2">
-              <a href="/test-impacare" target="_blank" className="block p-3 rounded-lg bg-muted/50 hover:bg-muted transition-colors text-sm">
+              <a href="/test-vindecare" target="_blank" className="block p-3 rounded-lg bg-muted/50 hover:bg-muted transition-colors text-sm">
                 → Quiz (pagina principală)
               </a>
               <a href="/femei/oprestedurerea" target="_blank" className="block p-3 rounded-lg bg-muted/50 hover:bg-muted transition-colors text-sm">

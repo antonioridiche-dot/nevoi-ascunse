@@ -122,7 +122,7 @@ export default function MesajeExtra() {
           <Link href="/rambursare" className="hover:underline">Politica de Rambursare</Link>
           <Link href="/contact" className="hover:underline">Contact</Link>
           <Link href="/affiliate/register" className="hover:underline">Afiliere</Link>
-          <p className="mt-3">© 2026 TeVreauInapoi</p>
+          <p className="mt-3">© 2026 Peste Despărțire</p>
         </footer>
       </div>
     </div>

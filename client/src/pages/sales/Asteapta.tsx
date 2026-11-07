@@ -106,7 +106,7 @@ export default function Asteapta() {
         {/* FREE BONUS — Zero Despărțiri */}
         <div className="bg-[#ffffff] border-2 border-[#e8c96a] rounded-lg p-6 my-6 text-center">
           <span className="inline-block bg-[#e8c96a] text-[#14171c] text-xs font-extrabold tracking-widest px-4 py-1.5 rounded-full mb-4">🎁 BONUS GRATIS</span>
-          <img src="/img/barbati-jurnal/copertajurnal.png" alt="Zero Despărțiri" className="block w-full max-w-md sm:max-w-xl mx-auto mb-4 rounded-lg shadow-lg" />
+          <img src="/img/peste-zero.svg" alt="Zero Despărțiri" className="block w-full max-w-md sm:max-w-xl mx-auto mb-4 rounded-lg shadow-lg" />
           <h3 className="text-[#1a1a2e] font-extrabold text-xl mb-1">Zero Despărțiri</h3>
           <p className="text-sm text-[#64748b] mb-2">(149 pagini)</p>
           <p className="text-sm text-[#1a1a2e]">

@@ -270,7 +270,7 @@ export function AdminLoginForm() {
       >
         <div className="flex flex-col items-center gap-2">
           <h1 className="text-2xl font-semibold tracking-tight text-center">Admin Panel</h1>
-          <p className="text-sm text-muted-foreground text-center">TeVreauInapoi — introdu emailul si codul secret de administrator.</p>
+          <p className="text-sm text-muted-foreground text-center">Peste Despărțire — introdu emailul si codul secret de administrator.</p>
         </div>
         <input type="email" required placeholder="Email (anca@pestedespartire.ro)" value={email} onChange={(e) => setEmail(e.target.value)} className="h-10 rounded-md border px-3 text-sm" autoComplete="username" />
         <input type="password" required placeholder="Cod secret" value={secret} onChange={(e) => setSecret(e.target.value)} className="h-10 rounded-md border px-3 text-sm" autoComplete="current-password" />

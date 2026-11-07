@@ -10,7 +10,7 @@ export default function Terms() {
 
           <h2 className="text-lg font-semibold text-[#1b2d4f] pt-2">1. Identitatea vânzătorului</h2>
           <p>
-            Site-ul <strong>pestedespartire.ro</strong> este operat de <strong>TeVreauInapoi</strong> (denumire comercială),
+            Site-ul <strong>pestedespartire.ro</strong> este operat de <strong>Peste Despărțire</strong> (denumire comercială),
             cu sediul în Str. Inginer Cristian Pascal nr. 37, ap. 406, București, cod poștal 060223, România.
             Email de contact: <a href="mailto:anca@pestedespartire.ro" className="text-[#1155cc] underline">anca@pestedespartire.ro</a>.
             Date de înregistrare (CUI / nr. registru): <em>[de completat de vânzător]</em>.

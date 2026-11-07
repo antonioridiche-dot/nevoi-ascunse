@@ -34,7 +34,7 @@ function RedH({ children, sm }: { children: React.ReactNode; sm?: boolean }) {
 }
 
 function Img({ src, alt, max = "max-w-md" }: { src: string; alt: string; max?: string }) {
-  return <img src={`${IMG}/${src}`} alt={alt} loading="lazy" className={`block w-full ${max} mx-auto my-7 rounded-2xl shadow-md`} />;
+  return <img src={["book.png", "coperta-pdf.png"].includes(src) ? "/img/peste-ghid.svg" : `${IMG}/${src}`} alt={alt} loading="lazy" className={`block w-full ${max} mx-auto my-7 rounded-2xl shadow-md`} />;
 }
 
 function Testimonial({ text, name }: { text: string; name: string }) {
@@ -153,7 +153,7 @@ export default function FemeiBiblia() {
           <p>Chiar dacă crezi că a fost iubirea vieții tale și că nu vei mai simți niciodată ce ai simțit cu el.</p>
           <p>Chiar dacă o parte din tine încă nu vrea să renunțe și să meargă mai departe.</p>
           <p>Și chiar dacă nu te simți încă pregătită să o faci.</p>
-          <p>Există o metodă care poate face orice femeie să treacă peste o despărțire — și nu a fost inventată de mine.</p>
+          <p>Există o metodă care poate face orice femeie să treacă peste o despărțire.</p>
         </div>
 
         <Img src="vindecare-femei-v2.png" alt="Un nou început după despărțire" />
@@ -277,10 +277,10 @@ export default function FemeiBiblia() {
 
         {/* ===== OFFER ===== */}
         <div id="oferta" className="bg-white border-2 border-[#c9a44a] rounded-2xl p-6 my-6 text-center shadow-lg">
-          <img src="/img/femei-biblia/coperta-pdf.png" alt="Coperta reală a cărții" className="block w-full max-w-md sm:max-w-lg mx-auto my-4 rounded-2xl shadow-md" />
-          <p className="font-bold text-[#1b2d4f] mb-3">Următoarele <strong>100 de cărți</strong> le voi vinde pentru <strong>DOAR 67 lei</strong> <span style={{ color: "#15803d" }}>(reducere primele 100 de cărți: 197 lei → 67 lei)</span>.</p>
+          <img src="/img/peste-ghid.svg" alt="Coperta reală a cărții" className="block w-full max-w-md sm:max-w-lg mx-auto my-4 rounded-2xl shadow-md" />
+          <p className="font-bold text-[#1b2d4f] mb-3">Următoarele <strong>100 de cărți</strong> le voi vinde pentru <strong>DOAR 67 lei</strong> <span style={{ color: "#15803d" }}>(reducere primele 100 de cărți: 139 lei → 67 lei)</span>.</p>
           <div className="flex items-center justify-center gap-3 mb-1">
-            <span className="text-[#94a3b8] line-through text-xl">197 lei</span>
+            <span className="text-[#94a3b8] line-through text-xl">139 lei</span>
             <span className="text-[44px] font-extrabold leading-none" style={{ color: RED }}>67 <span className="text-2xl">RON</span></span>
           </div>
           <p className="text-[#15803d] font-bold text-sm mb-2">o singură plată de doar 67 RON</p>
@@ -405,7 +405,7 @@ export default function FemeiBiblia() {
               className="absolute top-2 right-3 text-[#94a3b8] hover:text-[#1a1a2e] text-xl"
               aria-label="Închide"
             >✕</button>
-            <img src="/img/femei-biblia/coperta-pdf.png" alt="Coperta reală a cărții" className="w-32 mx-auto mb-3 rounded-lg shadow-lg" />
+            <img src="/img/peste-ghid.svg" alt="Coperta reală a cărții" className="w-32 mx-auto mb-3 rounded-lg shadow-lg" />
             <h3 className="font-extrabold text-xl mb-2" style={{ color: RED }}>Așteaptă! Nu pleca încă…</h3>
             <p className="text-sm text-[#64748b] mb-3">
               Îți ofer <strong>Cum să Oprești Durerea unei Despărțiri</strong> (207 pagini) cu o reducere specială, doar pentru tine, chiar acum.

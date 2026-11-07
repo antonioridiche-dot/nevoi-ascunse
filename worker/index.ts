@@ -130,6 +130,16 @@ export default {
     setDb(env.DB);
     const url = new URL(request.url);
 
+    /**
+     * Un singur domeniu canonic: www → apex, permanent (308). Fără asta, aceleași
+     * pagini se văd pe două adrese, iar Google le numără ca duplicate.
+     */
+    if (url.hostname.startsWith("www.")) {
+      const target = new URL(request.url);
+      target.hostname = url.hostname.slice(4);
+      return Response.redirect(target.toString(), 308);
+    }
+
     // Static assets are served by the asset layer for real files.
     // SPA fallback for client-side routes (non-API GET requests).
     if (!url.pathname.startsWith("/api/") && request.method === "GET") {

@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "pestedespartire",
+  "name": "nevoi-ascunse",
   "main": "worker/index.ts",
   "compatibility_date": "2026-09-01",
   "compatibility_flags": ["nodejs_compat"],
@@ -12,26 +12,29 @@
     "enabled": true
   },
   "vars": {
-    // Pana cumpar domeniul pestedespartire.ro, site-ul ruleaza pe workers.dev.
-    // Cand domeniul e gata, se schimba DOAR linia asta + se adauga ruta in Cloudflare.
-    "VITE_FRONTEND_URL": "https://pestedespartire.antonio-ridiche.workers.dev"
+    // Brandul rămâne „tevreauinapoi", dar site-ul stă pe nevoi-ascunse.ro, cu
+    // două ramuri: /tevreauinapoi (împăcare) și /pestedespartire (zero despărțiri).
+    "VITE_FRONTEND_URL": "https://nevoi-ascunse.ro"
   },
   "d1_databases": [
     {
       "binding": "DB",
-      "database_name": "pestedespartire-db",
-      "database_id": "2e5b02e7-dddd-4279-ad62-a8b0bd7d7ff5",
+      "database_name": "nevoi-ascunse-app-db",
+      "database_id": "8e960795-e126-47df-bcdc-c61779a37282",
       "migrations_dir": "drizzle/d1"
     }
   ],
   "r2_buckets": [
     {
       "binding": "BOOKS",
-      "bucket_name": "pestedespartire-books"
+      "bucket_name": "nevoi-ascunse-books"
     }
+  ],
+  "routes": [
+    { "pattern": "nevoi-ascunse.ro/*", "zone_name": "nevoi-ascunse.ro" },
+    { "pattern": "www.nevoi-ascunse.ro/*", "zone_name": "nevoi-ascunse.ro" }
   ],
   "triggers": {
     "crons": ["*/5 * * * *"]
-  },
-  "routes": []
+  }
 }

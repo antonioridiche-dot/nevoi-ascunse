@@ -9,7 +9,7 @@ export default function Privacy() {
           <p>Ultima actualizare: Iunie 2026</p>
 
           <h2 className="text-lg font-semibold text-[#1b2d4f] pt-2">1. Operatorul de date</h2>
-          <p>TeVreauInapoi, Str. Inginer Cristian Pascal nr. 37, ap. 406, București, 060223, România. Contact pentru protecția datelor: <a href="mailto:anca@pestedespartire.ro" className="text-[#1155cc] underline">anca@pestedespartire.ro</a>.</p>
+          <p>Peste Despărțire, Str. Inginer Cristian Pascal nr. 37, ap. 406, București, 060223, România. Contact pentru protecția datelor: <a href="mailto:anca@pestedespartire.ro" className="text-[#1155cc] underline">anca@pestedespartire.ro</a>.</p>
 
           <h2 className="text-lg font-semibold text-[#1b2d4f] pt-2">2. Ce date colectăm</h2>
           <p>Nume (opțional) și adresă de email; răspunsurile tale la testul de împăcare (care pot include informații despre viața ta personală și relații — date pe care le tratăm cu confidențialitate sporită); istoricul comenzilor. Datele cardului sunt introduse direct la procesatorul de plăți (Stripe) și <strong>nu</strong> ajung pe serverele noastre.</p>

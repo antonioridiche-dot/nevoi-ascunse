@@ -62,7 +62,7 @@ export default function JurnalRedus() {
         </h1>
         <p className="text-center text-[#64748b] mb-2">O singură plată · acces imediat la jurnalul digital</p>
 
-        <img src="/img/barbati-jurnal/copertajurnal.png" alt="Zero Despărțiri" className="block w-full max-w-md sm:max-w-xl mx-auto my-6 rounded-lg shadow-lg" />
+        <img src="/img/peste-zero.svg" alt="Zero Despărțiri" className="block w-full max-w-md sm:max-w-xl mx-auto my-6 rounded-lg shadow-lg" />
         <p className="text-center text-sm text-[#64748b] -mt-3">Zero Despărțiri (149 pagini)</p>
 
         <div className="space-y-4">

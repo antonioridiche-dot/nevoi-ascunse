@@ -56,11 +56,11 @@ function useProduct(): { info: ProductInfo; isMen: boolean; nextPath: string } {
         cases: ["Vrei mesaje gata scrise, pe care să le trimiți azi", "Vrei cuvinte care îi activează dorința de împăcare", "Vrei un plus de mesaje față de ceea ce ai primit deja"],
       };
     }
-    if (param === "secondary_book") {
+    if (param === "secondary_book" || param === "jurnal") {
       return {
         slug: isMen ? "zero-despartiri" : "zero-despartiri",
         name: isMen ? "Zero Despărțiri" : "Zero Despărțiri",
-        price: 47, recurring: false, image: "/img/femei-biblia/book.png",
+        price: 47, recurring: false, image: "/img/peste-zero.svg",
         whatsInside: isMen
           ? ["Strategii avansate de comunicare și reconectare emoțională", "Tehnici pentru a menține atracția pe termen lung"]
           : ["Ghidul complet pentru a preveni o nouă despărțire", "Cum să construiești o relație stabilă după împăcare"],
@@ -72,7 +72,7 @@ function useProduct(): { info: ProductInfo; isMen: boolean; nextPath: string } {
     return {
       slug: isMen ? "opreste-durerea-barbati" : "opreste-durerea-femei",
       name: isMen ? "Cum să Oprești Durerea unei Despărțiri (274 pagini)" : "Cum să Oprești Durerea unei Despărțiri (207 pagini)",
-      price: 67, recurring: false, image: isMen ? "/img/barbati-biblia/book.png" : "/img/femei-biblia/book.png",
+      price: 67, recurring: false, image: isMen ? "/img/peste-ghid.svg" : "/img/peste-ghid.svg",
       whatsInside: [
         'Cum să apeși „Butonul de Resetare" și să repari greșelile (pag. 54)',
         `De ce să nu spui aproape niciodată „îmi pare rău" — și ce să faci în schimb (pag. 20)`,
@@ -110,7 +110,7 @@ function CheckoutForm({ info, nextPath, isMen, price, bump, total, clientSecret,
 
   // Declarațiile de consimțământ sunt adaptate produsului: cartea principală
   // păstrează exact textul cerut, celelalte produse au textul lor propriu.
-  const isFrontBook = info.slug.startsWith("biblia-impacare");
+  const isFrontBook = info.slug.startsWith("opreste-durerea");
   const priceLabel = Number.isInteger(price) ? String(price) : price.toFixed(2).replace(".", ",");
   const statements = isFrontBook
     ? (isMen
@@ -199,22 +199,22 @@ function CheckoutForm({ info, nextPath, isMen, price, bump, total, clientSecret,
         <div className="flex justify-between py-1 items-center">
           <span className="text-[#334155]">{info.name}</span>
           <span className="font-extrabold text-[#1b2d4f]">
-            {info.slug.startsWith("biblia-impacare") ? (
+            {info.slug.startsWith("opreste-durerea") ? (
               <>
-                <span className="line-through text-[#94a3b8] mr-1 font-normal">149 lei</span>{exitOffer ? CHECKOUT_EXIT_OFFER_PRICE : CHECKOUT_BOOK_PRICE} lei
+                <span className="line-through text-[#94a3b8] mr-1 font-normal">139 lei</span>{exitOffer ? CHECKOUT_EXIT_OFFER_PRICE : CHECKOUT_BOOK_PRICE} lei
               </>
             ) : (
               <>{info.price} lei{info.recurring ? "/lună" : ""}</>
             )}
           </span>
         </div>
-        {info.slug.startsWith("biblia-impacare") && (
+        {info.slug.startsWith("opreste-durerea") && (
           <div className="flex justify-between py-1 text-[#15803d] font-semibold">
-            <span>Reducere primele 100 de cărți (149 → 67 lei)</span>
-            <span>−82 lei</span>
+            <span>Reducere primele 100 de cărți (139 → 67 lei)</span>
+            <span>−72 lei</span>
           </div>
         )}
-        {info.slug.startsWith("biblia-impacare") && exitOffer && (
+        {info.slug.startsWith("opreste-durerea") && exitOffer && (
           <div className="flex justify-between py-1 text-[#15803d] font-semibold">
             <span>Reducere specială (pop-up)</span>
             <span>−20 lei</span>
@@ -236,10 +236,11 @@ function CheckoutForm({ info, nextPath, isMen, price, bump, total, clientSecret,
       <div>
         <p className="font-extrabold text-[#1b2d4f] mb-2">Detalii de plată</p>
         <PaymentElement
+          onLoadError={(event) => setError(event.error.message || "Formularul de plată nu s-a încărcat. Reîncarcă pagina.")}
           options={{
             layout: "tabs",
             fields: { billingDetails: { name: "auto" } },
-            paymentMethodOrder: ["card", "applePay", "googlePay", "revolutPay"],
+            paymentMethodOrder: ["card"],
             terms: { card: "never" },
           }}
         />
@@ -338,7 +339,7 @@ export default function Checkout() {
 
   // Pop-up de reducere speciala la iesirea din pagina (doar daca nu a fost deja acceptata).
   useEffect(() => {
-    if (exitOffer || !info.slug.startsWith("biblia-impacare")) return;
+    if (exitOffer || !info.slug.startsWith("opreste-durerea")) return;
     if (sessionStorage.getItem("tvii_checkout_exit_seen")) return;
     const onLeave = (e: MouseEvent) => {
       if (e.clientY <= 0) {
@@ -360,7 +361,7 @@ export default function Checkout() {
 
   // Exit-offer price: the 67 lei on checkout automatically becomes the reduced
   // price (47 lei) when the visitor accepted the exit popup on the sales page.
-  const price = exitOffer && info.slug.startsWith("biblia-impacare") ? CHECKOUT_EXIT_OFFER_PRICE : info.price;
+  const price = exitOffer && info.slug.startsWith("opreste-durerea") ? CHECKOUT_EXIT_OFFER_PRICE : info.price;
   const total = price + (bump ? CHECKOUT_BUMP_PRICE : 0);
 
   useEffect(() => {
@@ -403,11 +404,11 @@ export default function Checkout() {
           {info.image && <img src={info.image} alt={info.name} className="block w-full max-w-md sm:max-w-lg mx-auto rounded-xl shadow" />}
           <div className="mt-4 flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
             <span className="font-bold text-[#1b2d4f] text-xl">{info.name}</span>
-            {info.slug.startsWith("biblia-impacare") ? (
+            {info.slug.startsWith("opreste-durerea") ? (
               <span className="inline-flex flex-wrap items-center justify-center gap-2">
-                <span className="line-through text-[#94a3b8] text-lg">149 lei</span>
+                <span className="line-through text-[#94a3b8] text-lg">139 lei</span>
                 <span className="font-extrabold text-[#1b2d4f] text-2xl">{exitOffer ? CHECKOUT_EXIT_OFFER_PRICE : CHECKOUT_BOOK_PRICE} lei</span>
-                <span className="bg-[#15803d] text-white text-xs font-bold px-2 py-1 rounded-full">reducere primele 100 de cărți −82 lei</span>
+                <span className="bg-[#15803d] text-white text-xs font-bold px-2 py-1 rounded-full">reducere primele 100 de cărți −72 lei</span>
                 {exitOffer && (
                   <span className="bg-[#b91c1c] text-white text-xs font-bold px-2 py-1 rounded-full">Reducere specială −20 lei</span>
                 )}
@@ -419,7 +420,7 @@ export default function Checkout() {
         </div>
 
         {/* Bump offer — Mesajele EXTRA (+19,95 lei), only for the front book. */}
-        {info.slug.startsWith("biblia-impacare") && (
+        {info.slug.startsWith("opreste-durerea") && (
         <div className="bg-white rounded-2xl shadow-lg p-6 mb-6">
           <label className="flex items-start gap-3 cursor-pointer">
             <input type="checkbox" checked={bump} onChange={(e) => setBump(e.target.checked)} className="mt-1 w-4 h-4 accent-[#1b2d4f]" />
@@ -483,7 +484,7 @@ export default function Checkout() {
       </div>
 
       {/* POP-UP REDUCERE SPECIALA la iesire (checkout) */}
-      {showExitPopup && info.slug.startsWith("biblia-impacare") && !exitOffer && (
+      {showExitPopup && info.slug.startsWith("opreste-durerea") && !exitOffer && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 p-4">
           <div className="bg-white border-2 border-[#e8c96a] rounded-xl p-6 max-w-md w-full text-center relative" style={{ boxShadow: "0 0 60px rgba(232,201,106,.4)" }}>
             <button

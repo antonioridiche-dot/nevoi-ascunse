@@ -3,11 +3,13 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { Route, Switch, useLocation } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import CookieConsent from "./components/CookieConsent";
+import "./peste-theme.css";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { hasAffiliateSession } from "./lib/affiliateSession";
 import { lazy, Suspense, useEffect } from "react";
 
 const Home = lazy(() => import("./pages/Home"));
+const Ramuri = lazy(() => import("./pages/Ramuri"));
 const Quiz = lazy(() => import("./pages/Quiz"));
 const SalesPage = lazy(() => import("./pages/SalesPage"));
 const FemeiBiblia = lazy(() => import("./pages/sales/FemeiBiblia"));
@@ -47,7 +49,7 @@ const Contact = lazy(() => import("./pages/legal/Contact"));
 /** Redirect SPA: du vizitatorul la o alta ruta. */
 function Go({ to }: { to: string }) {
   const [, navigate] = useLocation();
-  useEffect(() => { navigate(to, { replace: true }); }, [to, navigate]);
+  useEffect(() => { navigate(to + window.location.search, { replace: true }); }, [to, navigate]);
   return null;
 }
 
@@ -108,13 +110,30 @@ function Router() {
   return (
     <Suspense fallback={<PageLoader />}>
       <Switch>
+        <Route path="/test-vindecare" component={Quiz} />
+        <Route path="/barbati/opreste-durerea" component={BarbatiBiblia} />
+        <Route path="/femei/opreste-durerea" component={FemeiBiblia} />
+        <Route path="/barbati/zero-despartiri" component={JurnalNegru} />
+        <Route path="/femei/zero-despartiri" component={JurnalNegru} />
+        <Route path="/barbati/sustinere-personala" component={Coaching} />
+        <Route path="/femei/sustinere-personala" component={Coaching} />
+        <Route path="/afiliere" component={AffiliateGate} />
         {/* ===== Pagina principala + quiz ===== */}
         <Route path="/" component={Home} />
-        <Route path="/test-impacare" component={Quiz} />
+        {/* Cele două ramuri, pe același domeniu: una pentru împăcare, una
+            pentru trecutul peste despărțire. Fiecare începe cu alegerea
+            femei/bărbați, pentru că produsele și fișierele sunt diferite. */}
+        {/* /tevreauinapoi e chiar pagina de intrare a brandului (testul + cele două
+            cărți ale ofertei), iar /pestedespartire e ramura jurnalului. */}
+        <Route path="/tevreauinapoi" component={Home} />
+        <Route path="/pestedespartire">
+          <Ramuri family="pestedespartire" />
+        </Route>
+        <Route path="/test-impacare"><Go to="/test-vindecare" /></Route>
 
         {/* ===== Biblia (pagini de vanzare) ===== */}
-        <Route path="/barbati/biblie" component={BarbatiBiblia} />
-        <Route path="/femei/biblie" component={FemeiBiblia} />
+        <Route path="/barbati/biblie"><Go to="/barbati/opreste-durerea" /></Route>
+        <Route path="/femei/biblie"><Go to="/femei/opreste-durerea" /></Route>
         {/* Aliasuri vechi (linkuri din emailuri si afiliati) — nu dispar */}
         <Route path="/barbati" component={BarbatiBiblia} />
         <Route path="/femei" component={FemeiBiblia} />
@@ -126,8 +145,8 @@ function Router() {
         <Route path="/femei/checkout" component={Checkout} />
 
         {/* ===== Zero Despărțiri ===== */}
-        <Route path="/barbati/jurnal" component={JurnalNegru} />
-        <Route path="/femei/jurnal" component={JurnalNegru} />
+        <Route path="/barbati/jurnal"><Go to="/barbati/zero-despartiri" /></Route>
+        <Route path="/femei/jurnal"><Go to="/femei/zero-despartiri" /></Route>
 
         {/* ===== Coaching / sfaturi personalizate ===== */}
         <Route path="/barbati/sfaturipersonalizate" component={Coaching} />
@@ -213,6 +232,7 @@ function App() {
         <TooltipProvider>
           <Toaster />
           <Router />
+          <footer className="peste-footer"><a href="/">Peste Despărțire</a><span>Un nou capitol începe cu tine.</span><nav><a href="/contact">Contact</a><a href="/termeni">Termeni</a><a href="/confidentialitate">Confidențialitate</a><a href="/afiliere">Afiliere</a></nav></footer>
           <CookieConsent />
         </TooltipProvider>
       </ThemeProvider>
